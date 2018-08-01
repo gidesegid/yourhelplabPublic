@@ -1,4 +1,4 @@
-# yourHelpLab test repo
+# yourhelplab
 This project has multiple trend like job searches,sale things,news feeds,reading stories,travel informations and disscussion amoung people about different issues.<br>
 The project has made using a frame work of angularjs,html,css in the front end and nodejs in the backend and mysql as a database service.<br>
 There is a chat service which i used a socket.io in nodejs and angularjs.
