@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html ng-app="myApp">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>jobFinder</title>
+    <link rel="icon" href="/assets/log/bird.png">
+    <!-- Core CSS - Include with every page -->
+    <link href="/assets/plugins/bootstrap/bootstrap.css" rel="stylesheet" />
+    <link href="/assets/font-awesome/css/font-awesome.css" rel="stylesheet" />
+    <link href="/assets/css/style.css" rel="stylesheet"/>
+    <link href="/assets/css/main-style.css" rel="stylesheet"/>
+     <link href="/assets/css/mystyle.css" rel="stylesheet"/>
+    <link href="/assets/css/chat.css" rel="stylesheet"/>
+    <link href="/assets/css/modal.css">
+    <link href="https://fonts.googleapis.com/css?family=Bungee+Shade" rel="stylesheet">
+  </head>
+  <body>
+    <div class="container" id="saleItemsChatBox">
+           <div class="row chat-window col-xs-3 col-md-3 col-lg-4" id="chat_window_1" style="margin-left:300px;">
+              <div class="col-xs-12 col-md-12">
+               <div class="panel panel-default">
+                  <div class="panel-heading top-bar" style="background: #667;color: white;padding: 5px;position: relative;overflow: hidden;">
+                       <div class="col-md-8 col-xs-8">
+                            <h3 class="panel-title" ng-model="toName"><span><img src="/assets/img/icons8-Chat-48.png"></span><a href="#saleItemIdInfo" ng-click="getSaleItem()" data-toggle="modal">{{toName}}</a></h3>
+                       </div>
+                       <div id="messageBody" class="col-md-4 col-xs-4" style="text-align: right;">
+                           <a href="#"><span></span></a>
+                           <a href="#" ng-click="closeChatWithSupplier()"><label style="color:white">X</label></a>
+                       </div>
+                    </div>
+                   <div class="panel-body msg_container_base"  id="promptAnswerBlock">
+                      <div ng-repeat="user in saleItemMessages" class="row msg_container base_receive" on-finish-render="ngRepeatFinished">
+                          <div  class="col-md-10 col-xs-10">
+                             <div  class="messages msg_receive">
+                                <p  style="font-size:16px;">{{user.message}}</p>
+                               <span class="label label-info ng-binding ">{{user.username}}</span><span am-time-ago="user.date"></span>
+                             </div>
+                          </div>
+                       </div>
+                   </div>
+                   <div class="panel-footer chatboxFooter">
+                     <div class="input-group">
+                         <input id="btn-input" type="text" ng-model="message" class="input1 form-control input-sm chat_input" placeholder="Write your message here..." on-enter="sendMessage(message)" />
+                         <span class="input-group-btn">
+                         <button   class="btn btn-primary btn-sm" id="btn-chat"  ng-click="sendMessageBetweenClientAndSupplier(message)" translate="send" ></button>
+                         </span>
+                     </div>
+                   </div>
+                </div>
+              </div>
+           </div>
+         </div>
+           <script type="text/javascript" src="/bower_components/angular/angular.min.js"></script>
+           <script type="text/javascript" src="/bower_components/angular-translate/angular-translate.js"></script>
+           <script src="/assets/plugins/jquery-1.10.2.js"></script>
+           <script src="/assets/plugins/bootstrap/bootstrap.min.js"></script>
+           <script type="text/javascript" src="/controller/main.js"></script>
+           <script  src="https://cdn.socket.io/socket.io-1.4.5.js"></script>
+           <script src="/bower_components/ng-img-crop/compile/minified/ng-img-crop.js"></script>
+           <script src="/bower_components/moment/moment.js"></script>
+           <script src="/bower_components/moment/locale/de.js"></script>
+           <script src="/bower_components/angular-moment/angular-moment.js"></script>
+           <script type="text/javascript" src="/controller/autocomplete.js"></script>
+  </body>
+
+</html>

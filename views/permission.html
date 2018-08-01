@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html ng-app="myApp" ng-cloak>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>jobFinder</title>
+    <!-- Core CSS - Include with every page -->
+    <link href="/assets/plugins/bootstrap/bootstrap.css" rel="stylesheet" />
+    <link href="/assets/font-awesome/css/font-awesome.css" rel="stylesheet" />
+    <link href="/assets/css/style.css" rel="stylesheet"/>
+    <link href="/assets/css/main-style.css" rel="stylesheet"/>
+     <link href="/assets/css/mystyle.css" rel="stylesheet"/>
+    <link href="/assets/css/chat.css" rel="stylesheet"/>
+    <link rel="icon" href="/assets/log/bird.png">
+    <link href="/assets/css/modal.css">
+    <link rel="stylesheet" type="text/css" href="/bower_components/ng-img-crop/compile/minified/ng-img-crop.css">
+      <style>
+        table {
+            font-family: arial, sans-serif;
+            border-collapse: collapse;
+            width: 100%;
+        }
+        td, th {
+            border: 1px solid #dddddd;
+            text-align: left;
+            padding: 8px;
+        }
+        tr:nth-child(even) {
+            background-color: #dddddd;
+        }
+   </style>
+     <link href="https://fonts.googleapis.com/css?family=Bungee+Shade" rel="stylesheet">
+   </head>
+<body ng-controller="homePageController">
+    <!--  wrapper -->
+        <div id="wrapper">
+            <!-- navbar top -->
+            <nav class="navbar navbar-default navbar-fixed-top" role="navigation" id="navbar">
+                <!-- navbar-header -->
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".sidebar-collapse">
+                        <span class="sr-only">Toggle navigation</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    <a class="navbar-brand" href="index.html">
+                        <!-- <img src="/assets/img/logo.jpg" alt="" /> -->
+                        <SPAN class="logStyle" translate="yourhelplabdotcom"></SPAN>
+                    </a>
+                </div>
+                <!-- end navbar-header -->
+                <!-- navbar-top-links -->
+                <ul class="nav navbar-top-links navbar-right">
+                    <!--friend requests-->
+                     <li class="dropdown">
+                        <a class="dropdown-toggle" data-toggle="dropdown" href="#" ng-click="friendRequestHasBeenSeen()">
+                            <span class="top-label label label-danger">{{numberOfFriendRequests}}</span><i class="fa fa-user fa-3x fa fa-user-plus"></i>
+                        </a>
+                        <ul class="dropdown-menu dropdown-messages scrollbarfriendRequestnotification" id="friendRequestnotification-1">
+                            <li ng-repeat="friendRequest in friendRequests">
+                                          <div class='container2' ng-if="friendRequests.length>0">
+                                            <div>
+                                              <img  ng-src="/userImage/{{friendRequest.photo}}" class='iconDetailsFriendRequest'>
+                                            </div>
+                                            <div style='margin-left:60px;'>
+                                            <h4>{{friendRequest.username}}</h4>
+                                            <div style="font-size:1em">
+                                               <input type="button" value="Confirm" ng-click="okFriendRequest(friendRequest.Id,friendRequest.fromUserId,friendRequest.userroom)" class="btn btn-primary">
+                                               <input type="button" value="Delete" ng-click="noFriendRequest(friendRequest.Id,friendRequest.fromUserId,friendRequest.userroom)" class="btn btn-chat">
+                                            </div>
+
+                                            <div style="float:right;font-size:.8em"><span am-time-ago="friendRequest.date"></span></div>
+                                          </div>
+                                 <li class="divider"></li>
+                            </li>
+                            <a href="" ng-if="friendRequests.length>6" ng-click="getFriendRequestsOnScrolling()" translate="seeMoreFriendRequest">see more friend requests.....</a>
+                        </ul>
+                    </li>
+                    <!-- messages -->
+                    <li class="dropdown">
+                        <a class="dropdown-toggle" data-toggle="dropdown" href="#" ng-click="messageHasBeenSeen()">
+                            <span class="top-label label label-danger">{{numberOfMessages}}</span><i class="fa fa-envelope fa-3x"></i>
+                        </a>
+                        <ul class="dropdown-menu dropdown-messages topbarscrollbarmessageNotification" id="topbarmessagenotification-1">
+                            <li class="list-group-item list-group-item-warning" ng-repeat="userMessage in postUserMessages">
+                                  <div class='container2'>
+                                    <div ng-if="postUserMessages.length!=0">
+                                     <img ng-src="/userImage/{{userMessage.photo}}" class='iconDetails'>
+                                    </div>
+                                    <div style='margin-left:60px;'>
+                                    <h4>{{userMessage.username}}</h4>
+                                    <div style="font-size:1em">
+                                      <!-- <a href="" ng-click="letsChat(userMessage.userId,userMessage.username)"></a> -->
+                                      <a href="/jobFinder/notifications/{{userFullName}}">{{userMessage.message}}</a>
+
+                                    </div>
+                                    <div style="float:right;font-size:.8em">
+                                     <span am-time-ago="userMessage.date"></span></div>
+                                  </div>
+                                 <li class="divider"></li>
+                            </li>
+                            <a href="" ng-if="postUserMessages.length>4" ng-click="getMessageOnScrolling()" translate="seeMoreMessages">see more messages.......</a>
+                        </ul>
+                    </li>
+                    <li class="dropdown">
+                        <a class="dropdown-toggle" data-toggle="dropdown" href="#" ng-click="notificationHasBeenSeen()">
+                            <span class="top-label label label-warning">{{notificationResultOne}}</span><i class="fa fa-bell fa-3x"></i>
+                        </a>
+                        <ul class="dropdown-menu dropdown-alerts topbarscrollbarNotification" id="topbarnotification-1">
+                           <li class="list-group-item list-group-item-danger" ng-repeat="userNotificationMessages in userNotificationMessages">
+                                 <div class='container2'>
+                                    <div>
+                                      <img ng-src="/userImage/{{userNotificationMessages.photo}}" class='iconDetails'>
+                                    </div>
+                                    <div style='margin-left:60px;'>
+                                    <h4>{{userNotificationMessages.username}}</h4>
+                                    <div style="font-size:1em"><a href="#detailsModal" ng-click="showModal(userNotificationMessages.location)" data-toggle="modal">{{userNotificationMessages.message}}</a></div>
+                                    <div style="float:right;font-size:.8em"><a href="#infoModal" data-toggle="modal" ng-click="details(userNotificationMessages.fromUserId,userNotificationMessages.location)" translate="aboutUser">see about user</a><span am-time-ago="userNotificationMessages.date"></span></div>
+                                  </div>
+                                 <li class="divider"></li>
+
+                           </li>
+                           <a href="" ng-if="userNotificationMessages.length>4" ng-click="getOtherNotificationsOnScrolling()"  translate="seeMoreNotifications">see more........</a>
+                        </ul>
+                        <!--end of notification-->
+                    </li>
+                    <li class="dropdown">
+                        <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                            <i class="fa fa-sign-out fa_custom fa-2x"></i>
+                        </a>
+                        <!-- dropdown user-->
+                        <ul class="dropdown-menu dropdown-user">
+                            <li><a href="/jobFinder/settings/{{userFullName}}"><i class="fa fa-gear fa-1x" translate="Settings"></i></a>
+                            </li>
+                            <li class="divider"></li>
+                            <li><a href="/" ng-click="logout()"><i class="fa fa-sign-out fa_custom fa-1x" translate="logout"></i></a>
+                            </li>
+                        </ul>
+                        <!-- end dropdown-user -->
+                    </li>
+                    <!-- end main dropdown -->
+                </ul>
+                <!-- end navbar-top-links -->
+
+            </nav>
+            <!-- end navbar top -->
+            <!-- navbar side -->
+            <nav class="navbar-default navbar-static-side" role="navigation">
+                <!-- sidebar-collapse -->
+                <div class="sidebar-collapse">
+                    <!-- side-menu -->
+                    <ul class="nav" id="side-menu">
+                        <li>
+                            <!-- user image section-->
+                            <div class="user-section" ng-controller="homePageController">
+                                <div class="user-section-inner profileImage">
+                                    <a href="/jobFinder/settings/{{userFullName}}" ng-model="photo"><img ng-src="/userImage/{{photo}}" alt=""></a>
+                                </div>
+                                <div class="user-info">
+                                    <div ng-model="result">{{sharedDataUserName[1]}}</div>
+                                    <div class="user-text-online">
+                                        <span class="user-circle-online btn btn-success btn-circle" translate="online"></span>
+                                    </div>
+                                </div>
+                            </div>
+                            <!--end user image section-->
+                        </li>
+                        <li>
+                            <a href="/jobFinder/home/{{userFullName}}" translate="home"></a>
+                        </li>
+                        <li>
+                            <a href="/jobFinder/professionalTransactions/{{userFullName}}" translate="employeeAndEmployer"></a>
+                        </li>
+                        <li>
+                            <a href="/jobFinder/issues/{{userFullName}}" translate="issuesAndSuggestions"></a>
+                        </li>
+                        <li>
+                            <a href="/jobFinder/dailyLifeHappenings/{{userFullName}}" translate="dailyLifeHappenings"></a>
+                        </li>
+                         <li>
+                            <a href="/jobFinder/chatbox/{{userFullName}}" translate="chatRoom"></a>
+                        </li>
+                        <li>
+                            <a href="/jobFinder/thingsToSale/{{userFullName}}" translate="thingsToSale"></a>
+                        </li>
+                        <li>
+                            <a href="/jobFinder/notifications/{{userFullName}}" translate="notifications"></a>
+                        </li>
+                         <li>
+                            <a href="/jobFinder/settings/{{userFullName}}" translate="userSettings"></a>
+                        </li>
+                    </ul>
+                    <!-- end side-menu -->
+                </div>
+                <!-- end sidebar-collapse -->
+            </nav>
+            <!-- end navbar side -->
+            <!--  page-wrapper -->
+            <div id="page-wrapper">
+              <div class="row">
+                 <!-- page header -->
+                <div class="col-lg-12">
+                    <h1 class="page-header">admin works</h1>
+                </div>
+                <!--end page header -->
+            </div>
+
+            <div class="row" ng-controller="adminController">
+                <div class="col-lg-12">
+                     <div>
+                       <input type="text" ng-model="user">
+                       <button type="button" name="button" ng-click="loadUser()">load user</button>
+                     </div>
+                     <div class="panel panel-default">
+                          <table>
+                            <tr>
+                              <th>name</th>
+                              <th>username</th>
+                               <th>permission</th>
+                               <th>permissionId</th>
+                               <th>permissionDescription</th>
+                          </tr>
+                              <tr ng-repeat="permission in permissions | filter:user">
+                                <td>{{permission.name}}</td>
+                                <td>{{permission.username}}</td>
+                                <td>
+                                <label>{{permission.permission}}</label>
+                                <select ng-model="selectedPermission">
+                                  <option ng-repeat="permissions in permissionCriterias">{{permissions}}</option>
+                                </select></td>
+                                <td>{{permission.permissionId}}</td>
+                                <td><input type="button" ng-click="updatePermission(permission.userId,selectedPermission,permission.permissionId)" value="update" class="btn btn-primary">
+                                <input type="button" ng-click="addPermission(permission.userId,selectedPermission,permission.permissionId)" value="add permission"></td>
+                              </tr>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            </div>
+        </div>
+    <!-- end wrapper -->
+
+    <!-- Core Scripts - Include with every page -->
+    <script type="text/javascript" src="/bower_components/angular/angular.min.js"></script>
+    <script type="text/javascript" src="/bower_components/angular-translate/angular-translate.js"></script>
+    <!-- <script type="text/javascript" src="/bower_components/angular-sanitize/angular-sanitize.js"></script> -->
+    <script src="/assets/plugins/jquery-1.10.2.js"></script>
+    <script src="/assets/plugins/bootstrap/bootstrap.min.js"></script>
+    <script type="text/javascript" src="/controller/main.js"></script>
+    <script  src="https://cdn.socket.io/socket.io-1.4.5.js"></script>
+    <script src="/bower_components/ng-img-crop/compile/minified/ng-img-crop.js"></script>
+    <script src="/bower_components/moment/moment.js"></script>
+    <script src="/bower_components/moment/locale/de.js"></script>
+    <script src="/bower_components/angular-moment/angular-moment.js"></script>
+    <script src="https://js.stripe.com/v3/"></script>
+    <script type="text/javascript" src="/controller/autocomplete.js"></script>
+
+
+</body>
+
+</html>

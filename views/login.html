@@ -1,0 +1,167 @@
+<html ng-app="myApp">
+  <head>
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-116004031-1"></script>
+    <!-- <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'UA-116004031-1');
+    </script> -->
+    <title>your help lab login</title>
+  <link href="/assets/plugins/bootstrap/bootstrap.css" rel="stylesheet" />
+    <link href="/assets/font-awesome/css/font-awesome.css" rel="stylesheet" />
+  <link href="/assets/css/login2.css" rel="stylesheet" />
+  <link href="/assets/css/autocomplete.css" rel="stylesheet"/>
+  <link rel="icon" href="/assets/log/bird.png">
+    <link rel="stylesheet" type="text/css" href="/bower_components/ng-img-crop/compile/minified/ng-img-crop.css">
+      <!--google fonts-->
+        <link href="https://fonts.googleapis.com/css?family=Abhaya+Libre|Francois+One" rel="stylesheet">
+        <!-- Latest compiled and minified CSS -->
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+        <!-- Optional theme -->
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+        <script type="text/javascript" src="http://w.sharethis.com/button/buttons.js"></script>
+       <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+  </head>
+  <body ng-controller="logincontroller" class="container index">
+            <div ng-hide="LoginBox" class="login box-containerLogin col-lg-4 col-md-4 col-sm-6 col-xs-6">
+                      <p class="pull-right languageStyle"><span><a href="" ng-click="changeLanguage('TG')">ትግርኛ</a></span>&nbsp;&nbsp;&nbsp;||&nbsp;&nbsp;<span><a href="" ng-click="changeLanguage('EN')">English</a></span>&nbsp;||&nbsp;<span><a href="" ng-click="changeLanguage('NL')">Dutch</a></span></p><br><br><br><br>
+                        <div>
+                            <h3 class="login-heading loginHeadTitle" translate="loginHeadline">Login</h3>
+                        </div>
+                        <!-- User name Text Field -->
+                        <div class="input-group username-group">
+                            <span class="input-group-addon iconbg">
+                            <i class="glyphicon glyphicon-user"></i>
+                            </span>
+                            <input id="login-username" type="text" ng-model="username" class="form-control inputbg" name="username" value="" placeholder="username          መጠቀሚ ስም">
+                        </div>
+                        <!-- Password Text Field -->
+                        <div class="input-group password-group">
+                            <span class="input-group-addon iconbg">
+                            <i class="glyphicon glyphicon-lock"></i>
+                            </span>
+                            <input id="login-password" type="password" ng-model="password" class="form-control inputbg" name="password" placeholder="password           ቃለ ምስጢር">
+                        </div>
+                        <!-- ALert Box For Wrong Usernme and password combination -->
+                        <div class="alert-group" ng-show="LoginAlert">
+                            <div class="alert alert-danger">
+                            <p translate="wrongUserNameOrPassword"></p>
+                            </div>
+                        </div>
+                        <p class="pull-right"><a href="#" ng-click="forgetPasswordForm()" translate="forgetPassword">forget password</a></p>
+                        <!-- Button to Login -->
+                        <div class="input-group">
+                          <button translate="loginButton" ng-click="submitLogin()" id="btn-login" class="btn btn-login btnbg">
+                            Login
+                          </button>
+                        </div>
+                        <div class="signup-box">
+                            <h4><span ><a href="" ng-click="toggle_register();getUserGender();" translate="signup">SignUp</a></span></u></h4>
+                        </div>
+                        <!-- ALert Box For Wrong Usernme and password combination -->
+                        <div class="alert-group" ng-show="signUpAlert">
+                            <div class="alert alert-success">
+                            <p translate="successfullyRegistered"></p>
+                            </div>
+                        </div>
+                        <div class="info">
+                           <a href="/" translate="backtosearchHomepage">Back to Searches</a>
+                        </div>
+                      </div>
+                  </div>
+                  <div class="login box-containerLogin col-lg-3 col-md-3 col-xs-6 col-sm-6" ng-show="forgetPassword">
+                                <label translate="fullName"></label><br>
+                                <input type="text" ng-model="name" value=""><br>
+                                <label for="" translate="username"></label><br>
+                                <input type="text" name="" ng-model="username"><br>
+                                <label translate="email"></label><br>
+                                <input type="text" ng-model="email"><br><br>
+                                <button type="button" name="button"  ng-click="checkUserInDatabase(name,username,email)" translate="changePassword"></button><br><br>
+                                <div class="" ng-show="newPassword">
+                                  <input type="hidden" ng-model="userIdForForgetpassword">
+                                   <label translate="newpassword">new password</label><br>
+                                   <input type="text" ng-model="enterNewPassword">
+                                   <button type="button" name="button" translate="change" ng-click="passwordChange(userIdForForgetpassword,enterNewPassword,username)"></button>
+                                </div><br>
+                                <label for="">{{noSuchUser}}</label>
+                                <label for="">{{passwordHasChanged}}</label>
+                                <a href="#" ng-click="backToLogin()" translate="BackToLogin"></a>
+                  </div>
+                  <!-- Registration Box starts  -->
+                      <div ng-show="RegisterBox" class="register box-container col-md-4 col-md-4 col-sm-4 col-xs-6">
+                          <h2 class="login-heading" translate="register">Register</h2>
+                              <form name="userForm" novalidate>
+                                   <label translate="fullName"></label>
+                                   <input type="text" class="form-control" ng-model="name"  name="name" required>
+                                   <p ng-show="userForm.name.$invalid && !userForm.name.$pristine" class="help-block" translate="enterValidName">Enter name</p>
+                                   <label translate="username"></label>
+                                   <input type="text" class="form-control" ng-model="username"  name="username" required="">
+                                    <p ng-show="userForm.username.$invalid && !userForm.username.$pristine" class="help-block" translate="enterUsername">Enter user name</p>
+                                    <p id="username"></p>
+                                    <label translate="email"></label>
+                                     <input type="email" class="form-control"  ng-model="email" ng-focus="checkUserName()"  name="email" required>
+                                     <p ng-show="userForm.email.$invalid && !userForm.email.$pristine" class="help-block" translate="enterValidEmail"></p>
+                                     <label translate="password"></label>
+                                     <input type="password" class="form-control" ng-model="password" ng-minlength="6"  name="password" required>
+                                     <p ng-show="userForm.password.$error.minlength" translate="atLeast6Char"></p>
+                                     <label translate="repeatPassword"></label>
+                                     <input type="password"  class="form-control" ng-model="password2" placeholder="repeat password" name="password2" required>
+                                      <label translate="dateOfBirth"></label>
+                                      <input type="date" id="dateId" ng-model="userBirthDate"  required="True" ><br>
+                                        <label  translate="gender"></label>
+                                        <span ng-if="languageKey==null">
+                                            <select ng-model="$parent.userGender" ng-change="changeGender(userGender.Id)"
+                                              ng-options="userGender as userGender.english for userGender in userGenderModel">
+                                           </select>
+                                        </span>
+                                         <span ng-if="languageKey=='EN'">
+                                            <select ng-model="$parent.userGender" ng-change="changeGender(userGender.Id)"
+                                              ng-options="userGender as userGender.english for userGender in userGenderModel">
+                                           </select>
+                                          </span>
+                                           <span ng-if="languageKey=='TG'">
+                                            <select ng-model="$parent.userGender" ng-change="changeGender(userGender.Id)"
+                                              ng-options="userGender as userGender.tigrina for userGender in userGenderModel">
+                                           </select>
+                                        </span>
+                                         <span ng-if="languageKey=='NL'">
+                                            <select ng-model="$parent.userGender" ng-change="changeGender(userGender.Id)"
+                                              ng-options="userGender as userGender.dutch for userGender in userGenderModel">
+                                           </select>
+                                        </span>
+                                       <br>
+                                          <autocomplete ng-model="country" attr-placeholder="country..." country-enter="onEnter()" click-activation="true" data="countryDatas"  on-type="fillCountry" on-select="countrySelection"></autocomplete>
+                                          <autocomplete ng-model="city" attr-placeholder=" city..." city-enter="onEnter()" click-activation="true" data="cityDatas"  on-type="fillCity" on-select="citySelection"></autocomplete>
+                                         </select>&nbsp;&nbsp;<input type="checkbox" ng-model="notStatedHere"><span translate="notStatedHere"></span>
+                                         <div ng-show="notStatedHere">
+                                           <input type="text" ng-model="city" value="city.cityName">
+                                         </div><br>
+                                     <button type="submit" class="btn btn-default" ng-click="register(userForm.$valid)" translate="submit">Submit</button>
+                               </form>
+                            <div class="signup-box">
+                              <h4><span ng-click="toggle_login()" translate="alreadyHaveAccount"></span></u></h4>
+                            </div>
+                      </div>
+            </div>
+
+    <script type="text/javascript" src="/bower_components/angular/angular.min.js"></script>
+    <script type="text/javascript" src="/bower_components/angular-translate/angular-translate.js"></script>
+    <!-- <script type="text/javascript" src="/bower_components/angular-sanitize/angular-sanitize.js"></script> -->
+    <script src="/assets/plugins/jquery-1.10.2.js"></script>
+    <script src="/assets/plugins/bootstrap/bootstrap.min.js"></script>
+    <script type="text/javascript" src="/controller/main.js"></script>
+    <script  src="https://cdn.socket.io/socket.io-1.4.5.js"></script>
+    <script src="/bower_components/ng-img-crop/compile/minified/ng-img-crop.js"></script>
+    <script src="https://cdn.rawgit.com/Luegg/angularjs-scroll-glue/master/src/scrollglue.js"></script>
+    <script src="/bower_components/moment/moment.js"></script>
+    <script src="/bower_components/moment/locale/de.js"></script>
+    <script src="/bower_components/angular-moment/angular-moment.js"></script>
+    <script src="https://js.stripe.com/v3/"></script>
+    <script type="text/javascript" src="/controller/autocomplete.js"></script>
+
+  </body>
+</html>

@@ -1,0 +1,99 @@
+
+<!DOCTYPE html>
+<html ng-app="myApp">
+<head>
+  <title>About Page</title>
+   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+        <title>your help lab dot come</title>
+        <script src="https://code.jquery.com/jquery-3.1.1.js" integrity="sha256-16cdPddA6VdVInumRGo6IbivbERE8p7CQR3HzTBuELA=" crossorigin="anonymous"></script>
+        <link rel="icon" href="/assets/log/bird.png">
+       <!-- Latest compiled and minified CSS -->
+       <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+
+       <!-- Optional theme -->
+       <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+
+       <!--google fonts-->
+        <link href="https://fonts.googleapis.com/css?family=Abhaya+Libre|Francois+One" rel="stylesheet">
+        <!-- Font-awesome CDN -->
+        <script src="https://use.fontawesome.com/9905f6c07d.js"></script>
+         <link rel="shortcut icon" href="images/favicon.jpg" type="image/jpg">
+             <!-- Style-sheets -->
+         <!-- <link rel="stylesheet" type="text/css" href="/css/style.css"> -->
+        <link rel="stylesheet" href="assets/css/SearchStyle.css">
+        <!-- <link rel="stylesheet" href="controller/autocomplete.css"> -->
+        <link href="/assets/css/contactus.css" rel="stylesheet"/>
+         <link href="https://fonts.googleapis.com/css?family=Oleo+Script:400,700" rel="stylesheet">
+         <link href="https://fonts.googleapis.com/css?family=Teko:400,700" rel="stylesheet">
+         <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+</head>
+<body ng-controller="logincontroller">
+  <header>
+         <div class="container">
+            <div class="title">
+                <div class="head" id="two">
+                      <h1>your help lab</h1>
+                </div>
+            </div>
+         </div>
+        </header>
+
+
+ <span><p class="pull-left searchesLogin"><span><a href="" ng-click="changeLanguage('TG')">ትግርኛ</a></span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span><a href="" ng-click="changeLanguage('EN')">English</a></span>&nbsp;&nbsp;<span><a href="" ng-click="changeLanguage('NL')">Dutch</a></span></p>
+
+<section id="contact">
+      <div class="section-content">
+        <h1 class="section-header"><span class="content-header wow fadeIn " data-wow-delay="0.2s" data-wow-duration="2s" translate="getInTouchWithUs">Get in touch with us</span></h1>
+      </div>
+      <div class="contact-section">
+      <div class="container">
+        <form>
+          <div class="col-md-6 form-line">
+              <div class="form-group">
+                <label for="exampleInputUsername" translate="name">Your name</label>
+                <input type="text" ng-model="name" class="form-control" id="" placeholder=" Enter Name">
+              </div>
+              <div class="form-group">
+                <label for="exampleInputEmail" translate="email">Email Address</label>
+                <input type="email" ng-model="email" class="form-control" id="exampleInputEmail" placeholder=" Enter Email id">
+              </div>
+              <div class="form-group">
+                <label for="telephone" translate="telephone">Mobile No.</label>
+                <input type="tel" ng-model="tele" class="form-control" id="telephone" placeholder=" Enter 10-digit mobile no.">
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="form-group">
+                <label for ="description" translate="messages"> Message</label>
+                <textarea  class="form-control" id="description" ng-model="message" placeholder="Enter Your Message"></textarea>
+              </div>
+              <div>
+
+                <button type="button" ng-click="send()" translate="send" class="btn btn-default submit"><i class="fa fa-paper-plane" aria-hidden="true"></i>  Send Message</button>
+              </div><br><br><br><br>
+              <p ng-model="errorMessage" style="color:red">{{errorMessage}}</p>
+              <p ng-mode="sendSuccess" style="color:green">{{sendSuccess}}</p>
+          </div>
+        </form>
+
+      </div>
+    </section>
+    <a href="/login.html" translate="gotologinpage">Go to Login page</a>&nbsp;&nbsp;&nbsp;&nbsp;
+    <a href="/searches.html" translate="gotohomepage">Go to Home page</a>
+ </body>
+    <script type="text/javascript" src="/bower_components/angular/angular.min.js"></script>
+    <script type="text/javascript" src="/bower_components/angular-translate/angular-translate.js"></script>
+    <!-- <script type="text/javascript" src="/bower_components/angular-sanitize/angular-sanitize.js"></script> -->
+    <script src="/assets/plugins/jquery-1.10.2.js"></script>
+    <script src="/assets/plugins/bootstrap/bootstrap.min.js"></script>
+    <script type="text/javascript" src="/controller/main.js"></script>
+    <script  src="https://cdn.socket.io/socket.io-1.4.5.js"></script>
+    <script src="/bower_components/ng-img-crop/compile/minified/ng-img-crop.js"></script>
+    <script src="https://cdn.rawgit.com/Luegg/angularjs-scroll-glue/master/src/scrollglue.js"></script>
+    <script src="/bower_components/moment/moment.js"></script>
+    <script src="/bower_components/moment/locale/de.js"></script>
+    <script src="/bower_components/angular-moment/angular-moment.js"></script>
+    <script src="https://js.stripe.com/v3/"></script>
+    <script type="text/javascript" src="/controller/autocomplete.js"></script>
+
+</html>

@@ -1,0 +1,471 @@
+<!DOCTYPE html>
+<html ng-app="myApp" ng-cloak>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>jobFinder</title>
+    <link rel="icon" href="/assets/log/bird.png">
+    <!-- Core CSS - Include with every page -->
+    <link href="/assets/plugins/bootstrap/bootstrap.css" rel="stylesheet" />
+    <link href="/assets/font-awesome/css/font-awesome.css" rel="stylesheet" />
+    <link href="/assets/css/style.css" rel="stylesheet"/>
+    <link href="/assets/css/main-style.css" rel="stylesheet"/>
+     <link href="/assets/css/mystyle.css" rel="stylesheet"/>
+    <link href="/assets/css/chat.css" rel="stylesheet"/>
+    <link href="/assets/css/modal.css">
+    <link href="/assets/css/autocomplete.css" rel="stylesheet"/>
+    <link rel="stylesheet" type="text/css" href="/bower_components/ng-img-crop/compile/minified/ng-img-crop.css">
+     <link href="https://fonts.googleapis.com/css?family=Bungee+Shade" rel="stylesheet">
+   </head>
+<body ng-controller="homePageController">
+    <!--  wrapper -->
+        <div id="wrapper">
+            <!-- navbar top -->
+            <nav class="navbar navbar-default navbar-fixed-top" role="navigation" id="navbar">
+                <!-- navbar-header -->
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".sidebar-collapse">
+                        <span class="sr-only">Toggle navigation</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    <a class="navbar-brand" href="index.html">
+                        <!-- <img src="/assets/img/logo.jpg" alt="" /> -->
+                        <SPAN class="logStyle" translate="yourhelplabdotcom"></SPAN>
+                    </a>
+                </div>
+                <!-- end navbar-header -->
+                <!-- navbar-top-links -->
+                <ul class="nav navbar-top-links navbar-right">
+                    <!--salethings notification-->
+                     <li class="dropdown" ng-if="permission=='admin' || permission=='thingsToSale'" >
+                        <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                            <span class="top-label label label-danger">{{numberOfMessagesInSaleClients}} </span><i class="fa fa-user fa-3x fa-shopping-cart"></i>
+                        </a>
+                        <ul class="dropdown-menu dropdown-messages scrollbarfriendRequestnotification" id="friendRequestnotification-1">
+                            <li ng-repeat="saleThingsClient in saleItemNotice">
+                                          <div class='container2'>
+                                            <div style='margin-left:40px;'>
+                                            <h5><a href="#saleItemIdInfo" ng-click="getSaleItem()" data-toggle="modal">Talk about the item:{{saleThingsClient.saleItemId}}</a></h5>
+                                            <div>
+                                                 <p><a href="#" ng-click="chatWithThisSaleClient(saleThingsClient.socketId,saleThingsClient.languageKey);myStyle={background:'lime'};" ng-style="myStyle">{{saleThingsClient.message}}-lets chat</a></p>
+                                            </div>
+                                            <div style="float:right;font-size:.8em"><span am-time-ago="saleThingsClient.date"></span></div>
+                                          </div>
+                                 <li class="divider"></li>
+                            </li>
+                            <a href="" ng-if="friendRequests.length>6" ng-click="getFriendRequestsOnScrolling()" translate="seeMoreFriendRequest">see more friend requests.....</a>
+                        </ul>
+                    </li>
+                    <!--friend requests-->
+                     <li class="dropdown">
+                        <a class="dropdown-toggle" data-toggle="dropdown" href="#" ng-click="friendRequestHasBeenSeen()">
+                            <span class="top-label label label-danger">{{numberOfFriendRequests}}</span><i class="fa fa-user fa-3x fa fa-user-plus"></i>
+                        </a>
+                        <ul class="dropdown-menu dropdown-messages scrollbarfriendRequestnotification" id="friendRequestnotification-1">
+                            <li ng-repeat="friendRequest in friendRequests">
+                                          <div class='container2' ng-if="friendRequests.length>0">
+                                            <div>
+                                              <img  ng-src="/userImage/{{friendRequest.photo}}" class='iconDetailsFriendRequest'>
+                                            </div>
+                                            <div style='margin-left:60px;'>
+                                            <h4>{{friendRequest.username}}</h4>
+                                            <div style="font-size:1em">
+                                               <input type="button" value="Confirm" ng-click="okFriendRequest(friendRequest.Id,friendRequest.fromUserId,friendRequest.userroom)" class="btn btn-primary">
+                                               <input type="button" value="Delete" ng-click="noFriendRequest(friendRequest.Id,friendRequest.fromUserId,friendRequest.userroom)" class="btn btn-chat">
+                                            </div>
+
+                                            <div style="float:right;font-size:.8em"><span am-time-ago="friendRequest.date"></span></div>
+                                          </div>
+                                 <li class="divider"></li>
+                            </li>
+                            <a href="" ng-if="friendRequests.length>6" ng-click="getFriendRequestsOnScrolling()" translate="seeMoreFriendRequest">see more friend requests.....</a>
+                        </ul>
+                    </li>
+                    <!-- messages -->
+                    <li class="dropdown">
+                        <a class="dropdown-toggle" data-toggle="dropdown" href="#" ng-click="messageHasBeenSeen()">
+                            <span class="top-label label label-danger">{{numberOfMessages}}</span><i class="fa fa-envelope fa-3x"></i>
+                        </a>
+                        <ul class="dropdown-menu dropdown-messages topbarscrollbarmessageNotification" id="topbarmessagenotification-1">
+                            <li class="list-group-item list-group-item-warning" ng-repeat="userMessage in postUserMessages">
+                                  <div class='container2'>
+                                    <div ng-if="postUserMessages.length!=0">
+                                     <img ng-src="/userImage/{{userMessage.photo}}" class='iconDetails'>
+                                    </div>
+                                    <div style='margin-left:60px;'>
+                                    <h4>{{userMessage.username}}</h4>
+                                    <div style="font-size:1em">
+                                      <!-- <a href="" ng-click="letsChat(userMessage.userId,userMessage.username)"></a> -->
+                                      <a href="/jobFinder/notifications/{{userFullName}}">{{userMessage.message}}</a>
+
+                                    </div>
+                                    <div style="float:right;font-size:.8em">
+                                     <span am-time-ago="userMessage.date"></span></div>
+                                  </div>
+                                 <li class="divider"></li>
+                            </li>
+                            <a href="" ng-if="postUserMessages.length>4" ng-click="getMessageOnScrolling()" translate="seeMoreMessages">see more messages.......</a>
+                        </ul>
+                    </li>
+                    <li class="dropdown">
+                        <a class="dropdown-toggle" data-toggle="dropdown" href="#" ng-click="notificationHasBeenSeen()">
+                            <span class="top-label label label-warning">{{notificationResultOne}}</span><i class="fa fa-bell fa-3x"></i>
+                        </a>
+                        <ul class="dropdown-menu dropdown-alerts topbarscrollbarNotification" id="topbarnotification-1">
+                           <li class="list-group-item list-group-item-danger" ng-repeat="userNotificationMessages in userNotificationMessages">
+                                 <div class='container2'>
+                                    <div>
+                                      <img ng-src="/userImage/{{userNotificationMessages.photo}}" class='iconDetails'>
+                                    </div>
+                                    <div style='margin-left:60px;'>
+                                    <h4>{{userNotificationMessages.username}}</h4>
+                                    <div style="font-size:1em"><a href="#detailsModal" ng-click="showModal(userNotificationMessages.location)" data-toggle="modal">{{userNotificationMessages.message}}</a></div>
+                                    <div style="float:right;font-size:.8em"><a href="#infoModal" data-toggle="modal" ng-click="details(userNotificationMessages.fromUserId,userNotificationMessages.location)" translate="aboutUser">see about user</a><span am-time-ago="userNotificationMessages.date"></span></div>
+                                  </div>
+                                 <li class="divider"></li>
+
+                           </li>
+                           <a href="" ng-if="userNotificationMessages.length>4" ng-click="getOtherNotificationsOnScrolling()"  translate="seeMoreNotifications">see more........</a>
+                        </ul>
+                        <!--end of notification-->
+                    </li>
+                    <li class="dropdown">
+                        <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                            <i class="fa fa-sign-out fa_custom fa-2x"></i>
+                        </a>
+                        <!-- dropdown user-->
+                        <ul class="dropdown-menu dropdown-user">
+                            <li><a href="/jobFinder/settings/{{userFullName}}"><i class="fa fa-gear fa-1x" translate="Settings"></i></a>
+                            </li>
+                            <li class="divider"></li>
+                            <li><a href="/login.html" ng-click="logout()"><i class="fa fa-sign-out fa_custom fa-1x" translate="logout"></i></a>
+                            </li>
+                        </ul>
+                        <!-- end dropdown-user -->
+                    </li>
+                    <!-- end main dropdown -->
+                </ul>
+                <!-- end navbar-top-links -->
+
+            </nav>
+            <!-- end navbar top -->
+            <!-- navbar side -->
+            <nav class="navbar-default navbar-static-side" role="navigation">
+                <!-- sidebar-collapse -->
+                <div class="sidebar-collapse">
+                    <!-- side-menu -->
+                    <ul class="nav" id="side-menu">
+                        <li>
+                            <!-- user image section-->
+                            <div class="user-section" ng-controller="homePageController">
+                                <div class="user-section-inner profileImage">
+                                    <a href="/jobFinder/settings/{{userFullName}}" ng-model="photo"><img ng-src="/userImage/{{photo}}" alt=""></a>
+                                </div>
+                                <div class="user-info">
+                                    <div ng-model="result">{{sharedDataUserName[1]}}</div>
+                                    <div class="user-text-online">
+                                        <span class="user-circle-online btn btn-success btn-circle" translate="online"></span>
+                                    </div>
+                                </div>
+                            </div>
+                            <!--end user image section-->
+                        </li>
+                        <li>
+                            <a href="/jobFinder/home/{{userFullName}}" translate="home"></a>
+                        </li>
+                        <li>
+                            <a href="/jobFinder/professionalTransactions/{{userFullName}}" translate="employeeAndEmployer"></a>
+                        </li>
+                        <li>
+                            <a href="/jobFinder/issues/{{userFullName}}" translate="issuesAndSuggestions"></a>
+                        </li>
+                        <li>
+                            <a href="/jobFinder/dailyLifeHappenings/{{userFullName}}" translate="dailyLifeHappenings"></a>
+                        </li>
+                         <li>
+                            <a href="/jobFinder/chatbox/{{userFullName}}" translate="chatRoom"></a>
+                        </li>
+                        <li>
+                            <a href="/jobFinder/thingsToSale/{{userFullName}}" translate="thingsToSale"></a>
+                        </li>
+                        <li>
+                            <a href="/jobFinder/notifications/{{userFullName}}" translate="notifications"></a>
+                        </li>
+                         <li>
+                            <a href="/jobFinder/settings/{{userFullName}}" translate="userSettings"></a>
+                        </li>
+                    </ul>
+                    <!-- end side-menu -->
+                </div>
+                <!-- end sidebar-collapse -->
+            </nav>
+            <!-- end navbar side -->
+            <!--  page-wrapper -->
+          <div id="page-wrapper">
+            <div class="row">
+                <div class="col-lg-12">
+                    <h1 class="page-header" translate="journeySchedules">Journey schedules</h1>
+                </div>
+            </div>
+            <div class="row" ng-controller="transportCtrl">
+              <p id="reactionAlert" class="alert alert-info myalert" ng-model="result">{{result}}</p>
+                <div class="col-lg-12">
+                    <div class="modal" id="telephone" tablindex="-1" data-backdrop="static" data-keyboard="false">
+                          <div class="modal-dialog model-lg">
+                              <div class="modal-content">
+                                 <div class="modal-header">
+                                  <button class="close" data-dismiss="modal">&times;</button>
+                                  <h4 class="modal-title" translate="train"></h4>
+                                  <p id="reactionAlert" class="alert alert-info myalert"></p>
+                                </div>
+                                  <div class="modal-body">
+                                      <form role="form" ng-hide="val" name="transportForm" novalidate>
+                                        <input type="hidden" ng-model="id">
+                                         <label>Tele:</label><input type="text" onkeypress='return event.charCode >= 48 && event.charCode <= 57' id="teleId" ng-model="telephone" class="form-control" name="tele" ng-minlength="8" ng-maxlength="11" required ng-readonly="id">
+                                          <button  data-dismiss="modal" id="submitId" ng-click="getTelephone(telephone);" class="btn btn-primary">submit</button>
+                                      </form>
+                                  </div>
+                              </div>
+                          </div>
+                    </div>
+                    <div class="modal" id="travelRegistration" tablindex="-1" data-backdrop="static" data-keyboard="false">
+                        <div class="modal-dialog model-lg">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                  <button class="close" data-dismiss="modal">&times;</button>
+                                   <h4 class="modal-title" ></h4>
+                                   <p id="reactionAlert" class="alert alert-info myalert"></p>
+                                </div>
+                                   <div class="modal-body">
+                                    <form role="form" ng-hide="val" name="transportForm" novalidate>
+                                     <input type="hidden" ng-model="id" class="form-control">
+                                   <label translate="transportType">Transport type:</label><select  id="transportTypeId" class="form-control" ng-options="transport for transport in transports" ng-change="transportChoosed()" ng-model="transportChoosed" name="transporttype" required>
+                                   </select>
+                                   <label translate="from"></label>
+                                   <autocomplete ng-model="fromCity" attr-placeholder=" from city..." city-enter="onEnter()" click-activation="true" data="cityDatas"  on-type="fillFromCity" on-select="cityFromSelection"></autocomplete><br><br>
+                                   <label translate="to">To:</label>
+                                   <autocomplete ng-model="toCity" attr-placeholder=" to city..." city-enter="onEnter()" click-activation="true" data="cityDatas"  on-type="fillToCity" on-select="cityToSelection"></autocomplete><br><br>
+                                   <label translate="date">Date:</label><input type="Date" id="dateId" ng-model="date" class="form-control" name="date" required>
+                                   <label translate="fromTime">what time </label><input type="time"  ng-model="fromTime" class="form-control"  required>
+                                   <label translate="telephone">Tele:</label><input type="text" onkeypress='return event.charCode >= 48 && event.charCode <= 57' id="teleId" ng-model="telephone" class="form-control" name="tele" ng-minlength="8" ng-maxlength="14" required>
+                                    <p ng-show="transportForm.tele.$error.minlength">not valid number</p>
+                                    <p ng-show="transportForm.tele.$error.maxlength">not valid number</p>
+                                    <label translate="code">code:</label><input type="text" ng-model="code" class="form-control" ng-readonly="true">
+                                    <button  data-dismiss="modal" id="submitId" ng-disabled="transportForm.$invalid"  ng-click="contactTransportSubmition()" class="btn btn-primary">submit</button>
+                                </form>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal" id="travelByTrain" tablindex="-1" data-backdrop="static" data-keyboard="false">
+                        <div class="modal-dialog model-lg">
+                            <div class="modal-content">
+                               <div class="modal-header">
+                                  <button class="close" data-dismiss="modal">&times;</button>
+                                   <h4 class="modal-title" ></h4>
+                                   <p id="reactionAlert" class="alert alert-info myalert"></p>
+                                </div>
+                                   <div class="modal-body">
+                                    <form role="form" ng-hide="val" name="transportForm" novalidate>
+                                    <input type="hidden" ng-model="id" class="form-control">
+                                    <label translate="from"></label>
+                                    <autocomplete ng-model="fromCity" attr-placeholder=" from city..." city-enter="onEnter()" click-activation="true" data="cityDatas"  on-type="fillFromCity" on-select="cityFromSelection"></autocomplete>
+                                    <label translate="fromTime">what time</label>
+                                    <input type="time" ng-model="fromTime" value=""><br><br>
+                                    <label translate="to">To:</label>
+                                    <autocomplete ng-model="toCity" attr-placeholder=" to city..." city-enter="onEnter()" click-activation="true" data="cityDatas"  on-type="fillToCity" on-select="cityToSelection"></autocomplete><br><br>
+                                   <label translate="date">Date:</label><input type="Date" id="dateId" ng-model="date" class="form-control" name="date" required>
+                                    <p ng-show="transportForm.date.$invalid && !transportForm.date.$pristine" class="help-block">select date</p>
+                                   <label translate="telephone">Tele:</label><input type="text" onkeypress='return event.charCode >= 48 && event.charCode <= 57' id="teleId" ng-model="telephone" class="form-control" name="tele" ng-minlength="8" ng-maxlength="14" required>
+                                    <p ng-show="transportForm.tele.$error.minlength">not valid number</p>
+                                    <p ng-show="transportForm.tele.$error.maxlength">not valid number</p>
+                                    <label translate="passengerRemarks"></label>
+                                    <textarea ng-model="passengerRemarks" cols="20" rows="4" class="form-control"></textarea><br>
+                                   <div>
+                                     <button  data-dismiss="modal" id="submitId" ng-disabled="transportForm.$invalid"  ng-click="regiterToTravelByTrain()" class="btn btn-primary">submit</button>
+                                   </div>
+                                </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                     <div class="modal" id="ownertransportRegistration" tablindex="-1" data-backdrop="static" data-keyboard="false">
+                        <div class="modal-dialog model-lg">
+                            <div class="modal-content">
+                               <div class="modal-header">
+                                  <button class="close" data-dismiss="modal">&times;</button>
+                                   <h4 class="modal-title" translate="transportRegistration"></h4>
+                                   <p id="reactionAlert" class="alert alert-info myalert"></p>
+                                </div>
+                                   <div class="modal-body">
+                                      <form>
+                                          <input type="hidden" ng-model="id" class="form-control">
+                                           <label translate="transportType">Transport Type:</label><select  id="ownerTransportTypeId" class="form-control" ng-options="transport for transport in transports" ng-change="ownerTransport()" ng-model="transportChoosed" name="ownertransporttype" required>
+                                       </select>
+                                        <p ng-show="transportOwner.ownertransporttype.$invalid && !transportOwner.ownertransporttype.$pristine" class="help-block">select transport</p>
+                                        <label translate="from"></label>
+                                        <autocomplete ng-model="fromCity" attr-placeholder=" from city..." city-enter="onEnter()" click-activation="true" data="cityDatas"  on-type="fillFromCity" on-select="cityFromSelection"></autocomplete>
+                                        <label translate="to">To:</label>
+                                        <autocomplete ng-model="toCity" attr-placeholder=" to city..." city-enter="onEnter()" click-activation="true" data="cityDatas"  on-type="fillToCity" on-select="cityToSelection"></autocomplete>
+                                      <label translate="date">Date:</label><input type="Date" id="ownerDateId" ng-model="date" class="form-control" name="date" required>
+                                      <label translate="fromTime"></label><input type="time"  ng-model="fromTime" class="form-control"  required>
+                                      <label translate="toTime"></label><input type="time"  ng-model="toTime" class="form-control"  required>
+                                       <label translate="numberOfSeats">Number Of Seats:</label><input type="text" id="numberOfSeatsId" ng-model="numberOfSeats" class="form-control" name="numberOfSeats" required>
+                                        <label translate="telephone"></label><input type="text" id="telephoneId" ng-model="telephone" class="form-control" name="telephone" required>
+                                      <label translate="additionalInfo">Additional Information:</label><input type="text" id="additionalInfoId" ng-model="additionalInfo" class="form-control">
+                                        <button  data-dismiss="modal" id="submitId" ng-click="ownerSubmit();" class="btn btn-primary">submit</button>
+                                      </form>
+                                   </div>
+                            </div>
+                        </div>
+                    </div>
+                    <a href="" style="float:right;" translate="backToDailyLifeHomePage"  ng-click="backToDailyLifeHomePage()"></a>
+                    <div class="col-lg-12">
+                        <div class="alert alert-warning fade in">
+                         <span translate="travelByTrainRegistration"></span>&nbsp;&nbsp;<a href="#travelByTrain" data-toggle="modal" ng-click="myInfo()" translate="clickHere"></a><br>
+                         <span translate="registerToTravelByAnyTransport"> </span>&nbsp;&nbsp;<a href="#travelRegistration" data-toggle="modal" ng-click="myInfo()" translate="clickHere"></a><br>
+                         <span translate="transportRegistration"></span>&nbsp;&nbsp;<a href="#ownertransportRegistration" data-toggle="modal" ng-click="getTransportOwnerInfo()" translate="clickHere"></a><br>
+                         <p ng-if="myinfodata.length>0">
+                           <button type="button" name="button" ng-click="whoAcceptMyRequest()" translate="whoAcceptedMe" class="btn btn-primary">who accepted my requests</button></p>
+                         <span ng-if="whoAcceptedMe.length!==0">
+                           <ul ng-repeat="owners in whoAcceptedMe">
+                             <img  ng-src="/userImage/{{owners.photo}}" width="20" height="20">{{owners.name}}
+                             <li><label translate="gender"></label>:{{owners.gender}}&nbsp;&nbsp;&nbsp;&nbsp; <label translate="telephone"></label>:{{owners.telephone}}<br>
+                               <label translate="transportType">transport type:</label>:&nbsp;&nbsp;{{owners.type}}&nbsp;&nbsp;<label translate="numberOfSeats">number of seats</label>:&nbsp;&nbsp;{{owners.numberOfSeats}}<br>
+                               <label translate="date">date</label>:&nbsp;&nbsp;{{owners.date | date:'yyyy-MM-dd HH:mm'}}&nbsp;&nbsp;<label translate="fromTime"></label>:&nbsp;&nbsp;{{owners.fromTime | date:'HH:mm'}} <label translate="toTime"></label>:&nbsp;{{owners.toTime | date:'HH:mm'}}<br>
+                               <label translate="from">from place</label>:&nbsp;&nbsp;{{owners.fromPlace}}&nbsp;&nbsp;<label translate="to">to place</label>:&nbsp;&nbsp;{{owners.toPlace}}<br>
+                               <label translate="additionalInfo">to place</label><br>
+                               <p class="alert alert-success">{{owners.additionalInfo}}</p>
+                             </li>
+                           </ul>
+                         </span><br>
+                         <span ng-if="myTransportData.length>0">
+                            <button type="button" name="button" ng-click="getAllAcceptedRequests()" translate="getAllAcceptedRequests" class="btn btn-primary">get all accepted requests</button><br>
+                            <span ng-if="acceptedRequestsData.length!==0">
+                              <ul ng-repeat="travellers in acceptedRequestsData">
+                                <img  ng-src="/userImage/{{travellers.photo}}" width="30" height="30">&nbsp;&nbsp;<label for="">{{travellers.name}}</label>
+                                  <li>
+                                  <label translate="gender"></label>:&nbsp;&nbsp;{{travellers.gender}}&nbsp;&nbsp;&nbsp;&nbsp;
+                                  <label translate="telephone"></label>:&nbsp;&nbsp;{{travellers.telephone}}
+                                  </li>
+                              </ul>
+                            </span>
+                             <button type="button" name="button" ng-click="getAllRequests()" translate="getAllRequests" class="btn btn-primary">get request</button>
+                            <span ng-if="allRequests.length!==0">
+                              <ul ng-repeat="requests in allRequests">
+                                <img  ng-src="/userImage/{{requests.photo}}" width="20" height="20">&nbsp;&nbsp;{{requests.name}}
+                                <li><label translate="gender"></label>:&nbsp;&nbsp;{{requests.gender}}&nbsp;&nbsp;<label translate="telephone"></label>:&nbsp;&nbsp;{{requests.telephone}}<br>
+                                 </li>
+                                 <button type="button" name="button" ng-click="acceptRequest(requests.passengerId,requests.passengerUserId)" translate="acceptRequest" class="btn btn-primary">accept request</button>
+                                <li>
+                                </li>
+                              </ul>
+                            </span>
+                         </span>
+                    </div>
+                        <div class="panel panel-primary">
+                           <div class="panel-heading">
+                               <label translate="journeyDetails">Journy Details</label>
+                           </div>
+                           <div class="panel-body">
+                             <label class="alert-info">{{noPassengers}}</label><br>
+                             <label class="alert-info">{{noTransports}}</label>
+                             <div class="">
+                               <div class="col-lg-4" style="background-color:rgb(160, 185, 219);">
+                                 <label translate="date">Date:</label><input type="date" ng-model="date" class="form-control">
+                                 <label translate="from"></label>
+                                 <autocomplete ng-model="fromCity" attr-placeholder=" from city..." city-enter="onEnter()" click-activation="true" data="cityDatas"  on-type="fillFromCity" on-select="cityFromSelection"></autocomplete>
+                                 <label translate="to">To:</label>
+                                 <autocomplete ng-model="toCity" attr-placeholder=" to city..." city-enter="onEnter()" click-activation="true" data="cityDatas"  on-type="fillToCity" on-select="cityToSelection"></autocomplete>
+                                  <label translate="by">By</label><select  id="transportTypeId" class="form-control" ng-options="transport for transport in transports" ng-change="transportChoosedSelection()" ng-model="transportChoosed">
+                                 </select>
+
+                                   <button class="btn-primary" ng-click="detailTravelInfo()" translate="seeTravelInfo"></button><br><br>
+                                   <span translate="registerToTravelByAnyTransport"> </span><a href="#travelRegistration" data-toggle="modal" ng-click="myInfo()" translate="clickHere"></a>
+                               </div>
+                               <div class="col-lg-8" style="overflow-y: scroll;height:400px;" ng-show="passengersList">
+                                 <label translate="passengers">Passengers</label>
+                                 <table border="1" style="width:100%">
+                                      <thead>
+                                          <tr>
+                                              <th translate="date"></th>
+                                              <th translate="fromTime"></th>
+                                              <th translate="from"></th>
+                                              <th translate="to"></th>
+                                              <th translate="numberOfPeople"></th>
+                                          </tr>
+                                      </thead>
+                                      <tbody ng-repeat="numberOfTravellersToThisPlace in numberOfTravellersToThisPlace">
+                                          <tr>
+                                               <td>{{numberOfTravellersToThisPlace.date | date : format : timezone}}</td>
+                                               <td>{{numberOfTravellersToThisPlace.fromTime | date:'HH:MM'}}</td>
+                                               <td>{{numberOfTravellersToThisPlace.fromPlace}}</td>
+                                               <td>{{numberOfTravellersToThisPlace.toPlace}}</td>
+                                               <td>{{numberOfTravellersToThisPlace.numberOfPeople}}</td>
+                                          </tr>
+                                      <tbody>
+                                  </table>
+                               </div>
+                             </div>
+                             <div ng-show="readyTransportsList">
+                               <table border="1" style="width:100%">
+                                     <thead>
+                                         <tr>
+                                             <th translate="transportType"></th>
+                                             <th translate="numberOfSeats"></th>
+                                             <th translate="freeSpace"></th>
+                                             <th translate="date"></th>
+                                             <th translate="fromTime"></th>
+                                             <th translate="toTime"></th>
+                                             <th translate="from"></th>
+                                             <th translate="to"></th>
+                                             <th translate="action">action</th>
+                                         </tr>
+                                     </thead>
+                                       <tbody ng-repeat="transport in readyTransports">
+                                          <tr>
+                                              <td>{{transport.type}}</td>
+                                              <td>{{transport.numberOfSeats}}</td>
+                                              <td>{{transport.freeSeats}}</td>
+                                              <td>{{transport.date | date:'yyyy-MM-dd HH:mm'}}</td>
+                                              <td>{{transport.fromTime | date:'HH:mm'}}</td>
+                                              <td>{{transport.toTime | date:'HH:mm'}}</td>
+                                              <td>{{transport.fromPlace}}</td>
+                                              <td>{{transport.toPlace}}</td>
+                                              <td><a href="#telephone" data-toggle="modal" ng-click="myInfo()"><p translate="fillYourTelephoneHereThenClick">fill your telephone here and then click</p> </a>
+                                              <div ng-if="transport.id">
+                                                <button type="button" class="btn btn-success" ng-click="request(transport.id,transport.type,transport.fromPlace,transport.toPlace,transport.date,transport.userId)" translate="request" ng-disabled="requestButtonDisabled=true;"></button>
+                                              </div></td>
+                                         </tr>
+                                     <tbody>
+                               </table>
+                          </div>
+                    </div>
+              </div>
+            </div>
+      </div>
+        <!-- end page-wrapper -->
+    </div>
+    <!-- end wrapper -->
+
+   <!-- Core Scripts - Include with every page -->
+    <script type="text/javascript" src="/bower_components/angular/angular.min.js"></script>
+    <script type="text/javascript" src="/bower_components/angular-translate/angular-translate.js"></script>
+    <!-- <script type="text/javascript" src="/bower_components/angular-sanitize/angular-sanitize.js"></script> -->
+    <script src="/assets/plugins/jquery-1.10.2.js"></script>
+    <script src="/assets/plugins/bootstrap/bootstrap.min.js"></script>
+    <script type="text/javascript" src="/controller/main.js"></script>
+    <script  src="https://cdn.socket.io/socket.io-1.4.5.js"></script>
+    <script src="/bower_components/ng-img-crop/compile/minified/ng-img-crop.js"></script>
+    <script src="/bower_components/moment/moment.js"></script>
+    <script src="/bower_components/moment/locale/de.js"></script>
+    <script src="/bower_components/angular-moment/angular-moment.js"></script>
+    <script src="https://js.stripe.com/v3/"></script>
+    <script type="text/javascript" src="/controller/autocomplete.js"></script>
+
+</body>
+
+</html>

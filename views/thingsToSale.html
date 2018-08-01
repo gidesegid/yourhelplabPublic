@@ -1,0 +1,536 @@
+<!DOCTYPE html>
+<html ng-app="myApp" ng-cloak>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>jobFinder</title>
+    <!-- Core CSS - Include with every page -->
+    <link href="/assets/plugins/bootstrap/bootstrap.css" rel="stylesheet" />
+    <link href="/assets/font-awesome/css/font-awesome.css" rel="stylesheet" />
+    <link href="/assets/css/style.css" rel="stylesheet"/>
+    <link href="/assets/css/main-style.css" rel="stylesheet"/>
+     <link href="/assets/css/mystyle.css" rel="stylesheet"/>
+    <link href="/assets/css/chat.css" rel="stylesheet"/>
+    <link href="/assets/css/modal.css">
+    <link  href="/assets/css/zoomItemToSale.css">
+    <link rel="icon" href="/assets/log/bird.png">
+    <link href="/assets/css/autocomplete.css" rel="stylesheet"/>
+    <link rel="stylesheet" type="text/css" href="/bower_components/ng-img-crop/compile/minified/ng-img-crop.css">
+   <link href="https://fonts.googleapis.com/css?family=Bungee+Shade" rel="stylesheet">
+       <style>thead {color:green;}
+                tbody {color:blue;}
+                tfoot {color:red;}
+                table,th,td
+                {border:1px solid black;}
+       </style>
+   </head>
+
+<body ng-controller="homePageController">
+    <!--  wrapper -->
+        <div id="wrapper">
+            <!-- navbar top -->
+            <nav class="navbar navbar-default navbar-fixed-top" role="navigation" id="navbar">
+                <!-- navbar-header -->
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".sidebar-collapse">
+                        <span class="sr-only">Toggle navigation</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    <a class="navbar-brand" href="index.html">
+                        <!-- <img src="/assets/img/logo.jpg" alt="" /> -->
+                        <SPAN class="logStyle" translate="yourhelplabdotcom"></SPAN>
+                    </a>
+                </div>
+                <!-- end navbar-header -->
+                <!-- navbar-top-links -->
+                <ul class="nav navbar-top-links navbar-right">
+                    <!--salethings notification-->
+                     <li class="dropdown" ng-if="permission=='admin' || permission=='thingsToSale'" >
+                        <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                            <span class="top-label label label-danger">{{numberOfMessagesInSaleClients}} </span><i class="fa fa-user fa-3x fa-shopping-cart"></i>
+                        </a>
+                        <ul class="dropdown-menu dropdown-messages scrollbarfriendRequestnotification" id="friendRequestnotification-1">
+                            <li ng-repeat="saleThingsClient in saleItemNotice">
+                                          <div class='container2'>
+                                            <div style='margin-left:40px;'>
+                                            <h5><a href="#saleItemIdInfo" ng-click="getSaleItem()" data-toggle="modal">Talk about the item:{{saleThingsClient.saleItemId}}</a></h5>
+                                            <div>
+                                                 <p><a href="#" ng-click="chatWithThisSaleClient(saleThingsClient.socketId,saleThingsClient.languageKey);myStyle={background:'lime'};" ng-style="myStyle">{{saleThingsClient.message}}-lets chat</a></p>
+                                            </div>
+                                            <div style="float:right;font-size:.8em"><span am-time-ago="saleThingsClient.date"></span></div>
+                                          </div>
+                                 <li class="divider"></li>
+                            </li>
+                            <a href="" ng-if="friendRequests.length>6" ng-click="getFriendRequestsOnScrolling()" translate="seeMoreFriendRequest">see more friend requests.....</a>
+                        </ul>
+                    </li>
+                    <!--friend requests-->
+                     <li class="dropdown">
+                        <a class="dropdown-toggle" data-toggle="dropdown" href="#" ng-click="friendRequestHasBeenSeen()">
+                            <span class="top-label label label-danger">{{numberOfFriendRequests}}</span><i class="fa fa-user fa-3x fa fa-user-plus"></i>
+                        </a>
+                        <ul class="dropdown-menu dropdown-messages scrollbarfriendRequestnotification" id="friendRequestnotification-1">
+                            <li ng-repeat="friendRequest in friendRequests">
+                                          <div class='container2' ng-if="friendRequests.length>0">
+                                            <div>
+                                              <img  ng-src="/userImage/{{friendRequest.photo}}" class='iconDetailsFriendRequest'>
+                                            </div>
+                                            <div style='margin-left:60px;'>
+                                            <h4>{{friendRequest.username}}</h4>
+                                            <div style="font-size:1em">
+                                               <input type="button" value="Confirm" ng-click="okFriendRequest(friendRequest.Id,friendRequest.fromUserId,friendRequest.userroom)" class="btn btn-primary">
+                                               <input type="button" value="Delete" ng-click="noFriendRequest(friendRequest.Id,friendRequest.fromUserId,friendRequest.userroom)" class="btn btn-chat">
+                                            </div>
+
+                                            <div style="float:right;font-size:.8em"><span am-time-ago="friendRequest.date"></span></div>
+                                          </div>
+                                 <li class="divider"></li>
+                            </li>
+                            <a href="" ng-if="friendRequests.length>6" ng-click="getFriendRequestsOnScrolling()" translate="seeMoreFriendRequest">see more friend requests.....</a>
+                        </ul>
+                    </li>
+                    <!-- messages -->
+                    <li class="dropdown">
+                        <a class="dropdown-toggle" data-toggle="dropdown" href="#" ng-click="messageHasBeenSeen()">
+                            <span class="top-label label label-danger">{{numberOfMessages}}</span><i class="fa fa-envelope fa-3x"></i>
+                        </a>
+                        <ul class="dropdown-menu dropdown-messages topbarscrollbarmessageNotification" id="topbarmessagenotification-1">
+                            <li class="list-group-item list-group-item-warning" ng-repeat="userMessage in postUserMessages">
+                                  <div class='container2'>
+                                    <div ng-if="postUserMessages.length!=0">
+                                     <img ng-src="/userImage/{{userMessage.photo}}" class='iconDetails'>
+                                    </div>
+                                    <div style='margin-left:60px;'>
+                                    <h4>{{userMessage.username}}</h4>
+                                    <div style="font-size:1em">
+                                      <!-- <a href="" ng-click="letsChat(userMessage.userId,userMessage.username)"></a> -->
+                                      <a href="/jobFinder/notifications/{{userFullName}}">{{userMessage.message}}</a>
+
+                                    </div>
+                                    <div style="float:right;font-size:.8em">
+                                     <span am-time-ago="userMessage.date"></span></div>
+                                  </div>
+                                 <li class="divider"></li>
+                            </li>
+                            <a href="" ng-if="postUserMessages.length>4" ng-click="getMessageOnScrolling()" translate="seeMoreMessages">see more messages.......</a>
+                        </ul>
+                    </li>
+                    <li class="dropdown">
+                        <a class="dropdown-toggle" data-toggle="dropdown" href="#" ng-click="notificationHasBeenSeen()">
+                            <span class="top-label label label-warning">{{notificationResultOne}}</span><i class="fa fa-bell fa-3x"></i>
+                        </a>
+                        <ul class="dropdown-menu dropdown-alerts topbarscrollbarNotification" id="topbarnotification-1">
+                           <li class="list-group-item list-group-item-danger" ng-repeat="userNotificationMessages in userNotificationMessages">
+                                 <div class='container2'>
+                                    <div>
+                                      <img ng-src="/userImage/{{userNotificationMessages.photo}}" class='iconDetails'>
+                                    </div>
+                                    <div style='margin-left:60px;'>
+                                    <h4>{{userNotificationMessages.username}}</h4>
+                                    <div style="font-size:1em"><a href="#detailsModal" ng-click="showModal(userNotificationMessages.location)" data-toggle="modal">{{userNotificationMessages.message}}</a></div>
+                                    <div style="float:right;font-size:.8em"><a href="#infoModal" data-toggle="modal" ng-click="details(userNotificationMessages.fromUserId,userNotificationMessages.location)" translate="aboutUser">see about user</a><span am-time-ago="userNotificationMessages.date"></span></div>
+                                  </div>
+                                 <li class="divider"></li>
+
+                           </li>
+                           <a href="" ng-if="userNotificationMessages.length>4" ng-click="getOtherNotificationsOnScrolling()"  translate="seeMoreNotifications">see more........</a>
+                        </ul>
+                        <!--end of notification-->
+                    </li>
+                    <li class="dropdown">
+                        <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                            <i class="fa fa-sign-out fa_custom fa-2x"></i>
+                        </a>
+                        <!-- dropdown user-->
+                        <ul class="dropdown-menu dropdown-user">
+                            <li><a href="/jobFinder/settings/{{userFullName}}"><i class="fa fa-gear fa-1x" translate="Settings"></i></a>
+                            </li>
+                            <li class="divider"></li>
+                            <li><a href="/login.html" ng-click="logout()"><i class="fa fa-sign-out fa_custom fa-1x" translate="logout"></i></a>
+                            </li>
+                        </ul>
+                        <!-- end dropdown-user -->
+                    </li>
+                    <!-- end main dropdown -->
+                </ul>
+                <!-- end navbar-top-links -->
+
+            </nav>
+            <!-- end navbar top -->
+            <!-- navbar side -->
+            <nav class="navbar-default navbar-static-side" role="navigation">
+                <!-- sidebar-collapse -->
+                <div class="sidebar-collapse">
+                    <!-- side-menu -->
+                    <ul class="nav" id="side-menu">
+                        <li>
+                            <!-- user image section-->
+                            <div class="user-section" ng-controller="homePageController">
+                                <div class="user-section-inner profileImage">
+                                    <a href="/jobFinder/settings/{{userFullName}}" ng-model="photo"><img ng-src="/userImage/{{photo}}" alt=""></a>
+                                </div>
+                                <div class="user-info">
+                                    <div ng-model="result">{{sharedDataUserName[1]}}</div>
+                                    <div class="user-text-online">
+                                        <span class="user-circle-online btn btn-success btn-circle" translate="online"></span>
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+                        <li>
+                            <a href="/jobFinder/home/{{userFullName}}" translate="home"></a>
+                        </li>
+                        <li>
+                            <a href="/jobFinder/professionalTransactions/{{userFullName}}" translate="employeeAndEmployer"></a>
+                        </li>
+                        <li>
+                            <a href="/jobFinder/issues/{{userFullName}}" translate="issuesAndSuggestions"></a>
+                        </li>
+                        <li>
+                            <a href="/jobFinder/dailyLifeHappenings/{{userFullName}}" translate="dailyLifeHappenings"></a>
+                        </li>
+                         <li>
+                            <a href="/jobFinder/chatbox/{{userFullName}}" translate="chatRoom"></a>
+                        </li>
+                        <li class="selected">
+                            <a href="/jobFinder/thingsToSale/{{userFullName}}" translate="thingsToSale"></a>
+                        </li>
+                        <li>
+                            <a href="/jobFinder/notifications/{{userFullName}}" translate="notifications"></a>
+                        </li>
+                         <li>
+                            <a href="/jobFinder/settings/{{userFullName}}" translate="userSettings"></a>
+                        </li>
+                    </ul>
+                    <!-- end side-menu -->
+                </div>
+                <!-- end sidebar-collapse -->
+            </nav>
+            <!-- end navbar side -->
+            <!--  page-wrapper -->
+          <div id="page-wrapper">
+            <div class="row">
+                <div class="col-lg-12">
+                    <h1 class="page-header" translate="thingsToSale"></h1>
+                </div>
+            </div>
+
+            <div class="row" ng-controller="thingsToSaleController">
+                <div class="col-lg-12">
+                    <!-- Form Elements -->
+                                <div ng-hide="items">
+                                    <label translate="filterBy"></label>
+                                    <p ng-if="languageKey==null">
+                                      <select  id="saleThings" class="form-control" ng-model="category" ng-change="selectCategoryById(category)">
+                                         <option ng-repeat="category in salethingsCategoriesList | filter:filterBy" value="{{category.Id}}">{{category.english}}</option>
+                                      </select>
+                                    </p>
+                                    <p ng-if="languageKey=='TG'">
+                                      <select  id="saleThings" class="form-control" ng-model="category" ng-change="selectCategoryById(category)">
+                                         <option ng-repeat="category in salethingsCategoriesList | filter:filterBy" value="{{category.Id}}">{{category.tigrina}}</option>
+                                      </select>
+                                    </p>
+                                    <p ng-if="languageKey=='NL'">
+                                      <select  id="saleThings" class="form-control" ng-model="category" ng-change="selectCategoryById(category)">
+                                         <option ng-repeat="category in salethingsCategoriesList | filter:filterBy" value="{{category.Id}}">{{category.dutch}}</option>
+                                      </select>
+                                    </p>
+                                    <p ng-if="languageKey=='EN'">
+                                      <select  id="saleThings" class="form-control" ng-model="category" ng-change="selectCategoryById(category)">
+                                         <option ng-repeat="category in salethingsCategoriesList | filter:filterBy" value="{{category.Id}}">{{category.english}}</option>
+                                      </select>
+                                    </p>
+
+                                 <!-- <span><a href="#thingsToSaleModal" data-toggle="modal">post things to sell</a></span> -->
+
+                                 <span ng-if="permission=='thingsToSale' || permission=='admin'"><a href="/saleItemMeasurments.html">click here to add items</a></span>
+                                </div>
+                                 <span class="pull-right"><button ng-click="getBoughtItems()" translate="getBoughtItems" class="btn btn-primary"></button><img src="/assets/img/shoppingCart.jpg" width="30" height="30"><label class="label label-danger">{{numberOfBougtItems}}</label></span>
+                                 <!--end user image section-->
+                                 <div ng-show="boughtItems">
+                                            <div class="panel-body">
+                                               <table border="1" style="width:50%">
+                                                    <thead>
+                                                        <tr>
+                                                            <th translate="itemName"></th>
+                                                            <th translate="price"></th>
+                                                            <th translate="unit"></th>
+                                                            <th translate="amount"></th>
+                                                            <th translate="size">size</th>
+                                                            <th translate="total"></th>
+                                                            <th translate="action">action</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody ng-repeat="data in boughtThings">
+                                                        <tr>
+                                                             <td>{{data.itemName}}</td>
+                                                             <td>{{data.price}}</td>
+                                                             <td>{{data.unit}}</td>
+                                                             <td>{{data.numberOfItems}}</td>
+                                                             <td>{{data.size}}</td>
+                                                             <td><label >{{data.total}}</label></td>
+                                                             <td><button ng-click="delete(data.id);getTotal();" translate="delete">delete</button></td>
+                                                        </tr>
+                                                    <tbody>
+                                                    <input type="hidden" ng-model="boughtThings" value="{{boughtThings}}">
+                                                    <tfoot>
+                                                    <tr>
+                                                    <td><a href="" ng-click="getTotal()" translate="total">click here:</a></td>
+                                                    <td></td>
+                                                    <td></td>
+                                                    <td></td>
+                                                    <td></td>
+                                                    <td class="fa fa-eur" aria-hidden="true" style="font-size:20">{{totalItemsPrice}}</td>
+                                                    </tr>
+                                                    </tfoot>
+                                                </table>
+                                            </div>
+                                        <div class="panel panel-default" ng-if="boughtThings.length!==0">
+                                          <div class="panel-heading" translate="buyerInfo"></div>
+                                          <div class="panel-body">
+                                             <form role="form" name="name"  enctype="multipart/form-data">
+                                                <label for="firstName" translate="firstName"></label>
+                                                <input type="text"   name="firstName" ng-model="$parent.firstName" ng-required="true">
+                                                 <!-- <label for="middleName" translate="middelName">middel name</label> -->
+                                                <!-- <input type="text"  ng-model="$parent.middelName"  required> -->
+                                                <label for="surname" translate="surName">sur name</label>
+                                                <input type="text"   ng-model="$parent.surName" required>
+                                                <button translate="next" ng-click="name.$valid && nextToAddressInfo()" class="btn btn-primary">next</button>
+                                              </form><br>
+                                              <div class="" ng-show="addressInfo">
+                                                 <p style="border-style: solid;border-color: grey;"></p>
+                                                 <label translate="addressInfo"></label><br><br>
+                                                 <form name="address">
+                                                    <label for="country" translate="country"></label><br>
+                                                    <autocomplete ng-model="$parent.customerCountry" attr-placeholder="country..." country-enter="onEnter()" click-activation="true" data="countryDatas"  on-type="fillCountry" on-select="countrySelection"></autocomplete>
+                                                       <label  translate="postCode">post code</label>
+                                                     <input type="text"  ng-model="$parent.postCode" ng-required="true">
+                                                     <label for="houseNumber" translate="houseNumber">House number</label>
+                                                     <input type="text" id="houseNumber" ng-model="$parent.houseNumber"  ng-required="true">
+                                                     <label for="street" translate="street">street</label>
+                                                    <input type="text" id="inpEmail" ng-model="$parent.street"  ng-required="true">
+                                                    <label for="city" translate="city">city</label>
+                                                    <input type="text" id="city"  ng-model="$parent.city" required>
+                                                     <label for="telephone" translate="telephone">telephone</label>
+                                                    <input type="number" id="tele" placeholder="Enter telephone" ng-model="$parent.telephone" ng-required="true">
+                                                     <label for="email" translate="email">email</label>
+                                                    <input type="email" id="email" ng-model="$parent.email"  ng-required="true">
+                                                    <button translate="gotopayment" ng-click="address.$valid && nextToPayment()">go to payment</button>
+                                                  </form><br>
+                                              </div>
+                                             <p style="border-style: solid;border-color: grey;"></p><br>
+                                          </div>
+                                    </div>
+                                    <div class="" ng-show="nextToCustomerPayment">
+                                      <form role="form" action="/jobFinder/thingsToSale1" method="post" enctype="multipart/form-data">
+                                          <input type="hidden" name="firstName" value="{{firstName}}">
+                                          <!-- <input type="hidden" name="middelName" value="{{middelName}}"> -->
+                                          <input type="hidden" name="surName" value="{{surName}}">
+                                          <input type="hidden" name="customerCountry" value="{{customerCountry.country}}">
+                                          <input type="hidden" name="postCode" value="{{postCode}}">
+                                          <input type="hidden" name="houseNumber" value="{{houseNumber}}">
+                                          <input type="hidden" name="street" value="{{street}}">
+                                          <input type="hidden" name="city" value="{{city}}">
+                                          <input type="hidden" name="telephone" value="{{telephone}}">
+                                          <input type="hidden" name="email" value="{{email}}">
+                                          <input type="hidden" name="boughtThings" value="{{boughtThings}}">
+                                          <input type="hidden" name="totalAmount" value="{{totalItemsPrice}}">
+                                           <script
+                                             src="https://checkout.stripe.com/checkout.js" class="stripe-button"
+                                             data-key="pk_test_d4jrEghg803mWOk5CsmbX8EE"
+                                             data-name="yourhelplab"
+                                             data-description="A payment for items you choosed"
+                                             data-image="https://www.yourhelplab.com/assets/log/bird.png"
+                                             data-locale="auto"
+                                             data-currency="eur">
+                                           </script>
+                                       </form>
+                                    </div>
+                                           <button class="pull-right" ng-click="backToSalePage()" translate="backToSalePage" class="btn btn-primary"></button>
+                                 </div>
+                                <div ng-hide="items" class="panel panel-default">
+                                    <div class="panel-body">
+                                       <div class="gallery">
+                                            <ul ng-repeat="data in alldata | filter:catagories"><!--salethings data-->
+                                               <li>
+                                                    <div>
+                                                    <a href="">{{data.catagories}}</a>
+                                                     <a href="#thingsToBuyModal" ng-click="seeDetailsOfProduct(data.id);getDetailsOfItemForSale(data.id);" data-toggle="modal">
+                                                     <img  ng-src="/saleThingsImageCollector/{{data.fileName}}" id="1" data-scale="2.4" height="200" width="200" class="thumbnail"></a>
+                                                     <label>{{data.itemName}}</label><br>
+                                                          <span translate="price"></span>
+                                                    <p>{{data.price}}&nbsp;{{data.unit}}</p>
+                                                     <button type="button" name="button" ng-click="letsChat(data.userId,data.id)" translate="chatWithSupplier">chat with supplier</button>
+                                                     <span ng-if="data.userId==idUser"><input type="button" value="delete" class="btn-circle" ng-click="deleteThingsToSale(data.id,data.fileName)"></span>
+                                                    </div>
+                                                </li>
+                                            </ul>
+                                       </div>
+                                    </div>
+                                </div>
+                                </div>
+                                 <div class="modal" id="thingsToBuyModal" tablindex="-1" data-backdrop="static" data-keyboard="false">
+                                  <div class="modal-dialog model-lg">
+                                      <div class="modal-content">
+                                         <div class="modal-header">
+                                            <button class="close" data-dismiss="modal">&times;</button>
+                                             <h4 class="modal-title" translate="buyThingsPost"></h4>
+                                             <div class="modal-body">
+                                                 <ul ng-repeat="data in detailsOfProduct"><!--salethings data-->
+                                                       <li>
+                                                            <p>{{data.description}}</p>
+                                                            <a href="">{{data.itemName}}</a>
+                                                            <p>
+                                                             <img ng-src="/saleThingsImageCollector/{{data.fileName}}" id="1" height="500" width="500" class="thumbnail">
+                                                             <label translate="price"></label><p>{{data.price}}&nbsp;{{data.unit}}</p>
+                                                             <label for="" translate="size"></label>
+                                                             <select class="" name="" ng-model="selectedSize" ng-change="onselectedSize(selectedSize)">
+                                                               <option ng-repeat="data in saleItemDetails">{{data.size}}</option>
+                                                             </select>
+                                                                   <span translate="amount">
+                                                                  </span>
+                                                                   <input type="number" step="1" min="1" max="100" ng-model="numberOfItems" value="{{1}}">
+                                                                  <button  class="btn btn-primary" ng-click="buy(data.id,data.itemName,data.price,data.unit,numberOfItems,data.itemId);getTotal();" translate="buy" ng-show="buyDisplay" ng-disabled="!selectedSize"></button>
+                                                             <button ng-click="cancel(data.id);getTotal();" translate="cancel" class="btn btn-danger" ng-show="cancelDisplay"></button>
+                                                             <span ng-if="data.userId==idUser"></span>
+                                                           </p>
+                                                        </li>
+                                                    </ul>
+                                             </div>
+                                         </div>
+                                      </div>
+                                  </div>
+                                </div>
+                                <div class="container" id="mydiv" ng-show="chatbox">
+                                     <div class="row chat-window col-xs-3 col-md-3 col-lg-4" id="chat_window_1" style="margin-left:500px;">
+                                        <div class="col-xs-12 col-md-12">
+                                         <div class="panel panel-default">
+                                             <div class="panel-heading top-bar" style="background: #666;color: white;padding: 5px;position: relative;overflow: hidden;">
+                                                 <div class="col-md-8 col-xs-8">
+                                                      <h3 class="panel-title" ng-model="toName"><span><img src="/assets/img/icons8-Chat-48.png"></span>{{toName}}</h3>
+                                                 </div>
+                                                 <div id="messageBody" class="col-md-4 col-xs-4" style="text-align: right;">
+                                                     <a href="#"><span id="minim_chat_window"></span></a>
+                                                     <a href="#" ng-click="closeChat(name)"><label style="color:white">X</label></a>
+                                                 </div>
+                                             </div>
+                                             <div class="panel-body msg_container_base" id="promptAnswerBlock">
+                                                <div ng-repeat="user in supplierMessage" class="row msg_container base_receive" >
+                                                    <div  class="col-md-10 col-xs-10" on-finish-render="ngRepeatFinished">
+                                                       <div  class="messages msg_receive">
+                                                          <p style="font-size:16px;">{{user.message}}</p>
+                                                         <span class="label label-info ng-binding ">{{user.username}}</span><span am-time-ago="user.date"></span>
+                                                       </div>
+                                                    </div>
+                                                 </div>
+                                             </div>
+                                             <div class="panel-footer chatboxFooter">
+                                               <div class="input-group">
+                                                   <input id="btn-input" type="text" ng-model="message" class="form-control input-sm chat_input" placeholder="Write your message here..." on-enter="doPost(message)" />
+                                                   <span class="input-group-btn">
+                                                   <button class="btn btn-primary btn-sm" id="btn-chat" ng-click="sendMessageBetweenClientAndSupplier(message)" translate="send">Send</button>
+                                                   </span>
+                                               </div>
+                                             </div>
+                                         </div>
+                                     </div>
+                                 </div>
+                            </div>
+                        </div>
+                    </div>
+                     <!-- End Form Elements -->
+                </div>
+            </div>
+            <div class="modal" id="saleItemIdInfo" tablindex="-1" data-backdrop="static" data-keyboard="false">   <!--info modal-->
+               <div class="modal-dialog model-lg">
+                  <div class="modal-content">
+                      <div class="modal-header">
+                        <button class="close" data-dismiss="modal">&times;</button>
+                      </div>
+                      <div class="modal-body">
+                        <div class="">
+                            <a href="">{{catagories}}</a>
+                            <div class="gallery">
+                                <img  ng-src="/saleThingsImageCollector/{{saleItemfileName}}" id="1" data-scale="2.4" height="200" width="200" class="thumbnail"></a>
+                                <label>{{saleItemName}}</label><br>
+                                 <span translate="price"></span>
+                                 <p>{{price}}&nbsp;{{unit}}</p>
+                             </div>
+                          </div>
+                           <div class="">
+                             <a href="#" ng-click="getDetailsOfItemForSale()">get details of this item</a>
+                             <table border="1" style="width:100%">
+                                  <thead>
+                                      <tr>
+                                          <th>measurment</th>
+                                          <th>quantity</th>
+                                      </tr>
+                                  </thead>
+                                  <tbody ng-repeat="data in saleItemDetails">
+                                      <tr>
+                                           <td>{{data.size}}</td>
+                                           <td>{{data.amount}}</td>
+                                      </tr>
+                                  <tbody>
+                              </table>
+                           </div>
+                        </div>
+                      </div>
+                  </div>
+               </div>
+            <div class="container" id="saleItemsChatBox" ng-show="saleItemchatbox">
+                   <div class="row chat-window col-xs-3 col-md-3 col-lg-4" id="chat_window_1" style="margin-left:500px;">
+                      <div class="col-xs-12 col-md-12">
+                       <div class="panel panel-default">
+                           <div class="panel-heading top-bar" style="background: #666;color: white;padding: 5px;position: relative;overflow: hidden;">
+                               <div class="col-md-8 col-xs-8">
+                                    <h3 class="panel-title" ng-model="toName"><span><img src="/assets/img/icons8-Chat-48.png"></span><a href="#saleItemIdInfo" ng-click="getSaleItem()" data-toggle="modal">{{toName}}</a></h3>
+                               </div>
+                               <div id="messageBody" class="col-md-4 col-xs-4" style="text-align: right;">
+                                   <a href="#"><span id="minim_chat_window"></span></a>
+                                   <a href="#" ng-click="closeChatWithSupplier()"><label style="color:white">X</label></a>
+                               </div>
+                           </div>
+                           <div class="panel-body msg_container_base"  id="promptAnswerBlock">
+                              <div ng-repeat="user in saleItemMessages" class="row msg_container base_receive" on-finish-render="ngRepeatFinished">
+                                  <div  class="col-md-10 col-xs-10">
+                                     <div  class="messages msg_receive">
+                                        <p  style="font-size:16px;">{{user.message}}</p>
+                                       <span class="label label-info ng-binding ">{{user.username}}</span><span am-time-ago="user.date"></span>
+                                     </div>
+                                  </div>
+                               </div>
+                           </div>
+                           <div class="panel-footer chatboxFooter">
+                             <div class="input-group">
+                                 <input id="btn-input" type="text" ng-model="message" class="input1 form-control input-sm chat_input" placeholder="Write your message here..." on-enter="sendMessage(message)" />
+                                 <span class="input-group-btn">
+                                 <button   class="btn btn-primary btn-sm" id="btn-chat"  ng-click="sendMessageBetweenClientAndSupplier(message)" translate="send" ></button>
+                                 </span>
+                             </div>
+                           </div>
+                        </div>
+                      </div>
+                   </div>
+            </div>
+        </div>
+    </div>
+ <!-- Core Scripts - Include with every page -->
+    <script type="text/javascript" src="/bower_components/angular/angular.min.js"></script>
+    <script type="text/javascript" src="/bower_components/angular-translate/angular-translate.js"></script>
+    <!-- <script type="text/javascript" src="/bower_components/angular-sanitize/angular-sanitize.js"></script> -->
+    <script src="/assets/plugins/jquery-1.10.2.js"></script>
+    <script src="/assets/plugins/bootstrap/bootstrap.min.js"></script>
+    <script type="text/javascript" src="/controller/main.js"></script>
+    <script  src="https://cdn.socket.io/socket.io-1.4.5.js"></script>
+    <script src="/bower_components/ng-img-crop/compile/minified/ng-img-crop.js"></script>
+    <script src="/bower_components/moment/moment.js"></script>
+    <script src="/bower_components/moment/locale/de.js"></script>
+    <script src="/bower_components/angular-moment/angular-moment.js"></script>
+   <script src="https://js.stripe.com/v3/"></script>
+   <script type="text/javascript" src="/controller/autocomplete.js"></script>
+</body>
+
+</html>

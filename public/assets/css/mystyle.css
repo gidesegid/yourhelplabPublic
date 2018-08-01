@@ -1,0 +1,72 @@
+
+.gallery{
+	width: 1000px;
+	margin:auto;
+}
+
+.gallery ul{
+  list-style: none;
+}
+.gallery li{
+ float: left;
+ margin:10px;
+}
+.gallery img{
+    display: block;
+	padding:5px;
+	background-color:white;
+	box-shadow: 1px 2px #000;
+}
+.profileImage img{
+	display: block;
+	padding:1px;
+	background-color:#42517f;
+	box-shadow: 1px 2px #000;
+}
+.profileImage img:hover{
+	border: 1px solid #fff;
+}
+.workstyle{
+	font-size: 20px;
+	
+}
+.myalert{
+	color:green;
+	font-size: 20px;
+}
+.customHr {
+    width: 95%
+    font-size: 1px;
+    color: rgba(0, 0, 0, 0);
+    line-height: 1px;
+    background-color: grey;
+    margin-top: -6px;
+    margin-bottom: 10px;
+}
+
+/**
+ * The CSS shown here will not be introduced in the Quickstart guide, but shows
+ * how you can use CSS to style your Element's container.
+ */
+.StripeElement {
+  background-color: white;
+  height: 40px;
+  padding: 10px 12px;
+  border-radius: 4px;
+  border: 1px solid transparent;
+  box-shadow: 0 1px 3px 0 #e6ebf1;
+  -webkit-transition: box-shadow 150ms ease;
+  transition: box-shadow 150ms ease;
+}
+
+.StripeElement--focus {
+  box-shadow: 0 1px 3px 0 #cfd7df;
+}
+
+.StripeElement--invalid {
+  border-color: #fa755a;
+}
+
+.StripeElement--webkit-autofill {
+  background-color: #fefde5 !important;
+}

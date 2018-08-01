@@ -1,0 +1,636 @@
+<!DOCTYPE html>
+<html ng-app="myApp" ng-cloak>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>jobFinder</title>
+    <link rel="icon" href="/assets/log/bird.png">
+    <!-- Core CSS - Include with every page -->
+    <link href="/assets/plugins/bootstrap/bootstrap.css" rel="stylesheet" />
+    <link href="/assets/font-awesome/css/font-awesome.css" rel="stylesheet" />
+    <link href="/assets/css/style.css" rel="stylesheet"/>
+    <link href="/assets/css/main-style.css" rel="stylesheet"/>
+     <link href="/assets/css/mystyle.css" rel="stylesheet"/>
+    <link href="/assets/css/chat.css" rel="stylesheet"/>
+    <link href="/assets/css/modal.css">
+    <link href="https://fonts.googleapis.com/css?family=Bungee+Shade" rel="stylesheet">
+   </head>
+<body ng-controller="homePageController">
+    <!--  wrapper -->
+        <div id="wrapper">
+            <!-- navbar top -->
+            <nav class="navbar navbar-default navbar-fixed-top" role="navigation" id="navbar">
+                <!-- navbar-header -->
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".sidebar-collapse">
+                        <span class="sr-only">Toggle navigation</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    <a class="navbar-brand" href="index.html">
+                        <SPAN class="logStyle" translate="yourhelplabdotcom"></SPAN>
+                    </a>
+                </div>
+                <!-- end navbar-header -->
+                <!-- navbar-top-links -->
+                <ul class="nav navbar-top-links navbar-right">
+                      <li class="dropdown" ng-if="permission=='admin' || permission=='thingsToSale'" >
+                         <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                             <span class="top-label label label-danger">{{numberOfMessagesInSaleClients}} </span><i class="fa fa-user fa-3x fa-shopping-cart"></i>
+                         </a>
+                         <ul class="dropdown-menu dropdown-messages scrollbarfriendRequestnotification" id="friendRequestnotification-1">
+                             <li ng-repeat="saleThingsClient in saleItemNotice">
+                                           <div class='container2'>
+                                             <div style='margin-left:40px;'>
+                                             <h5><a href="#saleItemIdInfo" ng-click="getSaleItem()" data-toggle="modal">Talk about the item:{{saleThingsClient.saleItemId}}</a></h5>
+                                             <div>
+                                                  <p><a href="#" ng-click="chatWithThisSaleClient(saleThingsClient.socketId,saleThingsClient.languageKey);myStyle={background:'lime'};" ng-style="myStyle">{{saleThingsClient.message}}-lets chat</a></p>
+                                             </div>
+                                             <div style="float:right;font-size:.8em"><span am-time-ago="saleThingsClient.date"></span></div>
+                                           </div>
+                                  <li class="divider"></li>
+                             </li>
+                             <a href="" ng-if="friendRequests.length>6" ng-click="getFriendRequestsOnScrolling()" translate="seeMoreFriendRequest">see more friend requests.....</a>
+                         </ul>
+                     </li>
+                    <!--friend requests-->
+                     <li class="dropdown">
+                        <a class="dropdown-toggle" data-toggle="dropdown" href="#" ng-click="friendRequestHasBeenSeen()">
+                            <span class="top-label label label-danger">{{numberOfFriendRequests}}</span><i class="fa fa-user fa-3x fa fa-user-plus"></i>
+                        </a>
+                        <ul class="dropdown-menu dropdown-messages scrollbarfriendRequestnotification" id="friendRequestnotification-1">
+                            <li ng-repeat="friendRequest in friendRequests">
+                                          <div class='container2' ng-if="friendRequests.length>0">
+                                            <div>
+                                              <a href="#userDetail" ng-click="getUserId(friendRequest.fromUserId)" data-toggle="modal"><img  ng-src="/userImage/{{friendRequest.photo}}" width="20" height="20" class='iconDetailsFriendRequest'></a>
+                                            </div>
+                                            <div style='margin-left:40px;'>
+                                            <h4>{{friendRequest.username}}</h4>
+                                            <div style="font-size:1em">
+                                               <!-- <input type="button" value="Confirm" > -->
+                                               <button type="button" ng-click="okFriendRequest(friendRequest.Id,friendRequest.fromUserId,friendRequest.userroom)" class="btn btn-circle btn-primary">Confirm</button>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                               <button type="button" name="button" ng-click="noFriendRequest(friendRequest.Id,friendRequest.fromUserId,friendRequest.userroom)" class="btn btn-circle btn-warning">Delete</button>
+                                               <!-- <input type="button" value="Delete" > -->
+                                            </div>
+                                            <div style="float:right;font-size:.8em"><span am-time-ago="friendRequest.date"></span></div>
+                                          </div>
+                                 <li class="divider"></li>
+                            </li>
+                            <a href="" ng-if="friendRequests.length>6" ng-click="getFriendRequestsOnScrolling()" translate="seeMoreFriendRequest">see more friend requests.....</a>
+                        </ul>
+                    </li>
+                    <!-- messages -->
+                    <li class="dropdown">
+                        <a class="dropdown-toggle" data-toggle="dropdown" href="#" ng-click="messageHasBeenSeen()">
+                            <span class="top-label label label-danger">{{numberOfMessages}}</span><i class="fa fa-envelope fa-3x"></i>
+                        </a>
+                        <ul class="dropdown-menu dropdown-messages topbarscrollbarmessageNotification" id="topbarmessagenotification-1">
+                            <li class="list-group-item list-group-item-warning" ng-repeat="userMessage in postUserMessages">
+                                  <div class='container2'>
+                                    <div ng-if="postUserMessages.length!=0">
+                                     <a href="#userDetail" ng-click="getUserId(userMessage.fromUserId)" data-toggle="modal"><img ng-src="/userImage/{{userMessage.photo}}" class='iconDetails'></a>
+                                    </div>
+                                    <div style='margin-left:60px;'>
+                                    <h4>{{userMessage.username}}</h4>
+                                    <div style="font-size:1em">
+                                      <!-- <a href="" ng-click="letsChat(userMessage.userId,userMessage.username)"></a> -->
+                                      <a href="/jobFinder/notifications/{{userFullName}}">{{userMessage.message}}</a>
+                                    </div>
+                                    <div style="float:right;font-size:.8em">
+                                     <span am-time-ago="userMessage.date"></span></div>
+                                  </div>
+                                 <li class="divider"></li>
+                            </li>
+                            <a href="" ng-if="postUserMessages.length>4" ng-click="getMessageOnScrolling()" translate="seeMoreMessages">see more messages.......</a>
+                        </ul>
+                    </li>
+                    <li class="dropdown">
+                        <a class="dropdown-toggle" data-toggle="dropdown" href="#" ng-click="notificationHasBeenSeen()">
+                            <span class="top-label label label-warning">{{notificationResultOne}}</span><i class="fa fa-bell fa-3x"></i>
+                        </a>
+                        <ul class="dropdown-menu dropdown-alerts topbarscrollbarNotification" id="topbarnotification-1">
+                           <li class="list-group-item list-group-item-danger" ng-repeat="userNotificationMessages in userNotificationMessages">
+                                 <div class='container2'>
+                                    <div>
+                                      <a href="#userDetail" data-toggle="modal" ng-click="getUserId(userNotificationMessages.fromUserId)"><img ng-src="/userImage/{{userNotificationMessages.photo}}" class='iconDetails'></a>
+                                    </div>
+                                    <div style='margin-left:60px;'>
+                                    <h4>{{userNotificationMessages.username}}</h4>
+                                    <div style="font-size:1em"><a href="#" ng-click="showModal(userNotificationMessages.location)">{{userNotificationMessages.message}}</a></div>
+                                    <div style="float:right;font-size:.8em"><span am-time-ago="userNotificationMessages.date"></span>
+                                    </div>
+                                  </div>
+                                 <li class="divider"></li>
+                           </li>
+                           <a href="" ng-if="userNotificationMessages.length>4" ng-click="getOtherNotificationsOnScrolling()"  translate="seeMoreNotifications">see more........</a>
+                        </ul>
+                        <!--end of notification-->
+                    </li>
+                    <li class="dropdown">
+                        <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                            <i class="fa fa-sign-out fa_custom fa-2x"></i>
+                        </a>
+                        <!-- dropdown user-->
+                        <ul class="dropdown-menu dropdown-user">
+                            <li><a href="/jobFinder/settings/{{userFullName}}"><i class="fa fa-gear fa-1x" translate="Settings"></i></a>
+                            </li>
+                            <li class="divider"></li>
+                            <li><a href="/login.html" ng-click="logout()"><i class="fa fa-sign-out fa_custom fa-1x" translate="logout"></i></a>
+                            </li>
+                        </ul>
+                        <!-- end dropdown-user -->
+                    </li>
+                    <!-- end main dropdown -->
+                </ul>
+                <!-- end navbar-top-links -->
+
+            </nav>
+            <!-- end navbar top -->
+            <!-- navbar side -->
+            <nav class="navbar-default navbar-static-side" role="navigation">
+                <!-- sidebar-collapse -->
+                <div class="sidebar-collapse">
+                    <!-- side-menu -->
+                    <ul class="nav" id="side-menu">
+                        <li>
+                            <!-- user image section-->
+                            <div class="user-section" ng-controller="homePageController">
+                                <div class="user-section-inner profileImage">
+                                    <a href="/jobFinder/settings/{{userFullName}}" ng-model="photo"><img ng-src="/userImage/{{photo}}" alt=""></a>
+                                </div>
+                                <div class="user-info">
+                                    <div ng-model="result">{{sharedDataUserName[1]}}</div>
+                                    <div class="user-text-online">
+                                        <span class="user-circle-online btn btn-success btn-circle" translate="online"></span>
+                                    </div>
+                                </div>
+                            </div>
+                            <!--end user image section-->
+                        </li>
+                        <li class="selected">
+                            <a href="/jobFinder/home/{{userFullName}}" class="fa fas fa-home sideBarFontSize" ng-click="homePage();showHomePage();" translate="home"></a>
+                        </li>
+                        <li >
+                            <a  href="/jobFinder/professionalTransactions/{{userFullName}}" class="fa fas fa-user-md sideBarFontSize" translate="employeeAndEmployer"></a>
+                        </li>
+                        <li>
+                            <a class="fa fas fa-exclamation-circle sideBarFontSize" href="/jobFinder/issues/{{userFullName}}" translate="issuesAndSuggestions"></a>
+                        </li>
+                        <li>
+                            <a href="/jobFinder/dailyLifeHappenings/{{userFullName}}" class="fa fas fa-headphones sideBarFontSize" translate="dailyLifeHappenings"></a>
+                        </li>
+                         <li>
+                            <a href="/jobFinder/chatbox/{{userFullName}}" class="fa far fa-comments sideBarFontSize" translate="chatRoom"></a>
+                        </li>
+                        <li>
+                            <a href="/jobFinder/thingsToSale/{{userFullName}}" class="fa fas fa-shopping-cart sideBarFontSize" translate="thingsToSale"></a>
+                        </li>
+                        <li>
+                            <a href="/jobFinder/notifications/{{userFullName}}" class="fa far fa-bell sideBarFontSize" translate="notifications"></a>
+                        </li>
+                         <li>
+                            <a href="/jobFinder/settings/{{userFullName}}" class="fa fas fa-cogs sideBarFontSize" translate="userSettings"></a>
+                        </li>
+                        <li ng-if="permission=='admin'">
+                           <a href="/jobFinder/admin/home">Administrator</a>
+                           <a href="/jobFinder/workList">work list update</a>
+                       </li>
+                    </ul>
+                    <!-- end side-menu -->
+                </div>
+                <!-- end sidebar-collapse -->
+            </nav>
+            <!-- end navbar side -->
+            <!--  page-wrapper -->
+            <div id="page-wrapper" ng-controller="homePageController" >
+            <br><br>
+            <!-- post -->
+                <div class="row">
+                   <div style="padding:0;" class="col-lg-6" >
+                      <div class="panel panel-default">
+                          <a href="#postModal" data-toggle="modal"><input type="text" ng-model="addPost" class="form-control" placeholder="Write your post here"></a>
+                      </div>
+                      <div class="modal" id="postModal" tablindex="-1" data-backdrop="static" data-keyboard="false"><!--postModal-->
+                           <div class="modal-dialog model-lg">
+                                <div class="modal-content">
+                                     <div class="modal-header">
+                                        <button class="close" data-dismiss="modal">&times;</button>
+                                        <h4 class="modal-title" translate="post"></h4>
+                                     </div>
+                                     <div class="modal-body">
+                                       <form role="form" action="/jobFinder/home" method="post" enctype="multipart/form-data">
+                                          <input type="hidden" name="userId" value="{{sharedDataUserName[0]}}">
+                                           <textarea class="form-control" name="postDescription" translate="" placeholder="Write description" required></textarea>
+                                           <div class="">
+                                            <img src="/assets/img/fileUpload.png" width="40" height="40" alt=""><input type="file" size="100" id="fileUpload" name="postFile" onchange="AlertFilesize();"/>
+                                             <label translate="uploadImage" for="file">upload Image </label>
+                                           </div>
+
+                                            <p id="sizeOfDocumentForPost"></p>
+                                           <input type="submit" value="post" id="submitPostId" class="btn btn-primary">
+                                        </form>
+                                     </div>
+                                     <div class="container">
+                                        <div class="row">
+                                           <div class="col-lg-2 col-md-2 col-xs-4">
+                                                <div id="image-holder"></div>
+                                           </div>
+                                        </div>
+                                     </div>
+                                </div>
+                            </div>
+                        </div>
+                        <ul style="padding:0;" ng-repeat="data in allPostsdata" ng-hide="homePage">
+                          <li style="list-style-type: none;">
+                            <div  class="panel panel-warning">
+                             <div class="panel-heading panel-warning">
+                               <img ng-src="/userImage/{{data.posterPhoto}}" width="30" height="30">&nbsp;{{data.posterName}} &nbsp;{{data.remarks}} <span ng-if="data.userId==idUser"><input type="button" class="btn-circle" value="delete" ng-click="deletePost(data.id,data.fileName,data.remarks,data.idAtShareTable)"></span>
+                             </div>
+                              <div class="panel-body">
+                                  <div ng-if="data.remarks!==''">
+                                    <p style="background-color:rgb(247, 248, 252)">{{data.shareDescription}}</p>
+                                  </div>
+                                  <div>
+                                     <p>{{data.postDescription}}</p>
+                                  </div>
+                                  <p style="float:left;">
+                                    <div ng-if="data.fileType==='image/jpeg' || data.fileType==='image/png' || data.fileType==='image/gif' || data.fileType==='image/jpg'">
+                                      <a href="#detailsModal" ng-click="showModal(data.id)" data-toggle="modal"><img ng-src="/posts/{{data.fileName}}" id="1" style="width:100%"><!--width="100" height="100" -->
+                                     </a>
+                                   </div>
+                                   <div ng-if="data.fileType==='video/mp4'">
+                                      <a href="#detailsModal" ng-click="showModal(data.id)" data-toggle="modal"><video width="320" height="240" controls controlsList="nodownload">
+                                          <source ng-src="/posts/{{data.fileName}}" type="video/mp4">
+                                        </video>
+                                      </a>
+                                   </div>
+                                      <a href="#detailsModal" ng-click="showModal(data.id)" data-toggle="modal" translate="writeComment"> view or write comments</a>
+                                  </p>
+                                   <!--shared post-->
+                                         <div class="modal" id="shareModal" tablindex="-1" data-backdrop="static" data-keyboard="false">
+                                           <div class="modal-dialog model-lg">
+                                              <div class="modal-content">
+                                                 <div class="modal-header">
+                                                    <button class="close" data-dismiss="modal">&times;</button>
+                                                    <h4 class="modal-title" translate="share"></h4>
+                                                 </div>
+                                                 <div class="modal-body">
+                                                   <input type="hidden" ng-model="postId" value="">
+                                                   <input type="hidden" ng-model="posterUserId" value="">
+                                                   <input type="hidden" ng-model="room" value="">
+                                                   <input type="hidden" ng-model="postDescription" value="">
+                                                   <input type="hidden" ng-model="fileType" value="">
+                                                   <input type="hidden" ng-model="fileName" value="">
+                                                   <input type="hidden" ng-model="posterName" value="">
+                                                       <textarea class="form-control" ng-model="shareDescription2" placeholder="Write description" ></textarea>
+                                                       <button translate="share" ng-click="sharePost(postId,posterUserId,room,postDescription,fileType,fileName,posterName,shareDescription2)" class="btn btn-primary">
+                                                       </button>
+                                                 </div>
+                                                 <div class="container">
+                                                    <div class="row">
+                                                       <div class="col-lg-2 col-md-2 col-xs-4">
+                                                            <div id="image-holder"></div>
+                                                       </div>
+                                                    </div>
+                                                 </div>
+                                              </div>
+                                            </div>
+                                          </div>
+                                        <!--end of shareModal-->
+                                        <div class="modal" id="userDetail" tablindex="-1" data-backdrop="static" data-keyboard="false">
+                                          <div class="modal-dialog model-lg">
+                                             <div class="modal-content">
+                                                <div class="modal-header">
+                                                   <button class="close" data-dismiss="modal">&times;</button>
+                                                   <h4 class="modal-title" translate="seeDetails">User Details</h4>
+                                                </div>
+                                                <div class="modal-body alert alert-warning fade in">
+                                                     <p ng-model="name" ng-if="name!==undefined" translate="fullName"></p><label>{{name}}</label>
+                                                     <p ng-model="gender" ng-if="gender!==undefined" translate="gender"></p><label>{{gender}}</label>
+                                                     <p ng-model="country" ng-if="country!==undefined" translate="country"></p><label>{{country}}</label>
+                                                     <p ng-model="livesIn" ng-if="livesInNotification!==undefined" translate="livesIn"></p><label>{{livesInNotification}} {{countryNotification}}</label>
+                                                     <p ng-model="email" ng-if="email!==undefined" translate="email"></p><label>{{email}}</label>
+                                                     <p ng-model="workDetails" ng-if="workDetails!==undefinded" translate="workDetails"></p><label>{{workDetails}}</label>
+                                                     <p ng-model="timeTaken" ng-if="timeTaken!==undefined" translate="timeTaken"></p>
+                                                     <label>{{timeTaken}}</label>
+                                                     <p ng-model="lookingFor" ng-if="lookingFor!==undefined" translate="lookingFor"></p><label>{{lookingFor}}</label>
+                                                     <p ng-model="profession" ng-if="profession!==undefined" translate="profession"></p><label>{{profession}}</label>
+                                                     <p ng-model="workSession" ng-if="workSession!==undefined" translate="workSession"><label>{{workSession}}</label></p>
+                                                     <p ng-model="remarks" ng-if="remarks!==undefined" translate="remarks"></p><label>{{remarks}}</label>
+                                                     <p ng-model="telephone" ng-if="telephone!==undefined" translate="telephone"><label>{{telephone}}</label></p>
+                                                     <p ng-model="date" ng-if="date!==undefined" translate="travellingDate"></p><label>{{date | date:'yyyy-MM-dd HH:mm'}}</label>
+                                                     <p ng-model="fromPlace" ng-if="fromPlace!==undefined" translate="from"></p><label>{{fromPlace}}</label>
+                                                     <p ng-model="toPlace" ng-if="toPlace!==undefined" translate="to"></p><label>{{toPlace}}</label>
+                                                     <p ng-model="transportChoosed" ng-if="transportChoosed!==undefined" translate="transportChoosed"></p><label>{{transportChoosed}}</label>
+                                                </div>
+                                             </div>
+                                           </div>
+                                         </div>
+                                  <div class="panel-footer panel-danger">
+                                       <label><a href="" ng-model="numberOfLikes">{{data.numberOfLikes}}</a>
+                                      &nbsp;
+                                      <a href="" ng-model="likes" ng-disabled="numberOfLikes" class="fa fa-thumbs-o-up" aria-hidden="true" ng-click="like(data.id,data.room,data.userId)" translate="like" >Like</a>
+                                      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                      <label>{{data.numberOfComments}}&nbsp;&nbsp;</label><a href="#" ng-click="showModal(data.id)" data-toggle="modal" translate="comment" class="fa fa-comment" aria-hidden="true"> Comment</a></label>&nbsp;&nbsp;&nbsp;
+                                      <label>{{data.numberOfShares}}<a href="#shareModal" data-toggle="modal" class="fa fa-share fa_custom fa-1x" translate="share" ng-click="sharePostData(data.id,data.userId,data.room,data.postDescription,data.fileType,data.fileName,data.posterName)"></a></label>
+                                  </div>
+                                </div>
+                              </div>
+                            </li>
+                          </ul>
+                      </div>
+                      <div class="col-lg-7" style="padding:0;" ng-show="commentShow">
+                          <div style="padding:0;" class="col-sm-10">
+                                 <input type="hidden" ng-model="id" value="{{id}}">
+                                 <input type="hidden" ng-model="room" value="{{room}}">
+                                 <input type="hidden" ng-model="posterUserId" value="{{posterUserId}}">
+                              <div style="padding:0;">
+                                   <p class="alert alert-success">{{description}}</p>
+                                   <p style="float:left;">
+                                     <div ng-if="fileType==='image/jpeg' || fileType==='image/png' || fileType==='image/gif' || fileType==='image/jpg'">
+                                       <img ng-src="/posts/{{fileName}}" id="1" style="width:100%"><!--width="100" height="100" -->
+                                    </div>
+                                    <div ng-if="fileType==='video/mp4'">
+                                       <video width="320" height="240" controls controlsList="nodownload">
+                                           <source ng-src="/posts/{{fileName}}" type="video/mp4">
+                                         </video>
+                                    </div>
+                                   </p>
+                               </div>
+                               <div style="padding:0;" class="panel-footer panel-danger">
+                                 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                 <label>{{numberOfComments}}&nbsp;&nbsp;</label><a href="#detailsModal" ng-click="showModal(data.id)" data-toggle="modal" translate="comment" class="fa fa-comment" aria-hidden="true"> Comment</a></label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                 <a ng-click="showHomePage()" translate="backtosearchHomepage" class="fa fa-home" aria-hidden="true"> backtohome</a></label>
+                               </div>
+                          </div>
+                          <div style="padding:0;" class="col-sm-10" on-finish-render="ngRepeatFinished">
+                             <div style="padding:0;" class="panel-footer wrapCommentModal">
+                                 <ul ng-repeat="comment in comments">
+                                   <li style="list-style-type: none;"> <img ng-src="/userImage/{{comment.userPhoto}}" class="img-circle" width="30" height="30"><label>{{comment.name}}
+                                   </label>
+                                     <span class="pull-right text-muted" am-time-ago="comment.date"></span>
+                                     <p>{{comment.comment}}</p>
+                                   </li>
+                                 </ul>
+                             </div>
+                             <div style="padding:0;" class="input-group">
+                               <input id="btn-input" type="text" ng-model="commentMessageTextBox" class="form-control input-sm" placeholder="Type your message here..." on-enter="comment(id,commentMessageTextBox,room,posterUserId)" />
+                                 <span class="input-group-btn">
+                                     <button class="btn btn-warning btn-sm" id="btn-chat"  ng-click="comment(id,commentMessageTextBox,room,posterUserId)" translate="send">
+                                         Send
+                                     </button>
+                                 </span>
+                             </div>
+                         </div>
+                      </div>
+                      <div  class="col-sm-4">
+                         <div class="homescrollbar"  id="home-15">
+                            <div class="col-md-7">
+                                <div style="padding:3px";>
+                                 <input type="text" ng-model="clientsAndProfessionals" class="form-control">
+                               </div>
+                               <ul style="padding:3px"; ng-repeat="client in listOfAllClients | filter:clientsAndProfessionals">
+                                  <li style="list-style-type: none;margin-left:0;" class="alert-info">
+                                    <div>
+                                      <p><img ng-src="/userImage/{{client.photo}}" alt="pic" width="30" height="30">
+                                      <span>{{client.name}}<label translate="employerClient"></label></span>
+                                       <span class="pull-right text-muted">
+                                            <em class=" label label-info"><a href="" ng-click="letsChat(client.userId,client.name)" translate="sendMessage"></a></em>
+                                        </span></p>
+                                          <span translate="lookingFor"></span>:{{client.lookingFor}}<br>
+                                          <span translate="livesIn"></span>:{{client.city}} ,{{client.country}}<br>
+                                          <p class="label label-info" translate="hasJobOf"></p><label>{{client.timeTaken}}</label>
+                                    </div>
+                                  </li>
+                                </ul>
+                                <ul style="padding:3px;" ng-repeat="professionals in listOfAllWorkers | filter:clientsAndProfessionals">
+                                  <li style="list-style-type: none;" class="alert-info">
+                                    <div>
+                                      <p><img ng-src="/userImage/{{professionals.photo}}" alt="pic" width="30" height="30"><span>{{professionals.name}} <label translate="employeeClient"></label></span>
+                                        <span class="pull-right text-muted">
+                                          <em class=" label label-info"><a href="" ng-click="letsChat(professionals.userId,professionals.name)" translate="sendMessage"></a></em>
+                                        </span>
+                                      </p>
+                                       <span translate="profession"></span>:{{professionals.profession}}<br>
+                                       <span translate="livesIn"></span>:{{professionals.livesIn}},{{professionals.country}}<br>
+                                        <p class=" label label-info pull-left text-muted" translate="searchingForAjob"></p>
+                                    </div>
+                                   </li>
+                                 </ul>
+                            </div>
+                            <div class="col-md-5">
+                              <div>
+                                  <div style="padding:3px";>
+                                 <input type="text" ng-model="clientsAndProfessionals" class="form-control">
+                               </div>
+                                <ul style="padding:0;" ng-repeat="users in onlineUsers">
+                                  <li style="list-style-type: none;padding:0">
+                                    <div>
+                                       <p><a href=""  ng-click="letsChat(users.userId,users.username)"><img ng-src="/userImage/{{users.photo}}" width="30" height="30"><label>{{users.username}}</label></a>
+                                       <span class="pull-right text-muted">
+                                          <em class="user-circle-online btn btn-success btn-circle-small"></em>
+                                      </span></p>
+                                     </div>
+                                  </li>
+                                </ul>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                   </div>
+                 <div class="container" id="mydiv" ng-show="chatbox">
+                        <div class="row chat-window col-xs-3 col-md-3 col-lg-4" id="chat_window_1" style="margin-left:500px;">
+                           <div class="col-xs-12 col-md-12">
+                            <div class="panel panel-default">
+                                <div class="panel-heading top-bar" style="background: #666;color: white;padding: 5px;position: relative;overflow: hidden;">
+                                    <div class="col-md-8 col-xs-8">
+                                         <h3 class="panel-title" ng-model="toName"><span><img src="/assets/img/icons8-Chat-48.png"></span>{{toName}}</h3>
+                                    </div>
+                                    <div id="messageBody" class="col-md-4 col-xs-4" style="text-align: right;">
+                                        <a href="#"><span id="minim_chat_window"></span></a>
+                                        <a href="#" ng-click="closeChat(toName)"><label style="color:white">X</label></a>
+                                    </div>
+                                </div>
+                                <div class="panel-body msg_container_base"  id="promptAnswerBlock">
+                                   <div ng-repeat="user in postUserMessagesFromChat" class="row msg_container base_receive" on-finish-render="ngRepeatFinished">
+                                     <div>
+                                          <div class="col-md-2 col-xs-2 avatar">
+                                            <img ng-src="/userImage/{{user.photo}}" class=" img-responsive ">
+                                        </div>
+                                       <div  class="col-md-10 col-xs-10">
+                                          <div  class="messages msg_receive">
+                                             <p style="font-size:14px;">{{user.message}}</p>
+                                            <span class="label label-info ng-binding "><span am-time-ago="user.date"></span></span>
+                                          </div>
+                                       </div>
+                                     </div>
+                                    </div>
+                                </div>
+                                <div class="panel-footer chatboxFooter">
+                                  <div class="input-group">
+                                      <input id="btn-input" type="text" ng-model="message" class="input1 form-control input-sm chat_input" placeholder="Write your message here..." on-enter="sendMessage(message)" />
+                                      <span class="input-group-btn">
+                                      <button   class="btn btn-primary btn-sm" id="btn-chat"  ng-click="sendMessage(message)" translate="send" ></button>
+                                      </span>
+                                  </div>
+                                </div>
+                            </div>
+                        </div>
+                  </div>
+                </div>
+                <div class="modal" id="saleItemIdInfo" tablindex="-1" data-backdrop="static" data-keyboard="false">   <!--info modal-->
+                   <div class="modal-dialog model-lg">
+                      <div class="modal-content">
+                          <div class="modal-header">
+                            <button class="close" data-dismiss="modal">&times;</button>
+                          </div>
+                          <div class="modal-body">
+                            <div class="">
+                                <a href="">{{catagories}}</a>
+                                <div class="gallery">
+                                    <img  ng-src="/saleThingsImageCollector/{{saleItemfileName}}" id="1" data-scale="2.4" height="200" width="200" class="thumbnail"></a>
+                                    <label>{{saleItemName}}</label><br>
+                                     <span translate="price"></span>
+                                     <p>{{price}}&nbsp;{{unit}}</p>
+                                 </div>
+                              </div>
+                               <div class="">
+                                 <a href="#" ng-click="getDetailsOfItemForSale()">get details of this item</a>
+                                 <table border="1" style="width:100%">
+                                      <thead>
+                                          <tr>
+                                              <th>measurment</th>
+                                              <th>quantity</th>
+                                          </tr>
+                                      </thead>
+                                      <tbody ng-repeat="data in saleItemDetails">
+                                          <tr>
+                                               <td>{{data.size}}</td>
+                                               <td>{{data.amount}}</td>
+                                          </tr>
+                                      <tbody>
+                                  </table>
+                               </div>
+                            </div>
+                          </div>
+                      </div>
+                   </div>
+                </div>
+                <div class="container" id="saleItemsChatBox" ng-show="saleItemchatbox">
+                       <div class="row chat-window col-xs-3 col-md-3 col-lg-4" id="chat_window_1" style="margin-left:500px;">
+                          <div class="col-xs-12 col-md-12">
+                           <div class="panel panel-default">
+                              <div class="panel-heading top-bar" style="background: #666;color: white;padding: 5px;position: relative;overflow: hidden;">
+                                   <div class="col-md-8 col-xs-8">
+                                        <h3 class="panel-title" ng-model="toName"><span><img src="/assets/img/icons8-Chat-48.png"></span><a href="#saleItemIdInfo" ng-click="getSaleItem()" data-toggle="modal">{{toName}}</a></h3>
+                                   </div>
+                                   <div id="messageBody" class="col-md-4 col-xs-4" style="text-align: right;">
+                                       <a href="#"><span id="minim_chat_window"></span></a>
+                                       <a href="#" ng-click="closeChatWithSupplier()"><label style="color:white">X</label></a>
+                                   </div>
+                                </div>
+                               <div class="panel-body msg_container_base"  id="promptAnswerBlock">
+                                  <div ng-repeat="user in saleItemMessages" class="row msg_container base_receive" on-finish-render="ngRepeatFinished">
+                                      <div  class="col-md-10 col-xs-10">
+                                         <div  class="messages msg_receive">
+                                            <p  style="font-size:16px;">{{user.message}}</p>
+                                           <span class="label label-info ng-binding ">{{user.username}}</span><span am-time-ago="user.date"></span>
+                                         </div>
+                                      </div>
+                                   </div>
+                               </div>
+                               <div class="panel-footer chatboxFooter">
+                                 <div class="input-group">
+                                     <input id="btn-input" type="text" ng-model="message" class="input1 form-control input-sm chat_input" placeholder="Write your message here..." on-enter="sendMessage(message)" />
+                                     <span class="input-group-btn">
+                                     <button   class="btn btn-primary btn-sm" id="btn-chat"  ng-click="sendMessageBetweenClientAndSupplier(message)" translate="send" ></button>
+                                     </span>
+                                 </div>
+                               </div>
+                            </div>
+                          </div>
+                       </div>
+                </div>
+              </div>
+            </div>
+
+        </div>
+    <!-- end wrapper -->
+    <!-- Core Scripts - Include with every page -->
+    <script type="text/javascript" src="/bower_components/angular/angular.min.js"></script>
+    <script type="text/javascript" src="/bower_components/angular-translate/angular-translate.js"></script>
+    <!-- <script type="text/javascript" src="/bower_components/angular-sanitize/angular-sanitize.js"></script> -->
+    <script src="/assets/plugins/jquery-1.10.2.js"></script>
+    <script src="/assets/plugins/bootstrap/bootstrap.min.js"></script>
+    <script type="text/javascript" src="/controller/main.js"></script>
+    <script  src="https://cdn.socket.io/socket.io-1.4.5.js"></script>
+    <script src="/bower_components/ng-img-crop/compile/minified/ng-img-crop.js"></script>
+    <script src="/bower_components/moment/moment.js"></script>
+    <script src="/bower_components/moment/locale/de.js"></script>
+    <script src="/bower_components/angular-moment/angular-moment.js"></script>
+    <script src="https://js.stripe.com/v3/"></script>
+    <script type="text/javascript" src="/controller/autocomplete.js"></script>
+   <script>
+            $(document).ready(function() {
+                $("#fileUpload").on('change', function() {
+                  //Get count of selected files
+                  var size = $('#fileUpload')[0].files[0].size;
+                  if(size>=32822685){
+                    $('#submitPostId').prop("disabled", true);
+                    $('#sizeOfDocumentForPost').text("this file is big change another one")
+                  }
+                  var countFiles = $(this)[0].files.length;
+                  var imgPath = $(this)[0].value;
+                  var extn = imgPath.substring(imgPath.lastIndexOf('.') + 1).toLowerCase();
+                  var image_holder = $("#image-holder");
+                  image_holder.empty();
+                  if (extn == "jpg" || extn == "jpeg" || extn == "mp4") {
+                    if (typeof(FileReader) != "undefined") {
+                      //loop for each file selected for uploaded.
+                      for (var i = 0; i < countFiles; i++)
+                      {
+                        var reader = new FileReader();
+                        reader.onload = function(e) {
+                          //alert(this.files[0].size);
+                          $("<img />", {
+                            "src": e.target.result,
+                            "class": "thumb-image img-responsive"
+                          }).appendTo(image_holder);
+                        }
+                        image_holder.show();
+                        reader.readAsDataURL($(this)[0].files[i]);
+                      }
+                    } else {
+                      alert("This browser does not support FileReader.");
+                    }
+                  } else {
+                    alert("Pls select images or vidio only");
+
+                  }
+                });
+            });
+            var inputs = document.querySelectorAll( '.inputfile' );
+Array.prototype.forEach.call( inputs, function( input )
+{
+	var label	 = input.nextElementSibling,
+		labelVal = label.innerHTML;
+
+	input.addEventListener( 'change', function( e )
+	{
+		var fileName = '';
+		if( this.files && this.files.length > 1 )
+			fileName = ( this.getAttribute( 'data-multiple-caption' ) || '' ).replace( '{count}', this.files.length );
+		else
+			fileName = e.target.value.split( '\\' ).pop();
+
+		if( fileName )
+			label.querySelector( 'span' ).innerHTML = fileName;
+		else
+			label.innerHTML = labelVal;
+	});
+});
+</script>
+</body>
+
+</html>

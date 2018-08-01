@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html ng-app="myApp" ng-cloak>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>jobFinder</title>
+    <link rel="icon" href="/assets/log/bird.png">
+    <!-- Core CSS - Include with every page -->
+    <link href="/assets/plugins/bootstrap/bootstrap.css" rel="stylesheet" />
+    <link href="/assets/font-awesome/css/font-awesome.css" rel="stylesheet" />
+    <link href="/assets/css/style.css" rel="stylesheet"/>
+    <link href="/assets/css/main-style.css" rel="stylesheet"/>
+     <link href="/assets/css/mystyle.css" rel="stylesheet"/>
+    <link href="/assets/css/chat.css" rel="stylesheet"/>
+    <link href="/assets/css/modal.css">
+    <link href="/assets/css/autocomplete.css" rel="stylesheet"/>
+    <link rel="stylesheet" type="text/css" href="/bower_components/ng-img-crop/compile/minified/ng-img-crop.css">
+     <link href="https://fonts.googleapis.com/css?family=Bungee+Shade" rel="stylesheet">
+     <link rel="stylesheet" href="assets/css/SearchStyle.css">
+     <style media="screen">
+       .languageHeadLines{
+        color:white;
+        font-size:16px
+       }
+       .headerText{
+         color:white;
+         font-size:20px;
+       }
+     </style>
+  </head>
+  <body ng-controller="transportCtrl">
+        <header>
+          <div class="container">
+             <div>
+                 <div class="head">
+                      <div class="col-lg-1 pull-left">
+                        <img src="/assets/img/bird.png" alt="log here" width="110" height="110">
+                      </div>
+                      <div class="col-lg-11">
+                        <h1 translate="yourhelplabdotcom"> your help lab</h1>
+                        <p  class="pull-left"><a href="" class="languageHeadLines" ng-click="changeLanguage('TG')">ትግርኛ</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a class="languageHeadLines" ng-click="changeLanguage('EN')">English</a>&nbsp;&nbsp;&nbsp;&nbsp;<a class="languageHeadLines" ng-click="changeLanguage('NL')" >Dutch</a></p>
+                        <p class="pull-right searchesLogin "><a href="/searches.html" class="headerText" translate="backtosearchHomepage">Home</a></p></span>
+                        <p class="pull-right searchesLogin "><a href="/contactus.html" class="headerText" ng-click="contactus()" translate="contactus">Contact Us</a></p></span>
+                        <p class="pull-right searchesLogin"><a href="/about.html" class="headerText" ng-click="about()" translate="aboutus">About</a></p></span>
+                        <p class="pull-right searchesLogin"><a href="/login.html" class="headerText" translate="loginHeadline">Login</a></p><br>
+                      </div>
+                 </div>
+                 <div >
+              </div>
+             </div>
+          </div>
+         </header>
+        <div class="panel-body">
+          <div class="col-lg-12">
+            <div class="col-lg-5 alert-info">
+              <div class="" style="padding-left:10px;padding-right:10px;">
+                <strong translate="journeyByPlane">Do you have journey by plane?</strong>
+                <textarea ng-model="airTravelMessage" rows="2" class="form-control" cols="80" placeholder="message,telephone"></textarea>
+                <button type="button" translate="send" class="btn-lg btn-primary" name="button" ng-click="airTravel()">send</button>
+              </div>
+            </div>
+            <div class="col-lg-1">
+
+            </div>
+            <div class="col-lg-5 alert-success">
+              <div class="" style="padding-left:10px;padding-right:10px;">
+                <strong translate="sendMoney">Do you need to send money to Eritrea by western union which is legal?</strong>
+                <textarea ng-model="moneyTransferRequestMessage" class="form-control" rows="2" cols="80" placeholder="message,telephone"></textarea>
+                <button type="button" translate="send" class="btn-lg btn-primary"  name="button" ng-click="moneyTransferRequest()">send</button>
+              </div>
+            </div>
+          </div>
+         <div class="col-lg-12">
+           <label class="alert-danger">{{requestReply}}</label>
+         </div>
+          <div class="col-lg-12">
+              <div class="col-lg-4" style="background-color:rgb(160, 185, 219);">
+                  <label translate="date">Date:</label><input type="date" ng-model="date" class="form-control" required>
+                  <label translate="from"></label>
+                  <autocomplete ng-model="fromCity" attr-placeholder=" from city..." city-enter="onEnter()" click-activation="true" data="cityDatas"  on-type="fillFromCity" on-select="cityFromSelection"></autocomplete>
+                  <label translate="to">To:</label>
+                  <autocomplete ng-model="toCity" attr-placeholder=" to city..." city-enter="onEnter()" click-activation="true" data="cityDatas"  on-type="fillToCity" on-select="cityToSelection"></autocomplete>
+                   <label translate="by">By</label><select  id="transportTypeId" class="form-control" ng-options="transport for transport in transports" ng-change="transportChoosedSelection()" ng-model="transportChoosed">
+                  </select><br>
+                    <button class="btn-danger btn-lg" ng-click="detailTravelInfo()" translate="seeTravelInfo"></button><br><br>
+                    <span translate="registerToTravelByAnyTransport"> </span><a href="/login.html" data-toggle="modal" ng-click="myInfo()" translate="clickHere"></a>
+              </div>
+              <div class="col-lg-8" style="overflow-y: scroll;height:400px;">
+                    <div class="alert-warning">
+                      <strong><a href="/login.html" translate="transportRegistrationAdvice">Do you own transport and you need to use this golden chance, then you have to register and your vihecle will be listed online here.</a></strong>
+                    </div>
+
+                    <div ng-show="passengersList">
+                          <div class="">
+                            <label translate="passengers">Passengers</label>
+                          </div>
+                          <table border="1" style="width:100%">
+                               <thead>
+                                   <tr>
+                                       <th translate="date"></th>
+                                       <th translate="fromTime"></th>
+                                       <th translate="from"></th>
+                                       <th translate="to"></th>
+                                       <th translate="numberOfPeople"></th>
+                                   </tr>
+                               </thead>
+                               <tbody ng-repeat="numberOfTravellersToThisPlace in numberOfTravellersToThisPlace">
+                                   <tr>
+                                        <td>{{numberOfTravellersToThisPlace.date | date : format : timezone}}</td>
+                                        <td>{{numberOfTravellersToThisPlace.fromTime | date:'HH:MM'}}</td>
+                                        <td>{{numberOfTravellersToThisPlace.fromPlace}}</td>
+                                        <td>{{numberOfTravellersToThisPlace.toPlace}}</td>
+                                        <td>{{numberOfTravellersToThisPlace.numberOfPeople}}</td>
+                                   </tr>
+                               <tbody>
+                           </table>
+                     </div>
+               </div>
+          </div>
+          <div class="col-lg-12" ng-show="readyTransportsList">
+                    <div class="col-lg-12">
+                      <label translate="transports">transports</label>
+                    </div>
+                    <table border="1" style="width:100%">
+                          <thead>
+                              <tr>
+                                  <th translate="transportType"></th>
+                                  <th translate="numberOfSeats"></th>
+                                  <th translate="freeSpace"></th>
+                                  <th translate="date"></th>
+                                  <th translate="fromTime"></th>
+                                  <th translate="toTime"></th>
+                                  <th translate="from"></th>
+                                  <th translate="to"></th>
+                              </tr>
+                          </thead>
+                            <tbody ng-repeat="transport in readyTransports">
+                               <tr>
+                                   <td>{{transport.type}}</td>
+                                   <td>{{transport.numberOfSeats}}</td>
+                                   <td>{{transport.freeSeats}}</td>
+                                   <td>{{transport.date | date:'yyyy-MM-dd HH:mm'}}</td>
+                                   <td>{{transport.fromTime | date:'HH:mm'}}</td>
+                                   <td>{{transport.toTime | date:'HH:mm'}}</td>
+                                   <td>{{transport.fromPlace}}</td>
+                                   <td>{{transport.toPlace}}</td>
+                              </tr>
+                          <tbody>
+                    </table>
+       </div>
+    </div>
+    <div class="container" id="mydiv" ng-show="chatbox">
+         <div class="row chat-window col-xs-3 col-md-3 col-lg-4" id="chat_window_1" style="margin-left:500px;">
+            <div class="col-xs-12 col-md-12">
+             <div class="panel panel-default">
+                 <div class="panel-heading top-bar" style="background: #666;color: white;padding: 5px;position: relative;overflow: hidden;">
+                     <div class="col-md-8 col-xs-8">
+                          <h3 class="panel-title" ng-model="toName"><span><img src="/assets/img/icons8-Chat-48.png"></span>{{toName}}</h3>
+                     </div>
+                     <div id="messageBody" class="col-md-4 col-xs-4" style="text-align: right;">
+                         <a href="#"><span id="minim_chat_window"></span></a>
+                         <a href="#" ng-click="closeChat()"><label style="color:white">X</label></a>
+                     </div>
+                 </div>
+                 <div class="panel-body msg_container_base" id="promptAnswerBlock">
+                    <div ng-repeat="user in supplierMessage" class="row msg_container base_receive" >
+                        <div  class="col-md-10 col-xs-10" on-finish-render="ngRepeatFinished">
+                           <div  class="messages msg_receive">
+                              <p style="font-size:16px;">{{user.message}}</p>
+                             <span class="label label-info ng-binding ">{{user.username}}</span><span am-time-ago="user.date"></span>
+                           </div>
+                        </div>
+                     </div>
+                 </div>
+                 <div class="panel-footer chatboxFooter">
+                   <div class="input-group">
+                       <input id="btn-input" type="text" ng-model="message" class="form-control input-sm chat_input" placeholder="Write your message here..." on-enter="doPost(message)" />
+                       <span class="input-group-btn">
+                       <button class="btn btn-primary btn-sm" id="btn-chat" ng-click="sendMessageBetweenClientAndSupplier(message)" translate="send">Send</button>
+                       </span>
+                   </div>
+                 </div>
+             </div>
+         </div>
+     </div>
+
+    <!-- Core Scripts - Include with every page -->
+     <script type="text/javascript" src="/bower_components/angular/angular.min.js"></script>
+     <script type="text/javascript" src="/bower_components/angular-translate/angular-translate.js"></script>
+     <!-- <script type="text/javascript" src="/bower_components/angular-sanitize/angular-sanitize.js"></script> -->
+     <script src="/assets/plugins/jquery-1.10.2.js"></script>
+     <script src="/assets/plugins/bootstrap/bootstrap.min.js"></script>
+     <script type="text/javascript" src="/controller/main.js"></script>
+     <script  src="https://cdn.socket.io/socket.io-1.4.5.js"></script>
+     <script src="/bower_components/ng-img-crop/compile/minified/ng-img-crop.js"></script>
+     <script src="/bower_components/moment/moment.js"></script>
+     <script src="/bower_components/moment/locale/de.js"></script>
+     <script src="/bower_components/angular-moment/angular-moment.js"></script>
+     <script src="https://js.stripe.com/v3/"></script>
+     <script type="text/javascript" src="/controller/autocomplete.js"></script>
+  </body>
+</html>

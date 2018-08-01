@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html ng-app="myApp" ng-cloak>
+  <head>
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-116004031-1"></script>
+    <!-- <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'UA-116004031-1');
+    </script> -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>your help lab News</title>
+    <!-- Core CSS - Include with every page -->
+    <link rel="stylesheet" type="text/css" href="/bower_components/ng-img-crop/compile/minified/ng-img-crop.css">
+     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+     <!-- Optional theme -->
+     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+     <!--google fonts-->
+      <link href="https://fonts.googleapis.com/css?family=Abhaya+Libre|Francois+One" rel="stylesheet">
+      <!-- Font-awesome CDN -->
+      <script src="https://use.fontawesome.com/9905f6c07d.js"></script>
+       <link rel="shortcut icon" href="images/favicon.jpg" type="image/jpg">
+       <link href="/assets/css/autocomplete.css" rel="stylesheet"/>
+      <link rel="stylesheet" href="assets/css/SearchStyle.css">
+      <link rel="stylesheet" href="assets/css/style.css">
+      <link rel="icon" href="/assets/log/bird.png" width="300" height="300">
+      <!-- <link rel="stylesheet" href="/assets/css/homeSideBar.css"> -->
+      <style media="screen">
+            .headerBackGround{
+              background-color:#8629b2;
+            }
+            [ng\:cloak],[ng-cloak],[data-ng-cloak],[x-ng-cloak],.ng-cloak,.x-ng-cloak{
+              display: none !important;
+            }
+            .searchCriterias{
+              font-size: 20px;
+            }
+            .headerText{
+              color:white;
+              font-size:20px;
+            }
+            .danger {
+                background-color: #ffdddd;
+                border-left: 6px solid #f44336;
+            }
+            .grey{
+              background-color: #BDBDBD;
+              border-left: 6px solid #585858;
+            }
+            .roza{
+              background-color: #9F81F7;
+              border-left: 6px solid #3104B4;
+            }
+            .heading{
+              font-size: 20px;
+            }
+            .detail{
+              font-size: 18px;
+            }
+      </style>
+   </head>
+  <body ng-controller="logincontroller">
+    <header>
+      <div class="container">
+         <div>
+             <div class="head">
+                  <div class="col-lg-1 pull-left">
+                    <img src="/assets/img/bird.png" alt="log here" width="110" height="110">
+                  </div>
+                  <div class="col-lg-11">
+                    <h1 translate="yourhelplabdotcom"> your help lab</h1>
+                    <p  class="pull-left"><a href="" class="headerText" ng-click="changeLanguage('TG')">ትግርኛ</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a class="headerText" ng-click="changeLanguage('EN')" style="color:white;font-size:16px">English</a>&nbsp;&nbsp;&nbsp;&nbsp;<a class="headerText" ng-click="changeLanguage('NL')" >Dutch</a></p>
+                    <p class="pull-right searchesLogin "><a href="/contactus.html" class="headerText" ng-click="contactus()" translate="contactus">Contact Us</a></p></span>
+                    <p class="pull-right searchesLogin"><a href="/about.html" class="headerText" ng-click="about()" translate="aboutus">About</a></p></span>
+                    <p class="pull-right searchesLogin"><a href="/login.html" class="headerText" translate="loginHeadline">Login</a></p><br>
+                  </div>
+             </div>
+             <div >
+          </div>
+         </div>
+      </div>
+     </header>
+    <div class="row">
+        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+            <!-- Form Elements -->
+            <div>
+                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                    <div class="row col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                      <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12 list-group" style="background-color:rgb(35, 53, 132); height:400px">
+                         <ul>
+                          <li class="list-group-item list-group-item-info searchCriterias">&nbsp;&nbsp;<a class="fa fas fa-home" translate="home"  ng-click="toggle_homePage()"></a></li>
+                          <li class="list-group-item list-group-item-success searchCriterias">&nbsp;&nbsp;<a class="fa fas fa-user-md" translate="jobSearch"  ng-click="toggle_searchJob()"></a></li>
+                          <li class="list-group-item list-group-item-info searchCriterias">&nbsp;&nbsp;<a class="fa fas fa-user-md" translate="searchCandidate" ng-click="findCandidate()"></a></li>
+                          <li class="list-group-item list-group-item-success searchCriterias">&nbsp;&nbsp;<a class="fa fas fa-building" href="/login.html" translate="jobPosts"></a></li>
+                          <li class="list-group-item list-group-item-warning searchCriterias">&nbsp;&nbsp;<a class="fa fas fa-exclamation-circle" href="/login.html" translate="issuePost"></a></li>
+                          <li class="list-group-item list-group-item-warning searchCriterias">&nbsp;&nbsp;<a class="fa fas fa-headphones" href="/newsFromHome.html"  translate="getNews">Getting upto date news,reading fictions</a></li>
+                          <li class="list-group-item list-group-item-danger searchCriterias">&nbsp;&nbsp;<a class="fa fas fa-cart-arrow-down" href="/salethingsFromHome.html"  translate="itemsForSale">Getting Items for sale</a></li>
+                          <li class="list-group-item list-group-item-danger searchCriterias">&nbsp;&nbsp;<a class="fa fas fa-car" href="/transportHomePage.html" translate="journey"></a></li>
+                         </ul>
+                      </div>
+                      <br>
+                      <div class="col-lg-9 col-md-9 col-sm-12 col-xs-12">
+                        <div class="" ng-hide="HomePageContent">
+                          <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                            <strong translate="homePageInfo" style="font-family:'Rokkitt', serif;font-size:18px;" ></strong><br><br>
+                            <div class="danger col-lg-12">
+                              <strong translate="gettingAjob" class="heading"></strong>
+                              <span translate="getJobDesc" class="detail">Searching a job by selecting a profession from the profession list,selecting country followed by selecting city and click search.
+                              Then you will get list of professions similar to the selected profession at the selected city</span>
+                            </div><br><br>
+                            <div class="grey col-lg-12">
+                              <strong translate="gettingBestCandidate" class="heading"></strong>
+                              <span translate="getEmployeeDesc" class="detail">Search for employee is simply selecting profession from the list then select country followed by selecting a city then click search,you will get employees who are currently available for work at the selected city</span>
+                            </div><br><br>
+                             <div class="danger col-lg-12">
+                                <strong translate="postingAjob" class="heading"></strong>
+                                <span translate="postJobDesc" class="detail">You can post a job if you have any.Inorder to post a job you need to be registered with us then you can have more benefits of this website.</span>
+                              </div><br><br>
+                            <div class="roza col-lg-12">
+                              <strong><a href="/newsFromHome.html"  translate="gettingNews" class="heading"></a></strong>
+                              <span translate="getNewsDesc" class="detail">You can get upto date news,reading histories or see a discussions amoung people concerning different trends.</span>
+                            </div><br><br>
+                            <div class="grey col-lg-12">
+                              <strong><a href="/login.html"  translate="gettingAjobWithNoProfession" class="heading"></a></strong>
+                              <span translate="noProfessionDesc" class="detail">In this webiste you do not have to warry about having a profession or not,just register and we will find a job for you which does not require any profession.</span>
+                            </div>
+                            <div class="danger col-lg-12">
+                              <strong><a href="/login.html" translate="postingIssues" class="heading"></a></strong>
+                              <span translate="postingIssueDesc" class="detail">As human being we made many mistakes and sometimes we desprate getting solutions for them, hee don't warry this website is what for.We can connect you to different professionals for who belong to.</span>
+                            </div>
+                            <div class="danger col-lg-12">
+                              <strong><a href="/salethingsFromHome.html"  translate="gettingItemsToSale" class="heading"></a></strong>
+                              <span translate="getItemsToSaleDesc" class="detail">You can get items for sale which are probably cheaper in terms of price.</span>
+                            </div>
+                            <div class="grey col-lg-12">
+                              <strong><a href="/login.html" translate="privateChatsAndGroupChats" class="heading"></a></strong>
+                              <span translate="chatDesc" class="detail">You can chat privatly and in group but you have to register.</span>
+                            </div>
+                            <div class="roza col-lg-12">
+                              <strong><a href="/login.html" translate="postingHobies" class="heading"></a></strong><br>
+                              <span translate="postHobbiesDesc" class="detail">You can post work advertisments,hobbies and you will get reactions from users.</span>
+                            </div><br>
+                            <div class="danger col-lg-12">
+                              <strong><a href="/transportHomePage.html" translate="journeySchedules" class="heading"></a></strong>
+                              <span translate="journeyDesc" class="detail">You can schedule a journey and you can look what vehicle is available for your journey.</span>
+                            </div>
+                          </div>
+                        </div>
+                        <div>
+                          <br>
+                          <div class="alert-danger">
+                            <span ng-model="noResult">{{noResult}}</span>
+                          </div>
+                             <div ng-show="searchBox"><br>
+                                  <div class="col-lg-3">
+                                    <label for="" translate="profPlaceHolder"></label>
+                                    <autocomplete ng-model="profession" attr-placeholder="profession" profession-enter="onEnter()" click-activation="true" data="professionDatas"  on-type="fillProfession" on-select="professionSelection"></autocomplete>
+                                  </div>
+                                  <div class="col-lg-3">
+                                    <label for="" translate="countryPlaceHolder"></label>
+                                    <autocomplete ng-model="country" attr-placeholder="country..." country-enter="onEnter()" click-activation="true" data="countryDatas"  on-type="fillCountry" on-select="countrySelection"></autocomplete>
+                                  </div>
+                                  <div class="col-lg-3">
+                                    <label for="" translate="cityPlaceHolder"></label>
+                                    <autocomplete ng-model="city" attr-placeholder=" city..." city-enter="onEnter()" click-activation="true" data="cityDatas"  on-type="fillCity" on-select="citySelection"></autocomplete>
+                                  </div>
+                                  <div class="">
+                                    <br>
+                                    <button ng-click="searchAjob()" class="btn btn-primary big-btn fa fas fa-search searchCriterias" translate="searchOnHomepage" ng-disabled="disableSearch"></button>
+                                  </div>
+                                  <div class="col-lg-10 col-md-10 col-sm-10 col-xs-12">
+                                    <div class="scrollbarSearchJob" id="messagenotification-1">
+                                      <ul ng-repeat="data in searchedData">
+                                        <li>
+                                          <div>
+                                            <h3><a href="http://{{data.url}}" target="_blank">{{data.lookingFor}}</a></h3>
+                                             <p><a href="{{data.name}}">{{data.name}}</a> &nbsp;&nbsp;&nbsp;{{data.workCity}}  {{data.workCountry}}</p>
+                                             <span ng-model="summary">{{data.summary}}</span>
+                                             <a href="#" ng-click="getWorkDetails(data.Id)" translate="workToBeDone">see work details</a>
+                                           </div>
+                                         </li>
+                                       </ul>
+                                       <ul ng-repeat="data in searchedDataFromExternal">
+                                         <li>
+                                           <div>
+                                             <h3><a href="#" ng-click="getWorkDetailsFromExternal()">{{data.lookingForProfession}}</a></h3>
+                                                    <p><a href="{{data.name}}">{{data.companyName}}</a> &nbsp;&nbsp;&nbsp;{{data.workCity}}  {{data.workCountry}}</p>
+                                              <span ng-model="summary">{{data.summary}}</span>
+                                              <a href="#" ng-click="getWorkDetailsFromExternal()" translate="workToBeDone"></a>
+                                            </div>
+                                          </li>
+                                        </ul>
+                                      </div>
+                                   </div>
+                                   <div class="col-lg-5 alert">
+                                     <p>{{workDetails}}</p>
+                                   </div>
+                          </div>
+                  </div>
+                  <div ng-show="candidate">
+                     <div><br>
+                       <div class="">
+                         <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12">
+                           <label for="" translate="profPlaceHolder"></label>
+                           <autocomplete ng-model="profession" attr-placeholder="profession..." profession-enter="onEnter()" click-activation="true" data="professionDatas"  on-type="fillProfession" on-select="professionSelection"></autocomplete>
+                         </div>
+                         <div class="col-lg-3">
+                           <label for="" translate="countryPlaceHolder"></label>
+                           <autocomplete ng-model="country" attr-placeholder="country..." country-enter="onEnter()" click-activation="true" data="countryDatas"  on-type="fillCountry" on-select="countrySelection"></autocomplete>
+                         </div>
+                         <div class="col-lg-3">
+                           <label for="" translate="cityPlaceHolder"></label>
+                           <autocomplete ng-model="city" attr-placeholder=" city..." city-enter="onEnter()" click-activation="true" data="cityDatas"  on-type="fillCity" on-select="citySelection"></autocomplete>
+                         </div>
+                         <div class="">
+                           <br>
+                           <button ng-click="searchAprofessional()" class="btn btn-info big-btn fa fas fa-search searchCriterias" translate="searchOnHomepage"></button>
+                         </div>
+                       </div><br><br><br>
+                       <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                         <div >
+                         </div>
+                         <div style="font-size:16px;" class="col-lg-6 scrollbarSearchJob" id="messagenotification-1">
+                            <a href="/login.html" style="color:blue;" ng-model="candidateNoResult">{{candidateNoResult}}</a>
+                            <ul style="padding:3px;" ng-repeat="professionals in listOfAllWorkers | filter:clientsAndProfessionals">
+                              <li style="list-style-type: none;" class="alert-info">
+                                <div>
+                                 <label><img  ng-src="/userImage/{{professionals.photo}}" width="30" height="30">{{professionals.name}}</label>
+                                  </p>
+                                   <span translate="profession"></span>:{{professionals.profession}}<br>
+                                   <span translate="livesIn"></span>:{{professionals.livesIn}},{{professionals.country}}<br>
+                                   <a href="#" ng-click="professionalMotivation(professionals.Id)" translate="professionalMotivation">see motivation</a>
+                                </div>
+                               </li>
+                             </ul>
+                           </div>
+                           <div class="col-lg-3 alert">
+                             <p>{{motivation}}</p>
+                           </div>
+                       </div>
+                     </div>
+            </div>
+        </div>
+    </div>
+    <script type="text/javascript" src="/bower_components/angular/angular.min.js"></script>
+    <script type="text/javascript" src="/bower_components/angular-translate/angular-translate.js"></script>
+    <script src="/assets/plugins/jquery-1.10.2.js"></script>
+    <script src="/assets/plugins/bootstrap/bootstrap.min.js"></script>
+    <script type="text/javascript" src="/controller/main.js"></script>
+    <script  src="https://cdn.socket.io/socket.io-1.4.5.js"></script>
+    <script src="/bower_components/ng-img-crop/compile/minified/ng-img-crop.js"></script>
+    <script src="/bower_components/moment/moment.js"></script>
+    <script src="/bower_components/moment/locale/de.js"></script>
+    <script src="/bower_components/angular-moment/angular-moment.js"></script>
+    <script src="https://js.stripe.com/v3/"></script>
+      <script type="text/javascript" src="/controller/autocomplete.js"></script>
+  </body>
+</html>
