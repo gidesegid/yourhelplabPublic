@@ -385,9 +385,13 @@
 
                                                      <div>
                                                          <label translate="country"></label>
+                                                           <a href="#userSettingsModal" data-toggle="modal">
                                                          <input type="text" ng-model="country" class="form-control">
+                                                           </a>
                                                          <label translate="livesIn"></label>
+                                                          <a href="#userSettingsModal" data-toggle="modal">
                                                          <input type="text" ng-model="livesIn" class="form-control">
+                                                       </a>
                                                      </div>
                                                 </form><br><br>
                                             </div>
@@ -410,50 +414,49 @@
                                 <div class="modal" id="userSettingsModal" tablindex="-1" data-backdrop="static" data-keyboard="false">
                                   <div class="modal-dialog model-lg">
                                       <div class="modal-content">
-                                         <div class="modal-header">
-                                            <div>
-                                              <p id="reactionAlert" class="alert alert-info myalert"></p>
+                                           <div class="modal-header">
+                                               <button class="close" data-dismiss="modal">&times;</button>
+                                               <h4 class="modal-title" translate="updateUserSettings"></h4>
                                             </div>
-                                             <button class="close" data-dismiss="modal">&times;</button>
-                                             <h4 class="modal-title" translate="updateUserSettings"></h4>
-                                          </div>
-                                             <div class="modal-body">
-                                                <form role="form">
-                                                     <div class="form-group">
-                                                        <label translate="fullName"></label>
-                                                        <input type="text" class="form-control" ng-model="name" placeholder="Name" name="name">
-                                                     </div>
-                                                     <div class="form-group">
-                                                        <label translate="username"></label>
-                                                        <input type="text" class="form-control" ng-model="username" placeholder="username" name="username" disabled="true">
-                                                     </div>
-                                                     <div class="form-group">
-                                                        <label translate="email"></label>
-                                                        <input type="text" class="form-control" ng-model="email" placeholder="Email" name="email">
-                                                     </div>
-                                                     <div class="form-group">
-                                                        <label translate="password"></label>
-                                                        <input type="password" class="form-control" ng-model="password" placeholder="password" name="password">
-                                                     </div>
-                                                     <div>
-                                                        <p style="color:blue" translate="dateOfBirth"></p>
-                                                       <input type="date" id="dateId" ng-model="userBirthDate" class="form-control" required="True" >
-                                                     </div>
-                                                     <div>
-                                                          <label translate="country"></label>
-                                                          <autocomplete ng-model="country" attr-placeholder="country..." country-enter="onEnter()" click-activation="true" data="countryDatas"  on-type="fillCountry" on-select="countrySelection"></autocomplete>
-                                                          <label translate="livesIn"></label>
-                                                          <autocomplete ng-model="city" attr-placeholder=" city..." city-enter="onEnter()" click-activation="true" data="cityDatas"  on-type="fillCity" on-select="citySelection"></autocomplete><br><br><br><br>
-                                                     </div>
-                                                     <input type="button" value="Update information" ng-click="updateRegistration()" class="btn btn-primary" translate="saveUpdate">
-                                                </form><br><br>
-                                             </div>
-
+                                            <div class="modal-body">
+                                              <div>
+                                                <p id="reactionAlert" class="alert alert-info myalert"></p>
+                                              </div>
+                                               <form role="form">
+                                                    <div class="form-group">
+                                                       <label translate="fullName"></label>
+                                                       <input type="text" class="form-control" ng-model="name" placeholder="Name" name="name">
+                                                    </div>
+                                                    <div class="form-group">
+                                                       <label translate="username"></label>
+                                                       <input type="text" class="form-control" ng-model="username" placeholder="username" name="username" disabled="true">
+                                                    </div>
+                                                    <div class="form-group">
+                                                       <label translate="email"></label>
+                                                       <input type="text" class="form-control" ng-model="email" placeholder="Email" name="email">
+                                                    </div>
+                                                    <div class="form-group">
+                                                       <label translate="password"></label>
+                                                       <input type="password" class="form-control" ng-model="password" placeholder="password" name="password">
+                                                    </div>
+                                                    <div>
+                                                       <p style="color:blue" translate="dateOfBirth"></p>
+                                                      <input type="date" id="dateId" ng-model="userBirthDate" class="form-control" required="True" >
+                                                    </div>
+                                                    <div>
+                                                         <label translate="country"></label>
+                                                         <autocomplete ng-model="country" attr-placeholder="country..." country-enter="onEnter()" click-activation="true" data="countryDatas"  on-type="fillCountry" on-select="countrySelection"></autocomplete>
+                                                         <label translate="livesIn"></label>
+                                                         <autocomplete ng-model="city" attr-placeholder=" city..." city-enter="onEnter()" click-activation="true" data="cityDatas"  on-type="fillCity" on-select="citySelection"></autocomplete><br><br><br><br>
+                                                    </div>
+                                                    <input type="button" value="Update information" ng-click="updateRegistration()" class="btn btn-primary" translate="saveUpdate">
+                                               </form>
+                                            </div>
                                       </div>
                                   </div>
                                 </div>
-                            </div>
-                        </div>
+                                <!-- ........................................... -->
+                          
                     </div>
                 </div>
             </div>

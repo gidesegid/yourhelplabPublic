@@ -46,20 +46,13 @@
                 background-color: #ffdddd;
                 border-left: 6px solid #f44336;
             }
-            .grey{
-              background-color: #BDBDBD;
-              border-left: 6px solid #585858;
-            }
-            .roza{
-              background-color: #9F81F7;
-              border-left: 6px solid #3104B4;
-            }
             .heading{
               font-size: 20px;
             }
             .detail{
               font-size: 18px;
             }
+
       </style>
    </head>
   <body ng-controller="logincontroller">
@@ -83,7 +76,7 @@
          </div>
       </div>
      </header>
-    <div class="row">
+    <div class="row backgroundColor">
         <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
             <!-- Form Elements -->
             <div>
@@ -105,47 +98,9 @@
                       <div class="col-lg-9 col-md-9 col-sm-12 col-xs-12">
                         <div class="" ng-hide="HomePageContent">
                           <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                            <strong translate="homePageInfo" style="font-family:'Rokkitt', serif;font-size:18px;" ></strong><br><br>
-                            <div class="danger col-lg-12">
-                              <strong translate="gettingAjob" class="heading"></strong>
-                              <span translate="getJobDesc" class="detail">Searching a job by selecting a profession from the profession list,selecting country followed by selecting city and click search.
-                              Then you will get list of professions similar to the selected profession at the selected city</span>
-                            </div><br><br>
-                            <div class="grey col-lg-12">
-                              <strong translate="gettingBestCandidate" class="heading"></strong>
-                              <span translate="getEmployeeDesc" class="detail">Search for employee is simply selecting profession from the list then select country followed by selecting a city then click search,you will get employees who are currently available for work at the selected city</span>
-                            </div><br><br>
-                             <div class="danger col-lg-12">
-                                <strong translate="postingAjob" class="heading"></strong>
-                                <span translate="postJobDesc" class="detail">You can post a job if you have any.Inorder to post a job you need to be registered with us then you can have more benefits of this website.</span>
-                              </div><br><br>
-                            <div class="roza col-lg-12">
-                              <strong><a href="/newsFromHome.html"  translate="gettingNews" class="heading"></a></strong>
-                              <span translate="getNewsDesc" class="detail">You can get upto date news,reading histories or see a discussions amoung people concerning different trends.</span>
-                            </div><br><br>
-                            <div class="grey col-lg-12">
-                              <strong><a href="/login.html"  translate="gettingAjobWithNoProfession" class="heading"></a></strong>
-                              <span translate="noProfessionDesc" class="detail">In this webiste you do not have to warry about having a profession or not,just register and we will find a job for you which does not require any profession.</span>
-                            </div>
-                            <div class="danger col-lg-12">
-                              <strong><a href="/login.html" translate="postingIssues" class="heading"></a></strong>
-                              <span translate="postingIssueDesc" class="detail">As human being we made many mistakes and sometimes we desprate getting solutions for them, hee don't warry this website is what for.We can connect you to different professionals for who belong to.</span>
-                            </div>
-                            <div class="danger col-lg-12">
-                              <strong><a href="/salethingsFromHome.html"  translate="gettingItemsToSale" class="heading"></a></strong>
-                              <span translate="getItemsToSaleDesc" class="detail">You can get items for sale which are probably cheaper in terms of price.</span>
-                            </div>
-                            <div class="grey col-lg-12">
-                              <strong><a href="/login.html" translate="privateChatsAndGroupChats" class="heading"></a></strong>
-                              <span translate="chatDesc" class="detail">You can chat privatly and in group but you have to register.</span>
-                            </div>
-                            <div class="roza col-lg-12">
-                              <strong><a href="/login.html" translate="postingHobies" class="heading"></a></strong><br>
-                              <span translate="postHobbiesDesc" class="detail">You can post work advertisments,hobbies and you will get reactions from users.</span>
-                            </div><br>
-                            <div class="danger col-lg-12">
-                              <strong><a href="/transportHomePage.html" translate="journeySchedules" class="heading"></a></strong>
-                              <span translate="journeyDesc" class="detail">You can schedule a journey and you can look what vehicle is available for your journey.</span>
+                            <strong id="text" translate="homePageInfo" style="font-family:'Rokkitt', serif;font-size:18px;color:white;" ></strong>
+                            <div class="col-lg-12 col-md-6 col-sm-12 col-xs-12">
+                              <img src="/assets/img/work.jpg" alt="">
                             </div>
                           </div>
                         </div>
@@ -258,4 +213,151 @@
     <script src="https://js.stripe.com/v3/"></script>
       <script type="text/javascript" src="/controller/autocomplete.js"></script>
   </body>
+  <script type="text/javascript">
+      $(document).ready(function() {
+          $("#toggle").click(function() {
+            var elem = $("#toggle").text();
+            if (elem == "Read More") {
+              //Stuff to do when btn is in the read more state
+              $("#toggle").text("Read Less");
+              $("#text").slideDown();
+            } else {
+              //Stuff to do when btn is in the read less state
+              $("#toggle").text("Read More");
+              $("#text").slideUp();
+            }
+          });
+          //toggleGetJobDesc
+          $("#toggleGetJobDesc").click(function() {
+            var elem = $("#toggleGetJobDesc").text();
+            if (elem == "Read More") {
+              //Stuff to do when btn is in the read more state
+              $("#toggleGetJobDesc").text("Read Less");
+              $("#getJobDesc").slideDown();
+            } else {
+              //Stuff to do when btn is in the read less state
+              $("#toggleGetJobDesc").text("Read More");
+              $("#getJobDesc").slideUp();
+            }
+          });
+          //toogleGetEmployeeDesc
+          $("#toogleGetEmployeeDesc").click(function() {
+            var elem = $("#toogleGetEmployeeDesc").text();
+            if (elem == "Read More") {
+              //Stuff to do when btn is in the read more state
+              $("#toogleGetEmployeeDesc").text("Read Less");
+              $("#getEmployeeDesc").slideDown();
+            } else {
+              //Stuff to do when btn is in the read less state
+              $("#toogleGetEmployeeDesc").text("Read More");
+              $("#getEmployeeDesc").slideUp();
+            }
+          });
+         //tooglePostJobDesc
+          $("#tooglePostJobDesc").click(function() {
+            var elem = $("#tooglePostJobDesc").text();
+            if (elem == "Read More") {
+              //Stuff to do when btn is in the read more state
+              $("#tooglePostJobDesc").text("Read Less");
+              $("#postJobDesc").slideDown();
+            } else {
+              //Stuff to do when btn is in the read less state
+              $("#tooglePostJobDesc").text("Read More");
+              $("#postJobDesc").slideUp();
+            }
+          });
+          //toogleGetNewsDesc
+          $("#toogleGetNewsDesc").click(function() {
+            var elem = $("#toogleGetNewsDesc").text();
+            if (elem == "Read More") {
+              //Stuff to do when btn is in the read more state
+              $("#toogleGetNewsDesc").text("Read Less");
+              $("#getNewsDesc").slideDown();
+            } else {
+              //Stuff to do when btn is in the read less state
+              $("#toogleGetNewsDesc").text("Read More");
+              $("#getNewsDesc").slideUp();
+            }
+          });
+          //toogleNoProfessionDesc
+          $("#toogleNoProfessionDesc").click(function() {
+            var elem = $("#toogleNoProfessionDesc").text();
+            if (elem == "Read More") {
+              //Stuff to do when btn is in the read more state
+              $("#toogleNoProfessionDesc").text("Read Less");
+              $("#noProfessionDesc").slideDown();
+            } else {
+              //Stuff to do when btn is in the read less state
+              $("#toogleNoProfessionDesc").text("Read More");
+              $("#noProfessionDesc").slideUp();
+            }
+          });
+          //tooglePostingIssueDesc
+          $("#tooglePostingIssueDesc").click(function() {
+            var elem = $("#tooglePostingIssueDesc").text();
+            if (elem == "Read More") {
+              //Stuff to do when btn is in the read more state
+              $("#tooglePostingIssueDesc").text("Read Less");
+              $("#postingIssueDesc").slideDown();
+            } else {
+              //Stuff to do when btn is in the read less state
+              $("#tooglePostingIssueDesc").text("Read More");
+              $("#postingIssueDesc").slideUp();
+            }
+          });
+          //toogleGetItemsToSaleDesc
+          $("#toogleGetItemsToSaleDesc").click(function() {
+            var elem = $("#toogleGetItemsToSaleDesc").text();
+            if (elem == "Read More") {
+              //Stuff to do when btn is in the read more state
+              $("#toogleGetItemsToSaleDesc").text("Read Less");
+              $("#getItemsToSaleDesc").slideDown();
+            } else {
+              //Stuff to do when btn is in the read less state
+              $("#toogleGetItemsToSaleDesc").text("Read More");
+              $("#getItemsToSaleDesc").slideUp();
+            }
+          });
+          //tooglechatDesc
+          $("#tooglechatDesc").click(function() {
+            var elem = $("#tooglechatDesc").text();
+            if (elem == "Read More") {
+              //Stuff to do when btn is in the read more state
+              $("#tooglechatDesc").text("Read Less");
+              $("#chatDesc").slideDown();
+            } else {
+              //Stuff to do when btn is in the read less state
+              $("#tooglechatDesc").text("Read More");
+              $("#chatDesc").slideUp();
+            }
+          });
+          //toogleJourneyDesc
+          $("#toogleJourneyDesc").click(function() {
+            var elem = $("#toogleJourneyDesc").text();
+            if (elem == "Read More") {
+              //Stuff to do when btn is in the read more state
+              $("#toogleJourneyDesc").text("Read Less");
+              $("#journeyDesc").slideDown();
+            } else {
+              //Stuff to do when btn is in the read less state
+              $("#toogleJourneyDesc").text("Read More");
+              $("#journeyDesc").slideUp();
+            }
+          });
+          //tooglePostHobbiesDesc
+          $("#tooglePostHobbiesDesc").click(function() {
+            var elem = $("#tooglePostHobbiesDesc").text();
+            if (elem == "Read More") {
+              //Stuff to do when btn is in the read more state
+              $("#tooglePostHobbiesDesc").text("Read Less");
+              $("#postHobbiesDesc").slideDown();
+            } else {
+              //Stuff to do when btn is in the read less state
+              $("#tooglePostHobbiesDesc").text("Read More");
+              $("#postHobbiesDesc").slideUp();
+            }
+          });
+
+     });
+  </script>
 </html>

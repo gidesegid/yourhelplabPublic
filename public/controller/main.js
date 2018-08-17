@@ -442,7 +442,8 @@
              journeyByPlane:'Do you need to travel by Air plane please contact us for a cheap ticket.',
              sendMoney:'Do you need money transfer to Eritrea using western union legaly ? then contact us.',
              passengers:'Passengers',
-             transports:'transports'
+             transports:'transports',
+             writeCityNameWhereULive:'Please write name of the city where you live in'
           })
           .translations('NL', {
             loginHeadline: 'Login',
@@ -742,7 +743,8 @@
              journeyByPlane:'Wilt u reizen per vliegtuig, neem dan contact met ons op voor een goedkoop ticket.',
              sendMoney:'Heeft u geldtransfers naar Eritrea nodig met behulp van Western Legaly? neem dan contact met ons op.',
              passengers:'passagiers',
-             transports:'transporten'
+             transports:'transporten',
+             writeCityNameWhereULive:'voer de naam in van de stad waar je woont'
           })
           .translations('TG', {
             loginHeadline: 'መእተዊ',
@@ -1044,7 +1046,8 @@
              journeyByPlane:'ጉዕዞ ብ ነፋሪት <br> ጉዕዞ ብ ነፋሪት ኣለኩም ?ጽቡቅ እምበኣር ኣብዚ ብሕሱር ቲኬት ክንረኽበልኩም ንኽእል።መጀመርያ ግን ኣብዚ ስምኩምን ተለፎንኩምን ጸሓፉ ብድሕርኡ  ንዝሓሸ መንገዲ ጉዕዞኹም ዝምልከት ንኽንመያየጥ ኣብዚሓጸረ እዋን ክንድውለልኩም ኢና ።ሕጂ ግን ኣብዚ ትሪኢዎ ዘለኹም ቦታ ብውሑዱ ተለፎንኩም ጽሒፍኩም ኣብ ስደድ ዝብል ዘሎ መልጎም ጠውቑ ሞ ብድሕሪኡ ባዕልና ክንድውለልኩም ኢና።',
              sendMoney:'ገንዘብ ናብ ኤርትራ ብሕጋዊ መንገዲ ምስዳድ <br>ገንዘብ ናብ ኤርትራ ብሕጋዊ ክትሰዱ ደሊኹም? ጸገም የለን ኣብዚ እዋን ዚ ገንዘብ ምስዳድ ን ኤርትራ ብ ጸሊም ይኹን ብ ሕጋዊ ኩሉ ማዕረ ስለዝኾነ ካብሎሚ ብሕጋዊ ገንዘብ ክትሰዱ ከምትኻሉ ክንሕብረኩም ንፈቱ ።እምባኣር ነዚ ንምግባር ተለፎንኩም ኣብዚ ጸሓፉ እሞ ባዕልና ክንረኽበኩም ኢና ብኸመይ ይኸውን ከኣ ከነዘራርበኩምን ክንገልጸልኩምን ኢና።እምበኣር መልእኽትኹም ብፍላይ ከኣ ተለፎንኩም ጸሒፍኩም ኣብ ስደድ ዝብል ዘሎ መልጎም ጠውቑ ሞ ብድሕሪኡ ባዕልና ክንረኽበኩም ኢና።',
              passengers:'ተጎዓዝቲ',
-             transports:'ኣብዚ ቦታ ዚ በዚ ዝመረጽኩሞ ዕለት ተመዝጊበን ዘለዋ መጓዓዝያታት'
+             transports:'ኣብዚ ቦታ ዚ በዚ ዝመረጽኩሞ ዕለት ተመዝጊበን ዘለዋ መጓዓዝያታት',
+             writeCityNameWhereULive:'ትነብሩላ ከተማ ኣብዚ ጸሓፉ'
 
           });
           $translateProvider.preferredLanguage('EN');
@@ -1144,6 +1147,18 @@
                       });
                    }
                 }
+                $scope.fillCityAtRegistration = function(){
+                    var data=null
+                   if($scope.countrySelectionAtRegistration==undefined){
+                      alert("select country")
+                    }else{
+                      var dataPromise = cityRetriever.getCity($scope.city,$scope.countryDatas);
+                        $scope.datas=null;
+                        dataPromise.then(function(data){
+                        $scope.cityDatas = data;
+                       });
+                    }
+                 }
                 $scope.fillProfession = function(){
                     var data=null
                     var dataPromise = professionRetriever.getProfession($scope.profession,$scope.languageKey);
@@ -1429,6 +1444,7 @@
                     genderInfo.webCollectionId='gen'
                     alertService.getWebCollections(genderInfo).then(function(response){
                         $scope.userGenderModel=response.data
+                        console.log("user gender "+$scope.userGenderModel)
                     })
               }
               getUserGender();
@@ -1480,8 +1496,123 @@
                       alert("you are over age")
                     }
             };
+          function registrationFieldsChecker(){
+
+                if ($scope.languageKey=='TG'){
+                    $scope.fieldChecker="";
+                  if ($scope.name==undefined){
+                    alert("ስም የእትዉ");
+                    $scope.fieldChecker="no filled";
+                  }else if ($scope.username===undefined){
+                    alert("መጠቀሚ ስም የእትዉ");
+                    $scope.fieldChecker="no filled";
+                  }else if ($scope.email==undefined){
+                      alert("ኢመይልኩም የእትዉ")
+                      $scope.fieldChecker="no filled";
+                  }else if ($scope.password==undefined){
+                    alert("ቃለ ምስጢር የእትዉ")
+                    $scope.fieldChecker="no filled";
+                  }else if ($scope.password!=$scope.password2){
+                    alert("ዘእተኹሞ ቃለ ምስጢር ምስ ካልኣይ ግዜ ዘእተኹሞ ቃለ ምስጢር ሓደ እይኮነን")
+                    $scope.fieldChecker="no filled";
+                  }else if ($scope.userBirthDate==undefined){
+                     alert("ዕለተ ልደት የእትዉ");
+                     $scope.fieldChecker="no filled";
+                  }else if ($scope.userGender===undefined){
+                    alert("ጾታ ምረጹ");
+                    $scope.fieldChecker="no filled";
+                  }else if ($scope.country ===undefined){
+                    alert("ሃገር ምረጹ")
+                    $scope.fieldChecker="no filled";
+                  }else if ($scope.city===undefined){
+                    alert("ትቅመጥሉ ከተማ ምረጹ");
+                    $scope.fieldChecker="no filled";
+                  }else if ($scope.notStatedHere==true && $scope.city===undefined){
+                    alert("ትቅመጥሉ ከተማ ጸሓፉ")
+                    $scope.fieldChecker="no filled";
+                  }else{
+                    $scope.fieldChecker="allFieldsAreFilled";
+                  }
+                }else if ($scope.languageKey=='NL'){
+                    $scope.fieldChecker="";
+                  if ($scope.name==undefined){
+                    alert("Voer naam in");
+                    $scope.fieldChecker="no filled";
+                  }else if ($scope.username===undefined){
+                    alert("Vul je gebruikersnaam in");
+                    $scope.fieldChecker="no filled";
+                  }else if ($scope.email==undefined){
+                      alert("Voer email in")
+                      $scope.fieldChecker="no filled";
+                  }else if ($scope.password==undefined){
+                    alert("voer wachtwoord in")
+                    $scope.fieldChecker="no filled";
+                  }else if ($scope.password!=$scope.password2){
+                    alert("Wachtwoord komt niet overeen")
+                    $scope.fieldChecker="no filled";
+                  }else if ($scope.userBirthDate==undefined){
+                     alert("voer geboortedag in");
+                     $scope.fieldChecker="no filled";
+                  }else if ($scope.userGender===undefined){
+                    alert("selecteer geslacht");
+                    $scope.fieldChecker="no filled";
+                  }else if ($scope.country ===undefined){
+                    alert("Selecteer een land")
+                    $scope.fieldChecker="no filled";
+                  }else if ($scope.city===undefined){
+                    alert("selecteer stad");
+                    $scope.fieldChecker="no filled";
+                  }else if ($scope.notStatedHere==true && $scope.city===undefined){
+                    alert("Voer een plaatsnaam in")
+                    $scope.fieldChecker="no filled";
+                  }else{
+                    $scope.fieldChecker="allFieldsAreFilled";
+                  }
+                }else{
+                   $scope.fieldChecker="";
+                  if ($scope.name==undefined){
+                    alert("Enter name");
+                    $scope.fieldChecker="no filled";
+                  }else if ($scope.username===undefined){
+                    alert("Enter user name");
+                    $scope.fieldChecker="no filled";
+                  }else if ($scope.email==undefined){
+                      alert("Enter email")
+                      $scope.fieldChecker="no filled";
+                  }else if ($scope.password==undefined){
+                    alert("enter password")
+                    $scope.fieldChecker="no filled";
+                  }else if ($scope.password!=$scope.password2){
+                    alert("Password mismatch")
+                    $scope.fieldChecker="no filled";
+                  }else if ($scope.userBirthDate==undefined){
+                     alert("enter birth day");
+                     $scope.fieldChecker="no filled";
+                  }else if ($scope.userGender===undefined){
+                    alert("select gender");
+                    $scope.fieldChecker="no filled";
+                  }else if ($scope.selectedCountryOnRegistration ===undefined){
+                    alert("select a country")
+                    $scope.fieldChecker="no filled";
+
+                  }else if ($scope.notStatedHere==true){
+                      if($scope.city===undefined){
+                        alert("Write a city name,city where you live in")
+                        $scope.fieldChecker="not filled";
+                      }
+                  }else if ($scope.notStatedHere==false || $scope.notStatedHere==undefined){
+                     if ($scope.selectedCityOnRegistration==undefined){
+                       alert("Enter a city name,city where you live in")
+                       $scope.fieldChecker="not filled";
+                     }
+                  }else{
+                    $scope.fieldChecker="allFieldsAreFilled";
+                  }
+                }
+            }
              //register the user
-            $scope.register=function(isValid){
+            $scope.register=function(){
+                    registrationFieldsChecker();
                     var todayDate =$scope.userBirthDate;
                     var birthDateYear = todayDate.getFullYear();
                     var todayMonth = todayDate.getMonth();
@@ -1505,28 +1636,29 @@
                       userRegistration.languageModel=$scope.languageModel;
                       userRegistration.birthDate=$scope.userBirthDate;
                       userRegistration.gender=$scope.userGender.Id;
-                      userRegistration.country=$scope.country;
+                      userRegistration.country=$scope.selectedCountryOnRegistration;
                     //  userRegistration.photo=$scope.photo;
                       if($scope.notStatedHere==true){
                         userRegistration.livesIn=$scope.city;
                       }else{
-                        userRegistration.livesIn=$scope.city;
+                        userRegistration.livesIn=$scope.selectedCityOnRegistration;
                       }
-                      if(isValid){
-                           if($scope.password===$scope.password2){
-                               $http.post('/jobFinder/register',userRegistration).then(function(response){
-                                    $scope.userId=response.data
-                                    $scope.signUpAlert=true;
-                                    $scope.LoginBox = !$scope.LoginBox;
-                                    $scope.RegisterBox = !$scope.RegisterBox;
-                                })
-                            }else{
-                              alert("password mismatch");
+                            if($scope.fieldChecker===''){
+                              $http.post('/jobFinder/register',userRegistration).then(function(response){
+                                   $scope.userId=response.data
+                                   console.log("here is answer from  server "+response.data)
+                                   $scope.signUpAlert=true;
+                                   $scope.LoginBox = !$scope.LoginBox;
+                                   $scope.RegisterBox = !$scope.RegisterBox;
+                               })
                             }
-                      }else{
-                       alert("Fill all fields pls");
-                      }
                     }
+            }
+            $scope.citySelectionAtRegistration=function(){
+              $scope.selectedCityOnRegistration=$scope.cityDatas;
+            }
+            $scope.countrySelectionAtRegistration=function(){
+              $scope.selectedCountryOnRegistration=$scope.countryDatas
             }
             var languageId;
             $scope.english=function(){
@@ -1691,6 +1823,7 @@
                       data.livesIn=$scope.selectedCity;
                   $http.post('/jobFinder/updateUserInfo',data).then(function(response){
                    alertService.handleRegistrationUpdates();
+                   alert("successfully updated");
                   });
            }
       })
@@ -3763,7 +3896,7 @@
                  var data={}
                  data.token=$scope.Authenticate;
          //populating transport type to dropbox and cities  to city dropdown
-            var transportationArray=["Train","Bus","Tax","Metro","brommer","Vlietuig","Schip","Boat","Vrachtwagen","Fiets"]
+            var transportationArray=["Train(Trein)","Bus(trgirna)","Tax","Metro","brommer","Vlietuig","Schip","Boat","Vrachtwagen","Fiets"]
             $scope.transports=transportationArray;
                  alertService.getCurrentUserId(data).then(function(response){
                    $scope.idUser=response.data
