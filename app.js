@@ -27,6 +27,18 @@ app.use(bodyParser.urlencoded({extended:false}));
  var http = require('http').Server(app);
  var io = require("socket.io")(http);
  var socket=require('./socket/socket.js')(io);
+ function lineBreakCount(str){
+  /* counts \n */
+  try {
+    return console.log(((str.match(/[^\n]*\n[^\n]*/gi).length)));
+  } catch(e) {
+    return 0;
+  }
+}
+var mystring=" sfsdfdfsdfsdfsdf sdfsdfsdfsfsf fsfsdfsdff"
+lineBreakCount(mystring)
 http.listen(port, function(){
+
         console.log('The server yourhelplab.com is running...');
+        lineBreakCount(mystring)
  });

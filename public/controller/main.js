@@ -313,7 +313,7 @@
              country:'Country',
              ILiveOutSideNetherlands:'Do you live outside the Netherlands?',
              cityOrTown:'City/town/village',
-             save:'Ok',
+             sendNewsText:'Send text',
              chooseCity:'Choose city',
              mobileProblems:'Mobile Problems',
              computerProblems:'Computer Problems',
@@ -443,7 +443,8 @@
              sendMoney:'Do you need money transfer to Eritrea using western union legaly ? then contact us.',
              passengers:'Passengers',
              transports:'transports',
-             writeCityNameWhereULive:'Please write name of the city where you live in'
+             writeCityNameWhereULive:'Please write name of the city where you live in',
+             travelByMeansOfTransport:'Travel informations'
           })
           .translations('NL', {
             loginHeadline: 'Login',
@@ -614,7 +615,7 @@
              country:'Land',
              ILiveOutSideNetherlands:'Woon je buiten Nederland?',
              cityOrTown:'stad/dorp',
-             save:'Ok',
+             sendNewsText:'Stuur tekst',
              chooseCity:'Kies stad',
              mobileProblems:'Mobiele problemen',
              computerProblems:'Computerproblemen',
@@ -744,7 +745,8 @@
              sendMoney:'Heeft u geldtransfers naar Eritrea nodig met behulp van Western Legaly? neem dan contact met ons op.',
              passengers:'passagiers',
              transports:'transporten',
-             writeCityNameWhereULive:'voer de naam in van de stad waar je woont'
+             writeCityNameWhereULive:'voer de naam in van de stad waar je woont',
+             travelByMeansOfTransport:'reisinformatie'
           })
           .translations('TG', {
             loginHeadline: 'መእተዊ',
@@ -916,7 +918,7 @@
              country:'ትነብረሉ ሃገር',
              ILiveOutSideNetherlands:'ካብ ነዘርላንድ ወጻኢ ዲኹም ትነብሩ ?',
              cityOrTown:'ትነብረሉ ከተማ ወይ ዓዲ',
-             save:'ሕራይ',
+             sendNewsText:'ጽሑፍ ስደድ',
              chooseCity:'ከተማ ምረጽ',
              mobileProblems:'ናይ ሞባይል ጸገም',
              computerProblems:'ናይ ኮምፑተር ጸገም',
@@ -1047,7 +1049,8 @@
              sendMoney:'ገንዘብ ናብ ኤርትራ ብሕጋዊ መንገዲ ምስዳድ <br>ገንዘብ ናብ ኤርትራ ብሕጋዊ ክትሰዱ ደሊኹም? ጸገም የለን ኣብዚ እዋን ዚ ገንዘብ ምስዳድ ን ኤርትራ ብ ጸሊም ይኹን ብ ሕጋዊ ኩሉ ማዕረ ስለዝኾነ ካብሎሚ ብሕጋዊ ገንዘብ ክትሰዱ ከምትኻሉ ክንሕብረኩም ንፈቱ ።እምባኣር ነዚ ንምግባር ተለፎንኩም ኣብዚ ጸሓፉ እሞ ባዕልና ክንረኽበኩም ኢና ብኸመይ ይኸውን ከኣ ከነዘራርበኩምን ክንገልጸልኩምን ኢና።እምበኣር መልእኽትኹም ብፍላይ ከኣ ተለፎንኩም ጸሒፍኩም ኣብ ስደድ ዝብል ዘሎ መልጎም ጠውቑ ሞ ብድሕሪኡ ባዕልና ክንረኽበኩም ኢና።',
              passengers:'ተጎዓዝቲ',
              transports:'ኣብዚ ቦታ ዚ በዚ ዝመረጽኩሞ ዕለት ተመዝጊበን ዘለዋ መጓዓዝያታት',
-             writeCityNameWhereULive:'ትነብሩላ ከተማ ኣብዚ ጸሓፉ'
+             writeCityNameWhereULive:'ትነብሩላ ከተማ ኣብዚ ጸሓፉ',
+             travelByMeansOfTransport:'ሓበሬታ መጓዓዝያታት'
 
           });
           $translateProvider.preferredLanguage('EN');
@@ -1371,6 +1374,7 @@
             $scope.getItemForSale=function(){
                $http.post('/jobFinder/postThingsForSaleOnHomePage').then(function(response){
                  $scope.alldata=response.data
+                 console.log("items for sale "+response.data)
                })
             }
             $scope.findCandidate=function(){
@@ -1521,15 +1525,20 @@
                   }else if ($scope.userGender===undefined){
                     alert("ጾታ ምረጹ");
                     $scope.fieldChecker="no filled";
-                  }else if ($scope.country ===undefined){
-                    alert("ሃገር ምረጹ")
+                   }else if ($scope.selectedCountryOnRegistration ===undefined){
+                    alert("ትነብሩሉ ሃገር ምረጹ")
                     $scope.fieldChecker="no filled";
-                  }else if ($scope.city===undefined){
-                    alert("ትቅመጥሉ ከተማ ምረጹ");
-                    $scope.fieldChecker="no filled";
-                  }else if ($scope.notStatedHere==true && $scope.city===undefined){
-                    alert("ትቅመጥሉ ከተማ ጸሓፉ")
-                    $scope.fieldChecker="no filled";
+
+                  }else if ($scope.notStatedHere==true){
+                      if($scope.city===undefined){
+                        alert("ትነብሩሉ ዓዲ ወይ ከተማ የእትዉ")
+                        $scope.fieldChecker="not filled";
+                      }
+                  }else if ($scope.notStatedHere==false || $scope.notStatedHere==undefined){
+                     if ($scope.selectedCityOnRegistration==undefined){
+                       alert("ትነብሩሉ ከተማ ምረጹ")
+                       $scope.fieldChecker="not filled";
+                     }
                   }else{
                     $scope.fieldChecker="allFieldsAreFilled";
                   }
@@ -1556,15 +1565,20 @@
                   }else if ($scope.userGender===undefined){
                     alert("selecteer geslacht");
                     $scope.fieldChecker="no filled";
-                  }else if ($scope.country ===undefined){
-                    alert("Selecteer een land")
+                   }else if ($scope.selectedCountryOnRegistration ===undefined){
+                    alert("selecteer land")
                     $scope.fieldChecker="no filled";
-                  }else if ($scope.city===undefined){
-                    alert("selecteer stad");
-                    $scope.fieldChecker="no filled";
-                  }else if ($scope.notStatedHere==true && $scope.city===undefined){
-                    alert("Voer een plaatsnaam in")
-                    $scope.fieldChecker="no filled";
+
+                  }else if ($scope.notStatedHere==true){
+                      if($scope.city===undefined){
+                        alert("Schrijf een stadsnaam, stad waar je woont")
+                        $scope.fieldChecker="not filled";
+                      }
+                  }else if ($scope.notStatedHere==false || $scope.notStatedHere==undefined){
+                     if ($scope.selectedCityOnRegistration==undefined){
+                       alert("Voer een plaatsnaam in, stad waar je woont")
+                       $scope.fieldChecker="not filled";
+                     }
                   }else{
                     $scope.fieldChecker="allFieldsAreFilled";
                   }
@@ -3880,7 +3894,6 @@
         //post public assets
                   $scope.sharedData = srvShareData.getData();
                   if($scope.sharedData.length==0){
-
                   }else {
                     $scope.sharedDataUserName=$scope.sharedData[0];
                     $scope.userFullName=$scope.sharedDataUserName[1];
@@ -3896,7 +3909,7 @@
                  var data={}
                  data.token=$scope.Authenticate;
          //populating transport type to dropbox and cities  to city dropdown
-            var transportationArray=["Train(Trein)","Bus(trgirna)","Tax","Metro","brommer","Vlietuig","Schip","Boat","Vrachtwagen","Fiets"]
+            var transportationArray=["Train(ባቡር)","Bus(ኣውቶቡስ)","Tax(ታክሲ)","Subway(ሜትሮ)","moped(ሞተረ ብሽግለታ)","Plane(ነፋሪት)","Ship(መርከብ)","Boat(ጃልባ)","Truck(ናይ ጽዕነት ኤነትረ)","Bicycle(ብሽግለታ)"]
             $scope.transports=transportationArray;
                  alertService.getCurrentUserId(data).then(function(response){
                    $scope.idUser=response.data
@@ -3910,6 +3923,14 @@
                       alert("Take care! your previous transport selection is not  working now anymore, unless you select it again at your next step if necessary for you.")
                     }
                   }
+                }
+                 $scope.showMeansOfTransport=function(){
+                  $scope.airPlaneJourney=!$scope.airPlaneJourney
+                  $scope.travelInfo=!$scope.travelInfo
+                }
+                $scope.travelByAirPlane=function(){
+                  $scope.airPlaneJourney=!$scope.airPlaneJourney
+                  $scope.travelInfo=!$scope.travelInfo
                 }
           //save information of travelers like traveller name,email,from city ,to city
            $scope.contactTransportSubmition=function(){
@@ -4193,52 +4214,96 @@
 
              }
               //a detail lookup if someone is going to travel to the same place you go
-                $scope.detailTravelInfo=function(){
-                  if($scope.passengerId==undefined){
-
-                  }else {
-                      requestAcceptance();
+    $scope.detailTravelInfo=function(){
+          var selectedDate = new Date($scope.date)
+          var selectedDay = selectedDate.getDate();
+          var selectedMonth = selectedDate.getMonth()+1; //January is 0!
+          var selectedYear = selectedDate.getFullYear();
+          var userSelectedDate=selectedDay+","+selectedMonth+","+selectedYear
+          todayDate=new Date(Date.now())
+          todayDay=todayDate.getDate();
+          todayMonth=todayDate.getMonth()+1;
+          todayYear=todayDate.getFullYear();
+         var today=todayDay+","+todayMonth+","+todayYear
+            if(todayYear==selectedYear){
+                if(todayMonth>selectedMonth){
+                  if($scope.languageKey=='TG'){
+                    $scope.requestReply="ኣብ ምምራጽ ወርሒ ተጋጊኹም ኣለኹም።እዚ ዘለናዮ ወርሒ ወይ ካብዚ ወርሒ ዚ ንንየው ዘለዉ ኣዋርሕ ክንመርጽ ኣለና."
+                  }else if($scope.languageKey=='NL'){
+                   $scope.requestReply="maand moet deze maand of volgende maand zijn vanaf deze maand."
+                  }else{
+                    $scope.requestReply="month has to be this month or next months from this month."
                   }
-                    var data={};
-                    var convertedDate=$filter('date')($scope.date, "yyyy-MM-dd")
-                    data.toConvert=$scope.date;
-                    data.date=$scope.date
-                    data.fromPlace=$scope.fromCity
-                    data.toPlace=$scope.toCity
-                    data.transportChoosed=$scope.transportChoosed
-                    if(data.date==undefined || data.fromPlace==undefined || data.toPlace==undefined || data.transportChoosed==undefined){
-                      if($scope.languageKey=='TG'){
-                        $scope.requestReply="ኩሎም ዝምልኡ ቦታታት ምልእዎም። ዕለት፣ካብ፣ናብ፣ብ   ዝብሉ ዘለዉ ቦታታት ብግቡእ ምልእዎም ብድሕሪኡ ኣብ ጉዕዞ ተዓዘብ ዝብል ጠውቕ።"
+                 
+                }else{
+                  if(todayDay>selectedDay){
+                     if($scope.languageKey=='TG'){
+                        $scope.requestReply="ኣብ ምምራጽ መዓልቲ ተጋጊኹም ኣለኹም።እዚ ዘለናዮ መዓልቲ ወይ ካብ ሎምዓልቲ ንንየው ዘለዉ መዓልታት ክንመርጽ ኣለና."
                       }else if($scope.languageKey=='NL'){
-                        $scope.requestReply="Vul alle velden in alstublieft."
+                       $scope.requestReply="Dag moet deze dag of volgende dagen zijn vanaf deze dag."
                       }else{
-                        $scope.requestReply="Fill all fields please.";
+                        $scope.requestReply="month has to be this month or next months from this month."
                       }
-                    }else{
-                      $http.post('/jobFinder/transportLookUp',data).then(function(response){
-                        $scope.numberOfTravellersToThisPlace=response.data
-                        if($scope.numberOfTravellersToThisPlace.length==0){
-                          if($scope.languageKey=='TG'){
-                            $scope.requestReply="ኣብዚ ዝመረጽኩሞ ቦታን ዕለትን ዝተመዝገበ ተጓዓዛይ የለን።ስለዚ ቀዳሞት ተጎዓዝቲ ንኽትኾኑ ተመዝገቡ።ዝኾነ ዘይተረዳኣኹም ነገር እንተሃልዩ ኣብ ልዕሊ መልእኽቲ ብምስዳድ ክትረኽቡናን ዝያዳ ሓበሬታ ክትረኽቡን ትኽእሉ።"
-                            $scope.passengersList=false;
-                          }else if($scope.languageKey=='NL'){
-                            $scope.requestReply="Geen passagiers in dit gebied nog, wees de eerste om te registreren als passagier van de datum in dit gebied."
-                            $scope.passengersList=false;
-                          }else{
-                            $scope.requestReply="No passengers in this area yet, be the first  to register as passenger of the date at this area."
-                            $scope.passengersList=false;
-                          }
-
-                        }else{
-                          $scope.requestReply=""
-                          $scope.passengersList=true;
-
-                        }
-                      })
-                      getTransport();
-                    }
-
+                  }else{
+                    getTravelInfo();
                   }
+                }
+            }else{
+               if($scope.languageKey=='TG'){
+                    $scope.requestReply="ዝምረጽ ዓመት እዚ ዘለናዮ ዓመት ክኸውን ኣለዎ።"
+                  }else if($scope.languageKey=='NL'){
+                   $scope.requestReply="Een geselecteerd jaar moet dit jaar zijn."
+                  }else{
+                    $scope.requestReply="A selected year has to be this year"
+                  }
+            }
+
+    }
+        function getTravelInfo(){
+           if($scope.passengerId==undefined){
+
+              }else {
+                  requestAcceptance();
+              }
+                var data={};
+                var convertedDate=$filter('date')($scope.date, "yyyy-MM-dd")
+                data.toConvert=$scope.date;
+                data.date=$scope.date
+                data.fromPlace=$scope.fromCity
+                data.toPlace=$scope.toCity
+                data.transportChoosed=$scope.transportChoosed
+                if(data.date==undefined || data.fromPlace==undefined || data.toPlace==undefined || data.transportChoosed==undefined){
+                  if($scope.languageKey=='TG'){
+                    $scope.requestReply="ኩሎም ዝምልኡ ቦታታት ምልእዎም። ዕለት፣ካብ፣ናብ፣ብ   ዝብሉ ዘለዉ ቦታታት ብግቡእ ምልእዎም ብድሕሪኡ ኣብ ጉዕዞ ተዓዘብ ዝብል ጠውቕ።"
+                  }else if($scope.languageKey=='NL'){
+                    $scope.requestReply="Vul alle velden in alstublieft."
+                  }else{
+                    $scope.requestReply="Fill all fields please.";
+                  }
+                }else{
+                  $http.post('/jobFinder/transportLookUp',data).then(function(response){
+                    $scope.numberOfTravellersToThisPlace=response.data
+                    if($scope.numberOfTravellersToThisPlace.length==0){
+                      if($scope.languageKey=='TG'){
+                        $scope.requestReply="ኣብዚ ዝመረጽኩሞ ቦታን ዕለትን ዝተመዝገበ ተጓዓዛይ የለን።ስለዚ ቀዳሞት ተጎዓዝቲ ንኽትኾኑ ተመዝገቡ።ዝኾነ ዘይተረዳኣኹም ነገር እንተሃልዩ ኣብ ልዕሊ መልእኽቲ ብምስዳድ ክትረኽቡናን ዝያዳ ሓበሬታ ክትረኽቡን ትኽእሉ።"
+                        $scope.passengersList=false;
+                      }else if($scope.languageKey=='NL'){
+                        $scope.requestReply="Geen passagiers in dit gebied nog, wees de eerste om te registreren als passagier van de datum in dit gebied."
+                        $scope.passengersList=false;
+                      }else{
+                        $scope.requestReply="No passengers in this area yet, be the first  to register as passenger of the date at this area."
+                        $scope.passengersList=false;
+                      }
+
+                    }else{
+                      $scope.requestReply=""
+                      $scope.passengersList=true;
+
+                    }
+                  })
+                  getTransport();
+                }
+        }
                 function getTransport(){
                   var data={}
                    var convertedDate=$filter('date')($scope.date, "yyyy-MM-dd")
@@ -4308,8 +4373,17 @@
                     }
                   })
                 }
+                 // function myage() {
+                 //      var todayDate =$scope.userBirthDate;
+                 //          var birthDateYear = todayDate.getFullYear();
+                 //          var todayMonth = todayDate.getMonth();
+                 //          var todayDay = todayDate.getDate();
+                 //          var today=new Date()
+                 //          // var todayYear=today.getFullYear();
+                 //          // var myage = todayYear-birthDateYear;
+                          
+                 //  };
                 function getMyInfo(){
-
                   $http.post('/jobFinder/getMyInfo',data).then(function(response){
                     $scope.myinfodata=response.data;
                     $scope.passengerId=response.data[0].id
@@ -4361,6 +4435,7 @@
                 $scope.backToDailyLifeHomePage=function(){
                   $window.location="/jobFinder/dailyLifeHappenings/"+$scope.userFullName
                 }
+
       });
 //work transactions
      myApp.controller('workTransactionCtrl',function($scope,$http,srvShareData,$window,$location,alertService,socket){

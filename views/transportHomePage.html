@@ -45,52 +45,56 @@
                         <p class="pull-right searchesLogin"><a href="/login.html" class="headerText" translate="loginHeadline">Login</a></p><br>
                       </div>
                  </div>
-                 <div >
               </div>
              </div>
           </div>
-         </header>
-        <div class="panel-body">
-          <div class="col-lg-12">
-            <div class="col-lg-5 alert-info">
-              <div class="" style="padding-left:10px;padding-right:10px;">
-                <strong translate="journeyByPlane">Do you have journey by plane?</strong>
-                <textarea ng-model="airTravelMessage" rows="2" class="form-control" cols="80" placeholder="message,telephone"></textarea>
-                <button type="button" translate="send" class="btn-lg btn-primary" name="button" ng-click="airTravel()">send</button>
-              </div>
-            </div>
-            <div class="col-lg-1">
-
-            </div>
-            <div class="col-lg-5 alert-success">
-              <div class="" style="padding-left:10px;padding-right:10px;">
-                <strong translate="sendMoney">Do you need to send money to Eritrea by western union which is legal?</strong>
-                <textarea ng-model="moneyTransferRequestMessage" class="form-control" rows="2" cols="80" placeholder="message,telephone"></textarea>
-                <button type="button" translate="send" class="btn-lg btn-primary"  name="button" ng-click="moneyTransferRequest()">send</button>
-              </div>
-            </div>
-          </div>
-         <div class="col-lg-12">
-           <label class="alert-danger">{{requestReply}}</label>
+        </header>
+       <div class="col-lg-2" style="background-color:rgb(234, 217, 204);">
+        <br>
+         <div style="background-color:rgb(244, 149, 65);">
+           <span ><a href="" ng-click="showMeansOfTransport()" style="font-size:20px;" translate="travelByMeansOfTransport">Travel</a></span>
+         </div><br>
+         <div style="background-color:rgb(244, 149, 65);">
+           <span style="font-size:20px;"> <a href="" ng-click="travelByAirPlane()" translate="journeyByPlane">Travel by AirPlane</a></span>
          </div>
-          <div class="col-lg-12">
-              <div class="col-lg-4" style="background-color:rgb(160, 185, 219);">
-                  <label translate="date">Date:</label><input type="date" ng-model="date" class="form-control" required>
-                  <label translate="from"></label>
-                  <autocomplete ng-model="fromCity" attr-placeholder=" from city..." city-enter="onEnter()" click-activation="true" data="cityDatas"  on-type="fillFromCity" on-select="cityFromSelection"></autocomplete>
-                  <label translate="to">To:</label>
-                  <autocomplete ng-model="toCity" attr-placeholder=" to city..." city-enter="onEnter()" click-activation="true" data="cityDatas"  on-type="fillToCity" on-select="cityToSelection"></autocomplete>
-                   <label translate="by">By</label><select  id="transportTypeId" class="form-control" ng-options="transport for transport in transports" ng-change="transportChoosedSelection()" ng-model="transportChoosed">
-                  </select><br>
-                    <button class="btn-danger btn-lg" ng-click="detailTravelInfo()" translate="seeTravelInfo"></button><br><br>
-                    <span translate="registerToTravelByAnyTransport"> </span><a href="/login.html" data-toggle="modal" ng-click="myInfo()" translate="clickHere"></a>
+          
+        
+         <!-- <a href="" ng-click="moneyTransfer()">Money Transfer</a> -->
+       </div>
+       <div class="col-lg-10">
+              <label class="alert-danger">{{requestReply}}</label>
+              <div class="col-lg-5 alert-info" ng-show="airPlaneJourney">
+                <div class="" style="padding-left:10px;padding-right:10px;">
+                  <strong translate="journeyByPlane">Do you have journey by plane?</strong>
+                  <textarea ng-model="airTravelMessage" rows="2" class="form-control" cols="80" placeholder="message,telephone"></textarea>
+                  <button type="button" translate="send" class="btn-lg btn-primary" name="button" ng-click="airTravel()">send</button>
+                </div>
+              </div> 
+              <div class="col-lg-5 alert-success" ng-show="moneyTransfer">
+                <div class="" style="padding-left:10px;padding-right:10px;">
+                  <strong translate="sendMoney">Do you need to send money to Eritrea by western union which is legal?</strong>
+                  <textarea ng-model="moneyTransferRequestMessage" class="form-control" rows="2" cols="80" placeholder="message,telephone"></textarea>
+                  <button type="button" translate="send" class="btn-lg btn-primary"  name="button" ng-click="moneyTransferRequest()">send</button>
+                </div>
               </div>
-              <div class="col-lg-8" style="overflow-y: scroll;height:400px;">
+              <div ng-hide="travelInfo">
+                 <div class="col-lg-3" style="background-color:rgb(160, 185, 219);">
+                    <label translate="date">Date:</label><input type="date" ng-model="date" class="form-control" required>
+                    <label translate="from"></label>
+                    <autocomplete ng-model="fromCity" attr-placeholder=" from city..." city-enter="onEnter()" click-activation="true" data="cityDatas"  on-type="fillFromCity" on-select="cityFromSelection"></autocomplete>
+                    <label translate="to">To:</label>
+                    <autocomplete ng-model="toCity" attr-placeholder=" to city..." city-enter="onEnter()" click-activation="true" data="cityDatas"  on-type="fillToCity" on-select="cityToSelection"></autocomplete>
+                     <label translate="by">By</label><select  id="transportTypeId" class="form-control" ng-options="transport for transport in transports" ng-change="transportChoosedSelection()" ng-model="transportChoosed">
+                      </select><br>
+                      <button class="btn-danger btn-lg" ng-click="detailTravelInfo()" translate="seeTravelInfo"></button><br><br>
+                      <span translate="registerToTravelByAnyTransport"> </span><a href="/login.html" data-toggle="modal" ng-click="myInfo()" translate="clickHere"></a>
+                 </div>
+                 <div class="col-lg-9">
                     <div class="alert-warning">
                       <strong><a href="/login.html" translate="transportRegistrationAdvice">Do you own transport and you need to use this golden chance, then you have to register and your vihecle will be listed online here.</a></strong>
                     </div>
-
-                    <div ng-show="passengersList">
+                    <div>
+                      <div  style="overflow-y: scroll;height:400px;" ng-show="passengersList">
                           <div class="">
                             <label translate="passengers">Passengers</label>
                           </div>
@@ -113,43 +117,43 @@
                                         <td>{{numberOfTravellersToThisPlace.numberOfPeople}}</td>
                                    </tr>
                                <tbody>
-                           </table>
-                     </div>
-               </div>
-          </div>
-          <div class="col-lg-12" ng-show="readyTransportsList">
-                    <div class="col-lg-12">
-                      <label translate="transports">transports</label>
+                          </table>
+                      </div>
+                      <div class="col-lg-12" ng-show="readyTransportsList">
+                          <label translate="transports">transports</label>
+                          <table border="1" style="width:100%">
+                                <thead>
+                                    <tr>
+                                        <th translate="transportType"></th>
+                                        <th translate="numberOfSeats"></th>
+                                        <th translate="freeSpace"></th>
+                                        <th translate="date"></th>
+                                        <th translate="fromTime"></th>
+                                        <th translate="toTime"></th>
+                                        <th translate="from"></th>
+                                        <th translate="to"></th>
+                                    </tr>
+                                </thead>
+                                  <tbody ng-repeat="transport in readyTransports">
+                                     <tr>
+                                         <td>{{transport.type}}</td>
+                                         <td>{{transport.numberOfSeats}}</td>
+                                         <td>{{transport.freeSeats}}</td>
+                                         <td>{{transport.date | date:'yyyy-MM-dd HH:mm'}}</td>
+                                         <td>{{transport.fromTime | date:'HH:mm'}}</td>
+                                         <td>{{transport.toTime | date:'HH:mm'}}</td>
+                                         <td>{{transport.fromPlace}}</td>
+                                         <td>{{transport.toPlace}}</td>
+                                    </tr>
+                                <tbody>
+                          </table>
+                      </div>
                     </div>
-                    <table border="1" style="width:100%">
-                          <thead>
-                              <tr>
-                                  <th translate="transportType"></th>
-                                  <th translate="numberOfSeats"></th>
-                                  <th translate="freeSpace"></th>
-                                  <th translate="date"></th>
-                                  <th translate="fromTime"></th>
-                                  <th translate="toTime"></th>
-                                  <th translate="from"></th>
-                                  <th translate="to"></th>
-                              </tr>
-                          </thead>
-                            <tbody ng-repeat="transport in readyTransports">
-                               <tr>
-                                   <td>{{transport.type}}</td>
-                                   <td>{{transport.numberOfSeats}}</td>
-                                   <td>{{transport.freeSeats}}</td>
-                                   <td>{{transport.date | date:'yyyy-MM-dd HH:mm'}}</td>
-                                   <td>{{transport.fromTime | date:'HH:mm'}}</td>
-                                   <td>{{transport.toTime | date:'HH:mm'}}</td>
-                                   <td>{{transport.fromPlace}}</td>
-                                   <td>{{transport.toPlace}}</td>
-                              </tr>
-                          <tbody>
-                    </table>
-       </div>
-    </div>
-    <div class="container" id="mydiv" ng-show="chatbox">
+                 </div>
+              </div>
+        </div>
+       
+     <div class="container" id="mydiv" ng-show="chatbox">
          <div class="row chat-window col-xs-3 col-md-3 col-lg-4" id="chat_window_1" style="margin-left:500px;">
             <div class="col-xs-12 col-md-12">
              <div class="panel panel-default">

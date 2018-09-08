@@ -226,7 +226,7 @@
                                   <div class="btn-group" role="group">
                                     <button type="button" class="btn btn-default" ng-click="fictionsbtn()" translate="fictions">Fictions</button>
                                   </div>
-                                  <div class="btn-group" role="group" ng-if="country==='Netherlands'">
+                                  <div class="btn-group" role="group">
                                     <button type="button" class="btn btn-default" ng-click="transport()" translate="travelAndTravelSchedules">transport and travel schedules</button>
                                   </div>
                                 </div>
@@ -247,7 +247,7 @@
                                                       <div>
                                                           {{news.news}}
                                                            <div ng-if="news.fileType==='image/jpeg' || news.fileType==='image/png'">
-                                                              <a href="#"><img ng-src="/newsImage/{{news.fileName}}" id="1" height="200" width="200" class="thumbnail">
+                                                              <a href="#"><img ng-src="/newsImage/{{news.fileName}}" id="1" height="70%" width="70%" class="thumbnail">
                                                              </a>
                                                            </div>
                                                            <div ng-if="news.fileType==='video/mp4'">
@@ -317,27 +317,24 @@
                                             <label translate="title"></label><input type="text" ng-model="newsMainTitle" class="form-control">
                                            <label translate="subTitle"></label><input type="text" ng-model="newsSubTitle" class="form-control">
                                                 <label translate="writeDetailsHereBelow"></label><textarea rows="10" cols="70" ng-model="newsText" class="form-control"></textarea>
-                                            <div>
-                                                <button class="btn btn-primary" ng-click="submitNews()" translate="save" ng-disabled="newsButtonDisabled"></button>
-                                                <label translate="uploadImageOrVidio"></label><input type="checkbox" ng-model="fileUpload" ng-disabled="disabledfileUpload">
-                                                <div ng-show="fileUpload">
-                                                     <form role="form" action="/jobFinder/newsFileUploader" method="post" enctype="multipart/form-data">
-                                                       <input type="hidden" value="{{newsSubTitleId}}" name="subTitleId">
-                                                       <input type="file" id="fileUpload" name="myFile" >
-                                                       <p id="sizeOfDocumentForPost"></p>
-                                                       <input type="submit" id="uploadImageToNewsId" value="upload your file" ng-click="checkUploadedFile">
-                                                     </form>
-                                                </div>
-                                                <button ng-click="newStart()" class="btn btn-primary" translate="startNew"></button>
-                                                <button ng-click="newSubTitle()" class="btn btn-primary" translate="addNewSubTitle"></button>
-                                                <div class="container">
-                                                   <div class="row">
-                                                      <div class="col-lg-2 col-md-2 col-xs-4">
-                                                           <div id="image-holder"></div>
-                                                      </div>
-                                                   </div>
-                                                </div>
-                                            </div>
+                                            
+                                                    <div class="pull-left">
+                                                        <button class="btn btn-primary" ng-click="submitNews()" translate="sendNewsText" ng-disabled="newsButtonDisabled"></button>
+                                                        <label translate="uploadImageOrVidio"></label><input type="checkbox" ng-model="fileUpload" ng-disabled="disabledfileUpload">
+                                                        <div ng-show="fileUpload">
+                                                             <form role="form" action="/jobFinder/newsFileUploader" method="post" enctype="multipart/form-data">
+                                                               <input type="hidden" value="{{newsSubTitleId}}" name="subTitleId">
+                                                               <input type="file" id="fileUpload" name="myFile" >
+                                                               <p id="sizeOfDocumentForPost"></p>
+                                                               <input type="submit" id="uploadImageToNewsId" value="upload your file" ng-click="checkUploadedFile">
+                                                             </form>
+                                                             <div id="image-holder"></div>
+                                                        </div> 
+                                                    </div>
+                                                        <button ng-click="newSubTitle()" class="btn btn-warning" translate="addNewSubTitle"></button>&nbsp;&nbsp;&nbsp;&nbsp;
+                                                        <button ng-click="newStart()" class="btn btn-danger" translate="startNew"></button>
+                                                       
+                                            
                                          </div>
                                       </div>
                                   </div>

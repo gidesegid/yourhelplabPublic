@@ -608,8 +608,6 @@ connection.connect(function(error){
 
       }
       sendEmailTo(email,function(error,result){
-        console.log(result)
-
       })
         var date=Date.now();
        connection.query("insert into users(name,username,email,password,photo,gender,birthDate,registrationDate,country,livesIn)values('"+name+"','"+username+"','"+email+"','"+password+"','"+photo+"','"+gender+"','"+birthDate+"','"+date+"','"+country+"','"+livesIn+"')",function(error,row,fields){
@@ -640,8 +638,6 @@ connection.connect(function(error){
           text:text //, // plaintext body
          // html: '<b>Hello world ✔</b>' // You can choose to send an HTML body instead
       };
-      // console.log("mailOptions")
-      // console.log(mailOptions)
       transporter.sendMail(mailOptions,function(error,info){
         if(error){
           callback(error,error)
@@ -702,11 +698,12 @@ connection.connect(function(error){
             var fromPlace=req.body.fromPlace
             var toPlace=req.body.toPlace;
             var date=req.body.date;
+            var fromTime=req.body.fromTime
             var registrationDate=Date.now();
             var telephone=req.body.telephone;
             var code=req.body.code;
             var passengerRemarks=req.body.passengerRemarks
-            connection.query("insert into passenger(userId,telephone,date,fromPlace,toPlace,transportChoosed,code,registrationDate,remarks) values('"+userId+"','"+telephone+"','"+date+"','"+fromPlace+"','"+toPlace+"','"+transportChoosed+"','"+code+"','"+registrationDate+"','"+passengerRemarks+"')",function(error,row,fields){
+            connection.query("insert into passenger(userId,telephone,date,fromTime,fromPlace,toPlace,transportChoosed,code,registrationDate,remarks) values('"+userId+"','"+telephone+"','"+date+"','"+fromTime+"','"+fromPlace+"','"+toPlace+"','"+transportChoosed+"','"+code+"','"+registrationDate+"','"+passengerRemarks+"')",function(error,row,fields){
                 if(!!error){
                  res.json(error)
                 }else{
@@ -904,14 +901,15 @@ connection.connect(function(error){
       var userId=req.decoded.sub
       var id=req.body.id;
                 var telephone=req.body.telephone
-                var date=req.body.date
+                var date=req.body.date;
+                var fromTime=req.body.fromTime;
                 var fromPlace=req.body.fromPlace
                 var toPlace=req.body.toPlace
                 var transportChoosed=req.body.transportChoosed
                 var code=req.body.code
                 var passengerRemarks=req.body.passengerRemarks;
                 var fromTime=req.body.fromTime;
-      connection.query("update passenger SET telephone='"+telephone+"', date='"+date+"', fromPlace='"+fromPlace+"', toPlace='"+toPlace+"',transportChoosed='"+transportChoosed+"',code='"+code+"',fromTime='"+fromTime+"',remarks='"+passengerRemarks+"' where id='?'",id,function(error,row,fields){
+      connection.query("update passenger SET telephone='"+telephone+"', date='"+date+"', fromTime='"+fromTime+"', fromPlace='"+fromPlace+"', toPlace='"+toPlace+"',transportChoosed='"+transportChoosed+"',code='"+code+"',fromTime='"+fromTime+"',remarks='"+passengerRemarks+"' where id='?'",id,function(error,row,fields){
         if(!!error){
           res.json(error)
         }else{
@@ -1030,9 +1028,7 @@ connection.connect(function(error){
                   connection.query("UPDATE clients SET telephone='"+tele+"',lookingFor='"+professionId+"', timestamp='"+timestamp+"', timeTaken='"+timeTaken+"', workDetails='"+workDetails+"', situationOfWorkAtThisTime='"+cWorkSituation+"',workCountry='"+workCountry+"',workCity='"+workCity+"',name='"+name+"',url='"+url+"',workSummary='"+workSummary+"'  WHERE Id='"+clientId+"'",function(error,row,fields){
                       if(!!error){
                        res.json(error)
-                       console.log(error)
                       }else{
-                        console.log("done")
                          res.json("updated succesfully");
                       }
                     });
@@ -2070,7 +2066,7 @@ connection.connect(function(error){
        })
 //post all things to sale
       router.post('/postThingsToSale',function(req,res){
-            connection.query("select salethingstable.id as id,salethingstable.userId as userId,salethingstable.itemName as itemName,salethingstable.price as price,salethingstable.unit as unit,salethingstable.fileName as fileName,webcollections.english as catagories from salethingstable inner join webcollections on webcollections.Id=salethingstable.catagories ",function(row,error,fields){
+            connection.query("select salethingstable.id as id,salethingstable.userId as userId,salethingstable.itemName as itemName,salethingstable.price as price,salethingstable.description as description,salethingstable.unit as unit,salethingstable.fileName as fileName,webcollections.english as catagories from salethingstable inner join webcollections on webcollections.Id=salethingstable.catagories ",function(row,error,fields){
               if(!!error){
                   res.json(error)
               }else{
@@ -2083,7 +2079,7 @@ connection.connect(function(error){
                var selectedItemId=req.body.selectedCategoryId;
                var languageKey=req.body.languageKey;
                if(languageKey=='TG'){
-                 connection.query("select salethingstable.id as id,salethingstable.userId as userId,salethingstable.itemName as itemName,salethingstable.price as price,salethingstable.unit as unit,salethingstable.fileName as fileName,webcollections.tigrina as catagories from salethingstable inner join webcollections on webcollections.Id=salethingstable.catagories where salethingstable.catagories=?",selectedItemId,function(row,error,fields){
+                 connection.query("select salethingstable.id as id,salethingstable.userId as userId,salethingstable.itemName as itemName,salethingstable.description as description,salethingstable.price as price,salethingstable.unit as unit,salethingstable.fileName as fileName,webcollections.tigrina as catagories from salethingstable inner join webcollections on webcollections.Id=salethingstable.catagories where salethingstable.catagories=?",selectedItemId,function(row,error,fields){
                    if(!!error){
                        res.json(error)
                    }else{
@@ -2091,7 +2087,7 @@ connection.connect(function(error){
                    }
                   })
                }else if(languageKey=='NL'){
-                 connection.query("select salethingstable.id as id,salethingstable.userId as userId,salethingstable.itemName as itemName,salethingstable.price as price,salethingstable.unit as unit,salethingstable.fileName as fileName,webcollections.dutch as catagories from salethingstable inner join webcollections on webcollections.Id=salethingstable.catagories where salethingstable.catagories=?",selectedItemId,function(row,error,fields){
+                 connection.query("select salethingstable.id as id,salethingstable.description as description,salethingstable.userId as userId,salethingstable.itemName as itemName,salethingstable.price as price,salethingstable.unit as unit,salethingstable.fileName as fileName,webcollections.dutch as catagories from salethingstable inner join webcollections on webcollections.Id=salethingstable.catagories where salethingstable.catagories=?",selectedItemId,function(row,error,fields){
                    if(!!error){
                        res.json(error)
                    }else{
@@ -2099,7 +2095,7 @@ connection.connect(function(error){
                    }
                   })
                }else{
-                 connection.query("select salethingstable.id as id,salethingstable.userId as userId,salethingstable.itemName as itemName,salethingstable.price as price,salethingstable.unit as unit,salethingstable.fileName as fileName,webcollections.english as catagories from salethingstable inner join webcollections on webcollections.Id=salethingstable.catagories where salethingstable.catagories=?",selectedItemId,function(row,error,fields){
+                 connection.query("select salethingstable.id as id,salethingstable.description as description,salethingstable.userId as userId,salethingstable.itemName as itemName,salethingstable.price as price,salethingstable.unit as unit,salethingstable.fileName as fileName,webcollections.english as catagories from salethingstable inner join webcollections on webcollections.Id=salethingstable.catagories where salethingstable.catagories=?",selectedItemId,function(row,error,fields){
                    if(!!error){
                        res.json(error)
                    }else{
@@ -2350,6 +2346,7 @@ connection.connect(function(error){
                  var userId=req.decoded.sub
                  var newsTextId=req.body.newsTextId;
                  var newsMainTitle=req.body.newsMainTitle
+                 newsMainTitle=newsMainTitle.replace("'","\\'");
              connection.query("insert into newstitle(newsMainTitle,newsTextId)values('"+newsMainTitle+"','"+newsTextId+"')",function(row,error,fields){
               if(!!error){
                   res.json(error)
@@ -2378,6 +2375,7 @@ connection.connect(function(error){
             router.post('/newsSubTitles',mytoken,function(req,res){
                  var userId=req.decoded.sub
                  var newsSubTitle=req.body.newsSubTitle;
+                 newsSubTitle=newsSubTitle.replace("'","\\'");
                  var newsMainTitleId=req.body.newsMainTitleId;
              connection.query("insert into newssubtitle(newsSubTitle,newsMainTitleId)values('"+newsSubTitle+"','"+newsMainTitleId+"')",function(row,error,fields){
               if(!!error){
@@ -2391,12 +2389,14 @@ connection.connect(function(error){
              router.post('/mainNews',mytoken,function(req,res){
                  var userId=req.decoded.sub
                  var newsText=req.body.newsText;
+                 newsText=newsText.replace("'","\\'");
                  var newsProviderId=req.body.newsProviderId;
                connection.query("insert into newstext(newsText,newsProviderId)values('"+newsText+"','"+newsProviderId+"')",function(row,error,fields){
                 if(!!error){
                     res.json(error)
                 }else{
                     res.json(row)
+                    
                 }
                })
              })
@@ -2763,9 +2763,7 @@ connection.connect(function(error){
             "clients.workCity as workCity,clients.name as name,clients.url as url from clients INNER JOIN users ON clients.userId=users.id INNER JOIN workprofessionslist ON workprofessionslist.Id=clients.lookingFor INNER JOIN webcollections ON webcollections.Id=clients.situationOfWorkAtThisTime where clients.Id=?",clientId,function(error,row){
             if(!!error){
                 res.json(error)
-                console.log("error"+error)
               }else{
-                console.log(row)
                  res.json(row)
               }
            })
@@ -3158,11 +3156,8 @@ connection.connect(function(error){
         workRequest.languageKey=languageKey;
         connection.query("select workCity,registeredDate from clientsFromExternal where workCity=?",location,function(error,row){
           if(!!error){
-            console.log(error)
           }else if(row.length==0){
               englishProfessionName(workRequest,function(error,result){
-                console.log("name of profession")
-                console.log(result)
                 var workRequest2={}
                 if(country=='Netherlands'){
                   workRequest2.dot='.nl'
@@ -3326,15 +3321,7 @@ connection.connect(function(error){
         var word=req.params.word
         var toLanguageId=req.params.toLanguageId
         io.on('connection',function(socket){
-          console.log("there is connection from mobile here.")
         })
-       //console.log(res.socket['server']['_events'].connection)
-      // console.log(req.socket['server']['_events'].connection('connectionListener',function(){}))
-       //var ip = req.connection.remoteAddress;
-      //  var ip = req.header('x-forwarded-for') || req.connection.remoteAddress;
-      // console.log(req.on('close',function(){
-
-    //  }))
         connection.query("select word from collectedwords where wordValueId IN (select wordValueId from collectedwords  where word='"+word+"' and language_id='"+fromLanguageId+"') and language_Id='"+toLanguageId+"' group by word",function(error,row,fields){
         if(!!error){
           console.log(error)
@@ -3343,15 +3330,6 @@ connection.connect(function(error){
            res.json(row);
         }
       })
-
-
-        // req.on( 'data', function() { console.log('REQ on.data') })
-        // req.on( 'end', function() { console.log('REQ on.end') })
-        // req.on( 'close', function() { console.log('REQ on.close') })
-        //
-        //
-        // res.writeHead( 200, { 'Content-Type': 'text/plain' })
-        // res.end('ok')
      })
      router.get('/getRelatedWords/:fromLanguageId/:word/:toLanguageId',function(req,res){
         var fromLanguageId=req.params.fromLanguageId;
@@ -3541,10 +3519,7 @@ router.post('/getClientWorkDetailsExternalData',function(req,res){
   var id=req.body.id;
   var linkId=req.body.linkId;
   var websiteLink=req.body.websiteLink+'&vjk='+linkId
-  console.log(websiteLink)
   getWorkDetails(websiteLink,function(error,result){
-    // console.log("result......")
-    // console.log(result)
   })
 })
 //function getWorkDetails(url,callback){
@@ -3560,7 +3535,6 @@ router.post('/getClientWorkDetailsExternalData',function(req,res){
 function getNewExternalDataFromDatabase(location,callback){
   connection.query("select id,companyName,linkId,lookingForProfession,workCity,summary,date,websiteLink from clientsFromExternal WHERE workCity=?",location,function(error,row){
       if(!!error){
-        console.log(error)
       }else{
           callback(null,row)
       }
@@ -3603,13 +3577,10 @@ function getExternalWorkInfo(workRequest,callback){
              })
           connection.query("insert into clientsFromExternal(companyName,linkId,lookingForProfession,workCity,summary,date,websiteLink,profession,registeredDate)values('"+jobInfo.name+"','"+jobInfo.linkId+"','"+jobInfo.title+"','"+jobInfo.workCity+"','"+jobInfo.summary+"','"+jobInfo.date+"','"+url+"','"+work+"','"+Date.now()+"')",function(error,row){
               if(!!error){
-                console.log("there was error while insert data")
                }else{
                 callback(null,row)
                }
            })
-        //  callback(null,jobInfo)
-
        });
 
    })
@@ -3617,15 +3588,11 @@ function getExternalWorkInfo(workRequest,callback){
 }
 router.get('/dictionaryTranslatorWebSiteChecker',function(req,res){
   res.json("yes")
-  console.log("yes")
 })
 router.get('/getAllWorkList',function(req,res){
   connection.query("select Id,english,tigrigna from workprofessionslist",function(error,row){
     if(!!error){
-      console.log("there is error on fetching worklist"+error)
     }else{
-      console.log("worl lists")
-      console.log(row)
       res.json(row);
     }
   })
@@ -3635,7 +3602,6 @@ router.post('/updateWorkProfessionList',function(req,res){
   var tigrignaProfession=req.body.translatedTigrignaProfession;
   connection.query("update workprofessionslist set tigrigna='"+tigrignaProfession+"' where Id=?",Id,function(error,row){
     if(!!error){
-      console.log("update profession error"+error)
     }else{
       res.json(row);
     }
@@ -3644,7 +3610,7 @@ router.post('/updateWorkProfessionList',function(req,res){
 router.post('/deleteExternalDataInfo',function(req,res){
   connection.query("delete from clientsFromExternal",function(error,row){
     if(!!error){
-      console.log("error"+error)
+     
     }else{
       res.json("done")
     }
@@ -3653,7 +3619,7 @@ router.post('/deleteExternalDataInfo',function(req,res){
 router.post('/getContacts',function(req,res){
   connection.query("select * from contactus",function(error,row){
     if(!!error){
-      console.log("error"+error)
+     
     }else{
       res.json(row)
     }
@@ -3662,7 +3628,7 @@ router.post('/getContacts',function(req,res){
 router.post('/getAirTravel',function(req,res){
   connection.query("select * from airTravel",function(error,row){
     if(!!error){
-      console.log("error"+error)
+     
     }else{
       res.json(row)
     }
@@ -3671,7 +3637,6 @@ router.post('/getAirTravel',function(req,res){
 router.post('/getMoneyTransfer',function(req,res){
   connection.query("select * from moneyTransfer",function(error,row){
     if(!!error){
-      console.log("error"+error)
     }else{
       res.json(row)
     }
@@ -3681,7 +3646,6 @@ router.post('/deleteContactInfo',function(req,res){
   var id=req.body.id;
   connection.query("delete from contactus where id=?",id,function(error,row){
     if(!!error){
-      console.log("error"+error)
     }else{
       res.json("done")
     }
@@ -3691,7 +3655,6 @@ router.post('/deleteAirTravel',function(req,res){
   var id=req.body.id;
   connection.query("delete from airTravel where id=?",id,function(error,row){
     if(!!error){
-      console.log("error"+error)
     }else{
       res.json("done")
     }
@@ -3701,12 +3664,12 @@ router.post('/deleteMoneyTransfer',function(req,res){
   var id=req.body.id;
   connection.query("delete from moneyTransfer where id=?",id,function(error,row){
     if(!!error){
-      console.log("error"+error)
     }else{
       res.json("done")
     }
   })
 })
+
 //})
 module.exports=router;
      //module.exports={protected:router,unprotected:unprotected};
