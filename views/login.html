@@ -93,58 +93,57 @@
                   </div>
                   <!-- Registration Box starts  -->
                       <div ng-show="RegisterBox" class="register box-container col-md-4 col-md-4 col-sm-4 col-xs-6">
+                          <span style="color:red;font-size:16px;">{{unfilledFields}}</span>
                           <h2 class="login-heading" translate="register">Register</h2>
-                              <form name="userForm" novalidate>
-                                   <label translate="fullName"></label>
-                                   <input type="text" class="form-control" ng-model="name"  name="name" required>
-                                   <p ng-show="userForm.name.$invalid && !userForm.name.$pristine" class="help-block" translate="enterValidName">Enter name</p>
-                                   <label translate="username"></label>
-                                   <input type="text" class="form-control" ng-model="username"  name="username" required="">
-                                    <p ng-show="userForm.username.$invalid && !userForm.username.$pristine" class="help-block" translate="enterUsername">Enter user name</p>
-                                    <p id="username"></p>
-                                    <label translate="email"></label>
-                                     <input type="email" class="form-control"  ng-model="email" ng-focus="checkUserName()"  name="email" required>
-                                     <p ng-show="userForm.email.$invalid && !userForm.email.$pristine" class="help-block" translate="enterValidEmail"></p>
-                                     <label translate="password"></label>
-                                     <input type="password" class="form-control" ng-model="password" ng-minlength="6"  name="password" required>
-                                     <p ng-show="userForm.password.$error.minlength" translate="atLeast6Char"></p>
-                                     <label translate="repeatPassword"></label>
-                                     <input type="password"  class="form-control" ng-model="password2" placeholder="repeat password" name="password2" required>
-                                      <label translate="dateOfBirth"></label>
-                                      <input type="date" id="dateId" ng-model="userBirthDate"  required="True" ><br>
-                                        <label  translate="gender"></label>
-                                        <span ng-if="languageKey==null">
-                                            <select ng-model="$parent.userGender" ng-change="changeGender(userGender.Id)"
-                                              ng-options="userGender as userGender.english for userGender in userGenderModel">
-                                           </select>
-                                        </span>
-                                         <span ng-if="languageKey=='EN'">
-                                            <select ng-model="$parent.userGender" ng-change="changeGender(userGender.Id)"
-                                              ng-options="userGender as userGender.english for userGender in userGenderModel">
-                                           </select>
+                                <form name="userForm" novalidate >
+                                     <label translate="fullName"></label>
+                                     <input type="text" class="form-control" ng-model="name"  name="name" required>
+                                     <p ng-show="userForm.name.$invalid && !userForm.name.$pristine" class="help-block" translate="enterValidName">Enter name</p>
+                                     <label translate="username"></label>
+                                     <input type="text" class="form-control" ng-model="username"  name="username" required="">
+                                      <p ng-show="userForm.username.$invalid && !userForm.username.$pristine" class="help-block" translate="enterUsername">Enter user name</p>
+                                      <p id="username"></p>
+                                      <label translate="email"></label>
+                                       <input type="email" class="form-control"  ng-model="email" ng-focus="checkUserName()"  name="email" required>
+                                       <p ng-show="userForm.email.$invalid && !userForm.email.$pristine" class="help-block" translate="enterValidEmail"></p>
+                                       <label translate="password"></label>
+                                       <input type="password" class="form-control" ng-model="password" ng-minlength="6"  name="password" required>
+                                       <p ng-show="userForm.password.$error.minlength" translate="atLeast6Char"></p>
+                                       <label translate="repeatPassword"></label>
+                                       <input type="password"  class="form-control" ng-model="password2" placeholder="repeat password" name="password2" required>
+                                        <label translate="dateOfBirth"></label>
+                                        <input type="date" id="dateId" ng-model="userBirthDate"  required="True" ><br>
+                                          <label  translate="gender"></label>
+                                          <span ng-if="languageKey==null">
+                                              <select ng-model="$parent.userGender" ng-change="changeGender(userGender.Id)"
+                                                ng-options="userGender as userGender.english for userGender in userGenderModel">
+                                             </select>
                                           </span>
-                                           <span ng-if="languageKey=='TG'">
-                                            <select ng-model="$parent.userGender" ng-change="changeGender(userGender.Id)"
-                                              ng-options="userGender as userGender.tigrina for userGender in userGenderModel">
-                                           </select>
-                                        </span>
-                                         <span ng-if="languageKey=='NL'">
-                                            <select ng-model="$parent.userGender" ng-change="changeGender(userGender.Id)"
-                                              ng-options="userGender as userGender.dutch for userGender in userGenderModel">
-                                           </select>
-                                        </span>
-                                       <br>
-                                          <autocomplete ng-model="country" attr-placeholder="country..." country-enter="onEnter()" click-activation="true" data="countryDatas"  on-type="fillCountry" on-select="countrySelectionAtRegistration"></autocomplete>
-                                          <autocomplete ng-model="city" attr-placeholder=" city..." city-enter="onEnter()" click-activation="true" data="cityDatas"  on-type="fillCityAtRegistration" on-select="citySelectionAtRegistration"></autocomplete>
-                                         </select>&nbsp;&nbsp;<input type="checkbox" ng-model="notStatedHere"><span translate="notStatedHere"></span>
-                                         <div ng-show="notStatedHere">
-                                           <label translate="writeCityNameWhereULive"></label>
-                                           <input type="text" ng-model="city" value="city.cityName">
-                                         </div><br>
-                                     <button type="submit" class="btn btn-default" ng-click="register()" translate="submit">Submit</button><br>
-                                     <a href="#" ng-click="toggle_login()" translate="alreadyHaveAccount"></a>
-                               </form>
-
+                                           <span ng-if="languageKey=='EN'">
+                                              <select ng-model="$parent.userGender" ng-change="changeGender(userGender.Id)"
+                                                ng-options="userGender as userGender.english for userGender in userGenderModel">
+                                             </select>
+                                            </span>
+                                             <span ng-if="languageKey=='TG'">
+                                              <select ng-model="$parent.userGender" ng-change="changeGender(userGender.Id)"
+                                                ng-options="userGender as userGender.tigrina for userGender in userGenderModel">
+                                             </select>
+                                          </span>
+                                           <span ng-if="languageKey=='NL'">
+                                              <select ng-model="$parent.userGender" ng-change="changeGender(userGender.Id)"
+                                                ng-options="userGender as userGender.dutch for userGender in userGenderModel">
+                                             </select>
+                                          </span>
+                                            <autocomplete ng-model="country" attr-placeholder="country..." country-enter="onEnter()" click-activation="true" data="countryDatas"  on-type="fillCountry" on-select="countrySelectionAtRegistration"></autocomplete>
+                                            <autocomplete ng-model="city" attr-placeholder=" city..." city-enter="onEnter()" click-activation="true" data="cityDatas"  on-type="fillCityAtRegistration" on-select="citySelectionAtRegistration"></autocomplete>
+                                           </select>&nbsp;&nbsp;<input type="checkbox" ng-model="notStatedHere"><span translate="notStatedHere"></span>
+                                           <div ng-show="notStatedHere">
+                                             <label translate="writeCityNameWhereULive"></label>
+                                             <input type="text" ng-model="city" value="city.cityName">
+                                           </div><br>
+                                       <button type="submit" class="btn btn-default" ng-click="register()" translate="submit">Submit</button><br>
+                                       <a href="#" ng-click="toggle_login()" translate="alreadyHaveAccount"></a>
+                                 </form>
                       </div>
             </div>
 

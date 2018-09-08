@@ -1505,38 +1505,38 @@
                 if ($scope.languageKey=='TG'){
                     $scope.fieldChecker="";
                   if ($scope.name==undefined){
-                    alert("ስም የእትዉ");
+                    $scope.unfilledFields="ስም የእትዉ";
                     $scope.fieldChecker="no filled";
                   }else if ($scope.username===undefined){
-                    alert("መጠቀሚ ስም የእትዉ");
+                  $scope.unfilledFields="መጠቀሚ ስም የእትዉ";
                     $scope.fieldChecker="no filled";
                   }else if ($scope.email==undefined){
-                      alert("ኢመይልኩም የእትዉ")
+                      $scope.unfilledFields="ኢመይልኩም የእትዉ"
                       $scope.fieldChecker="no filled";
                   }else if ($scope.password==undefined){
-                    alert("ቃለ ምስጢር የእትዉ")
+                    $scope.unfilledFields="ቃለ ምስጢር የእትዉ"
                     $scope.fieldChecker="no filled";
                   }else if ($scope.password!=$scope.password2){
-                    alert("ዘእተኹሞ ቃለ ምስጢር ምስ ካልኣይ ግዜ ዘእተኹሞ ቃለ ምስጢር ሓደ እይኮነን")
+                    $scope.unfilledFields="ዘእተኹሞ ቃለ ምስጢር ምስ ካልኣይ ግዜ ዘእተኹሞ ቃለ ምስጢር ሓደ እይኮነን"
                     $scope.fieldChecker="no filled";
                   }else if ($scope.userBirthDate==undefined){
-                     alert("ዕለተ ልደት የእትዉ");
+                     $scope.unfilledFields="ዕለተ ልደት የእትዉ";
                      $scope.fieldChecker="no filled";
                   }else if ($scope.userGender===undefined){
-                    alert("ጾታ ምረጹ");
+                  $scope.unfilledFields="ጾታ ምረጹ";
                     $scope.fieldChecker="no filled";
                    }else if ($scope.selectedCountryOnRegistration ===undefined){
-                    alert("ትነብሩሉ ሃገር ምረጹ")
+                    $scope.unfilledFields="ትነብሩሉ ሃገር ምረጹ"
                     $scope.fieldChecker="no filled";
 
                   }else if ($scope.notStatedHere==true){
                       if($scope.city===undefined){
-                        alert("ትነብሩሉ ዓዲ ወይ ከተማ የእትዉ")
+                      $scope.unfilledFields="ትነብሩሉ ዓዲ ወይ ከተማ የእትዉ"
                         $scope.fieldChecker="not filled";
                       }
                   }else if ($scope.notStatedHere==false || $scope.notStatedHere==undefined){
                      if ($scope.selectedCityOnRegistration==undefined){
-                       alert("ትነብሩሉ ከተማ ምረጹ")
+                       $scope.unfilledFields="ትነብሩሉ ከተማ ምረጹ"
                        $scope.fieldChecker="not filled";
                      }
                   }else{
@@ -1545,38 +1545,38 @@
                 }else if ($scope.languageKey=='NL'){
                     $scope.fieldChecker="";
                   if ($scope.name==undefined){
-                    alert("Voer naam in");
+                    $scope.unfilledFields="Voer naam in";
                     $scope.fieldChecker="no filled";
                   }else if ($scope.username===undefined){
-                    alert("Vul je gebruikersnaam in");
+                    $scope.unfilledFields="Vul je gebruikersnaam in";
                     $scope.fieldChecker="no filled";
                   }else if ($scope.email==undefined){
-                      alert("Voer email in")
+                      $scope.unfilledFields="Voer email in"
                       $scope.fieldChecker="no filled";
                   }else if ($scope.password==undefined){
-                    alert("voer wachtwoord in")
+                  $scope.unfilledFields="voer wachtwoord in"
                     $scope.fieldChecker="no filled";
                   }else if ($scope.password!=$scope.password2){
-                    alert("Wachtwoord komt niet overeen")
+                    $scope.unfilledFields="Wachtwoord komt niet overeen"
                     $scope.fieldChecker="no filled";
                   }else if ($scope.userBirthDate==undefined){
-                     alert("voer geboortedag in");
+                    $scope.unfilledFields="voer geboortedag in";
                      $scope.fieldChecker="no filled";
                   }else if ($scope.userGender===undefined){
-                    alert("selecteer geslacht");
+                  $scope.unfilledFields="selecteer geslacht";
                     $scope.fieldChecker="no filled";
                    }else if ($scope.selectedCountryOnRegistration ===undefined){
-                    alert("selecteer land")
+                    $scope.unfilledFields="selecteer land"
                     $scope.fieldChecker="no filled";
 
                   }else if ($scope.notStatedHere==true){
                       if($scope.city===undefined){
-                        alert("Schrijf een stadsnaam, stad waar je woont")
+                        $scope.unfilledFields="Schrijf een stadsnaam, stad waar je woont"
                         $scope.fieldChecker="not filled";
                       }
                   }else if ($scope.notStatedHere==false || $scope.notStatedHere==undefined){
                      if ($scope.selectedCityOnRegistration==undefined){
-                       alert("Voer een plaatsnaam in, stad waar je woont")
+                       $scope.unfilledFields="Voer een plaatsnaam in, stad waar je woont"
                        $scope.fieldChecker="not filled";
                      }
                   }else{
@@ -1585,38 +1585,38 @@
                 }else{
                    $scope.fieldChecker="";
                   if ($scope.name==undefined){
-                    alert("Enter name");
+                  $scope.unfilledFields="Enter name";
                     $scope.fieldChecker="no filled";
                   }else if ($scope.username===undefined){
-                    alert("Enter user name");
+                    $scope.unfilledFields="Enter user name"
                     $scope.fieldChecker="no filled";
                   }else if ($scope.email==undefined){
-                      alert("Enter email")
+                      $scope.unfilledFields="Enter email"
                       $scope.fieldChecker="no filled";
                   }else if ($scope.password==undefined){
-                    alert("enter password")
+                    $scope.unfilledFields="enter password"
                     $scope.fieldChecker="no filled";
                   }else if ($scope.password!=$scope.password2){
-                    alert("Password mismatch")
+                  $scope.unfilledFields="Password mismatch"
                     $scope.fieldChecker="no filled";
                   }else if ($scope.userBirthDate==undefined){
-                     alert("enter birth day");
+                     $scope.unfilledFields="enter birth day";
                      $scope.fieldChecker="no filled";
                   }else if ($scope.userGender===undefined){
-                    alert("select gender");
+                  $scope.unfilledFields="select gender";
                     $scope.fieldChecker="no filled";
                   }else if ($scope.selectedCountryOnRegistration ===undefined){
-                    alert("select a country")
+                    $scope.unfilledFields="select a country"
                     $scope.fieldChecker="no filled";
 
                   }else if ($scope.notStatedHere==true){
                       if($scope.city===undefined){
-                        alert("Write a city name,city where you live in")
+                        $scope.unfilledFields="Write a city name,city where you live in"
                         $scope.fieldChecker="not filled";
                       }
                   }else if ($scope.notStatedHere==false || $scope.notStatedHere==undefined){
                      if ($scope.selectedCityOnRegistration==undefined){
-                       alert("Enter a city name,city where you live in")
+                      $scope.unfilledFields="Enter a city name,city where you live in"
                        $scope.fieldChecker="not filled";
                      }
                   }else{
@@ -1660,7 +1660,6 @@
                             if($scope.fieldChecker===''){
                               $http.post('/jobFinder/register',userRegistration).then(function(response){
                                    $scope.userId=response.data
-                                   console.log("here is answer from  server "+response.data)
                                    $scope.signUpAlert=true;
                                    $scope.LoginBox = !$scope.LoginBox;
                                    $scope.RegisterBox = !$scope.RegisterBox;
@@ -4234,7 +4233,7 @@
                   }else{
                     $scope.requestReply="month has to be this month or next months from this month."
                   }
-                 
+
                 }else{
                   if(todayDay>selectedDay){
                      if($scope.languageKey=='TG'){
@@ -4381,7 +4380,7 @@
                  //          var today=new Date()
                  //          // var todayYear=today.getFullYear();
                  //          // var myage = todayYear-birthDateYear;
-                          
+
                  //  };
                 function getMyInfo(){
                   $http.post('/jobFinder/getMyInfo',data).then(function(response){
