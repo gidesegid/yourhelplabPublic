@@ -1,33 +1,12 @@
 <html ng-app="myApp">
   <head>
-    <!-- Global site tag (gtag.js) - Google Analytics -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-116004031-1"></script>
-    <!-- <script>
-      window.dataLayer = window.dataLayer || [];
-      function gtag(){dataLayer.push(arguments);}
-      gtag('js', new Date());
-
-      gtag('config', 'UA-116004031-1');
-    </script> -->
-    <title>your help lab login</title>
-  <link href="/assets/plugins/bootstrap/bootstrap.css" rel="stylesheet" />
-    <link href="/assets/font-awesome/css/font-awesome.css" rel="stylesheet" />
-  <link href="/assets/css/login2.css" rel="stylesheet" />
-  <link href="/assets/css/autocomplete.css" rel="stylesheet"/>
-  <link rel="icon" href="/assets/log/bird.png">
-    <link rel="stylesheet" type="text/css" href="/bower_components/ng-img-crop/compile/minified/ng-img-crop.css">
-      <!--google fonts-->
-        <link href="https://fonts.googleapis.com/css?family=Abhaya+Libre|Francois+One" rel="stylesheet">
-        <!-- Latest compiled and minified CSS -->
-        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
-        <!-- Optional theme -->
-        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
-        <script type="text/javascript" src="http://w.sharethis.com/button/buttons.js"></script>
-       <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-
+     <title>your help lab login</title>
+     <link href="/assets/css/login2.css" rel="stylesheet" />
+      <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
   </head>
   <body ng-controller="logincontroller" class="container index backgroundColor">
             <div ng-hide="LoginBox" class="login box-containerLogin col-lg-4 col-md-4 col-sm-6 col-xs-6">
+              <input type="hidden" ng-model="loginClickedFrom" value="{{loginClickedFrom}}">
                       <p class="pull-right languageStyle"><span><a href="" ng-click="changeLanguage('TG')">ትግርኛ</a></span>&nbsp;&nbsp;&nbsp;||&nbsp;&nbsp;<span><a href="" ng-click="changeLanguage('EN')">English</a></span>&nbsp;||&nbsp;<span><a href="" ng-click="changeLanguage('NL')">Dutch</a></span></p><br><br><br><br>
                         <div>
                             <h3 class="login-heading loginHeadTitle" translate="loginHeadline">Login</h3>
@@ -149,7 +128,6 @@
 
     <script type="text/javascript" src="/bower_components/angular/angular.min.js"></script>
     <script type="text/javascript" src="/bower_components/angular-translate/angular-translate.js"></script>
-    <!-- <script type="text/javascript" src="/bower_components/angular-sanitize/angular-sanitize.js"></script> -->
     <script src="/assets/plugins/jquery-1.10.2.js"></script>
     <script src="/assets/plugins/bootstrap/bootstrap.min.js"></script>
     <script type="text/javascript" src="/controller/main.js"></script>
@@ -159,7 +137,6 @@
     <script src="/bower_components/moment/moment.js"></script>
     <script src="/bower_components/moment/locale/de.js"></script>
     <script src="/bower_components/angular-moment/angular-moment.js"></script>
-    <script src="https://js.stripe.com/v3/"></script>
     <script type="text/javascript" src="/controller/autocomplete.js"></script>
 
   </body>

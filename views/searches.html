@@ -6,21 +6,14 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>yourHelpLab,The work opportunities</title>
-    <!-- Core CSS - Include with every page -->
     <link rel="stylesheet" type="text/css" href="/bower_components/ng-img-crop/compile/minified/ng-img-crop.css">
      <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
-     <!-- Optional theme -->
      <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
-     <!--google fonts-->
-      <link href="https://fonts.googleapis.com/css?family=Abhaya+Libre|Francois+One" rel="stylesheet">
-      <!-- Font-awesome CDN -->
       <script src="https://use.fontawesome.com/9905f6c07d.js"></script>
-       <link rel="shortcut icon" href="images/favicon.jpg" type="image/jpg">
        <link href="/assets/css/autocomplete.css" rel="stylesheet"/>
       <link rel="stylesheet" href="assets/css/SearchStyle.css">
       <link rel="stylesheet" href="assets/css/style.css">
       <link rel="icon" href="/assets/log/bird.png" width="300" height="300">
-      <!-- <link rel="stylesheet" href="/assets/css/homeSideBar.css"> -->
       <style media="screen">
             .headerBackGround{
               background-color:#8629b2;
@@ -61,7 +54,7 @@
                     <p  class="pull-left"><a href="" class="headerText" ng-click="changeLanguage('TG')">ትግርኛ</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a class="headerText" ng-click="changeLanguage('EN')" style="color:white;font-size:16px">English</a>&nbsp;&nbsp;&nbsp;&nbsp;<a class="headerText" ng-click="changeLanguage('NL')" >Dutch</a></p>
                     <p class="pull-right searchesLogin "><a href="/contactus.html" class="headerText" ng-click="contactus()" translate="contactus">Contact Us</a></p></span>
                     <p class="pull-right searchesLogin"><a href="/about.html" class="headerText" ng-click="about()" translate="aboutus">About</a></p></span>
-                    <p class="pull-right searchesLogin"><a href="/login.html" class="headerText" translate="loginHeadline">Login</a></p><br>
+                    <p class="pull-right searchesLogin"><a href="/login.html" ng-click="onClickLoginFromHomePage()" class="headerText" translate="loginHeadline">Login</a></p><br>
                   </div>
              </div>
              <div >
@@ -80,8 +73,8 @@
                           <li class="list-group-item list-group-item-info searchCriterias">&nbsp;&nbsp;<a class="fa fas fa-home" translate="home"  ng-click="toggle_homePage()"></a></li>
                           <li class="list-group-item list-group-item-success searchCriterias">&nbsp;&nbsp;<a class="fa fas fa-user-md" translate="jobSearch"  ng-click="toggle_searchJob()"></a></li>
                           <li class="list-group-item list-group-item-info searchCriterias">&nbsp;&nbsp;<a class="fa fas fa-user-md" translate="searchCandidate" ng-click="findCandidate()"></a></li>
-                          <li class="list-group-item list-group-item-success searchCriterias">&nbsp;&nbsp;<a class="fa fas fa-building" href="/login.html" translate="jobPosts"></a></li>
-                          <li class="list-group-item list-group-item-warning searchCriterias">&nbsp;&nbsp;<a class="fa fas fa-exclamation-circle" href="/login.html" translate="issuePost"></a></li>
+                          <li class="list-group-item list-group-item-success searchCriterias">&nbsp;&nbsp;<a class="fa fas fa-building" href="/login.html" ng-click="onClickLoginJobPosting()" translate="jobPosts"></a></li>
+                          <li class="list-group-item list-group-item-warning searchCriterias">&nbsp;&nbsp;<a class="fa fas fa-exclamation-circle" href="/login.html" ng-click="onClickLoginIssuePosting()" translate="issuePost"></a></li>
                           <li class="list-group-item list-group-item-warning searchCriterias">&nbsp;&nbsp;<a class="fa fas fa-headphones" href="/newsFromHome.html"  translate="getNews">Getting upto date news,reading fictions</a></li>
                           <li class="list-group-item list-group-item-danger searchCriterias">&nbsp;&nbsp;<a class="fa fas fa-cart-arrow-down" href="/salethingsFromHome.html"  translate="itemsForSale">Getting Items for sale</a></li>
                           <li class="list-group-item list-group-item-danger searchCriterias">&nbsp;&nbsp;<a class="fa fas fa-car" href="/transportHomePage.html" translate="journey"></a></li>
@@ -198,159 +191,11 @@
     <script src="/assets/plugins/jquery-1.10.2.js"></script>
     <script src="/assets/plugins/bootstrap/bootstrap.min.js"></script>
     <script type="text/javascript" src="/controller/main.js"></script>
-    <script  src="https://cdn.socket.io/socket.io-1.4.5.js"></script>
     <script src="/bower_components/ng-img-crop/compile/minified/ng-img-crop.js"></script>
     <script src="/bower_components/moment/moment.js"></script>
     <script src="/bower_components/moment/locale/de.js"></script>
     <script src="/bower_components/angular-moment/angular-moment.js"></script>
     <script src="https://js.stripe.com/v3/"></script>
-      <script type="text/javascript" src="/controller/autocomplete.js"></script>
+    <script type="text/javascript" src="/controller/autocomplete.js"></script>
   </body>
-  <script type="text/javascript">
-      $(document).ready(function() {
-          $("#toggle").click(function() {
-            var elem = $("#toggle").text();
-            if (elem == "Read More") {
-              //Stuff to do when btn is in the read more state
-              $("#toggle").text("Read Less");
-              $("#text").slideDown();
-            } else {
-              //Stuff to do when btn is in the read less state
-              $("#toggle").text("Read More");
-              $("#text").slideUp();
-            }
-          });
-          //toggleGetJobDesc
-          $("#toggleGetJobDesc").click(function() {
-            var elem = $("#toggleGetJobDesc").text();
-            if (elem == "Read More") {
-              //Stuff to do when btn is in the read more state
-              $("#toggleGetJobDesc").text("Read Less");
-              $("#getJobDesc").slideDown();
-            } else {
-              //Stuff to do when btn is in the read less state
-              $("#toggleGetJobDesc").text("Read More");
-              $("#getJobDesc").slideUp();
-            }
-          });
-          //toogleGetEmployeeDesc
-          $("#toogleGetEmployeeDesc").click(function() {
-            var elem = $("#toogleGetEmployeeDesc").text();
-            if (elem == "Read More") {
-              //Stuff to do when btn is in the read more state
-              $("#toogleGetEmployeeDesc").text("Read Less");
-              $("#getEmployeeDesc").slideDown();
-            } else {
-              //Stuff to do when btn is in the read less state
-              $("#toogleGetEmployeeDesc").text("Read More");
-              $("#getEmployeeDesc").slideUp();
-            }
-          });
-         //tooglePostJobDesc
-          $("#tooglePostJobDesc").click(function() {
-            var elem = $("#tooglePostJobDesc").text();
-            if (elem == "Read More") {
-              //Stuff to do when btn is in the read more state
-              $("#tooglePostJobDesc").text("Read Less");
-              $("#postJobDesc").slideDown();
-            } else {
-              //Stuff to do when btn is in the read less state
-              $("#tooglePostJobDesc").text("Read More");
-              $("#postJobDesc").slideUp();
-            }
-          });
-          //toogleGetNewsDesc
-          $("#toogleGetNewsDesc").click(function() {
-            var elem = $("#toogleGetNewsDesc").text();
-            if (elem == "Read More") {
-              //Stuff to do when btn is in the read more state
-              $("#toogleGetNewsDesc").text("Read Less");
-              $("#getNewsDesc").slideDown();
-            } else {
-              //Stuff to do when btn is in the read less state
-              $("#toogleGetNewsDesc").text("Read More");
-              $("#getNewsDesc").slideUp();
-            }
-          });
-          //toogleNoProfessionDesc
-          $("#toogleNoProfessionDesc").click(function() {
-            var elem = $("#toogleNoProfessionDesc").text();
-            if (elem == "Read More") {
-              //Stuff to do when btn is in the read more state
-              $("#toogleNoProfessionDesc").text("Read Less");
-              $("#noProfessionDesc").slideDown();
-            } else {
-              //Stuff to do when btn is in the read less state
-              $("#toogleNoProfessionDesc").text("Read More");
-              $("#noProfessionDesc").slideUp();
-            }
-          });
-          //tooglePostingIssueDesc
-          $("#tooglePostingIssueDesc").click(function() {
-            var elem = $("#tooglePostingIssueDesc").text();
-            if (elem == "Read More") {
-              //Stuff to do when btn is in the read more state
-              $("#tooglePostingIssueDesc").text("Read Less");
-              $("#postingIssueDesc").slideDown();
-            } else {
-              //Stuff to do when btn is in the read less state
-              $("#tooglePostingIssueDesc").text("Read More");
-              $("#postingIssueDesc").slideUp();
-            }
-          });
-          //toogleGetItemsToSaleDesc
-          $("#toogleGetItemsToSaleDesc").click(function() {
-            var elem = $("#toogleGetItemsToSaleDesc").text();
-            if (elem == "Read More") {
-              //Stuff to do when btn is in the read more state
-              $("#toogleGetItemsToSaleDesc").text("Read Less");
-              $("#getItemsToSaleDesc").slideDown();
-            } else {
-              //Stuff to do when btn is in the read less state
-              $("#toogleGetItemsToSaleDesc").text("Read More");
-              $("#getItemsToSaleDesc").slideUp();
-            }
-          });
-          //tooglechatDesc
-          $("#tooglechatDesc").click(function() {
-            var elem = $("#tooglechatDesc").text();
-            if (elem == "Read More") {
-              //Stuff to do when btn is in the read more state
-              $("#tooglechatDesc").text("Read Less");
-              $("#chatDesc").slideDown();
-            } else {
-              //Stuff to do when btn is in the read less state
-              $("#tooglechatDesc").text("Read More");
-              $("#chatDesc").slideUp();
-            }
-          });
-          //toogleJourneyDesc
-          $("#toogleJourneyDesc").click(function() {
-            var elem = $("#toogleJourneyDesc").text();
-            if (elem == "Read More") {
-              //Stuff to do when btn is in the read more state
-              $("#toogleJourneyDesc").text("Read Less");
-              $("#journeyDesc").slideDown();
-            } else {
-              //Stuff to do when btn is in the read less state
-              $("#toogleJourneyDesc").text("Read More");
-              $("#journeyDesc").slideUp();
-            }
-          });
-          //tooglePostHobbiesDesc
-          $("#tooglePostHobbiesDesc").click(function() {
-            var elem = $("#tooglePostHobbiesDesc").text();
-            if (elem == "Read More") {
-              //Stuff to do when btn is in the read more state
-              $("#tooglePostHobbiesDesc").text("Read Less");
-              $("#postHobbiesDesc").slideDown();
-            } else {
-              //Stuff to do when btn is in the read less state
-              $("#tooglePostHobbiesDesc").text("Read More");
-              $("#postHobbiesDesc").slideUp();
-            }
-          });
-
-     });
-  </script>
 </html>

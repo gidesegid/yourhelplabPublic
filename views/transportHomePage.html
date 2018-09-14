@@ -7,15 +7,15 @@
     <link rel="icon" href="/assets/log/bird.png">
     <!-- Core CSS - Include with every page -->
     <link href="/assets/plugins/bootstrap/bootstrap.css" rel="stylesheet" />
-    <link href="/assets/font-awesome/css/font-awesome.css" rel="stylesheet" />
+    <!-- <link href="/assets/font-awesome/css/font-awesome.css" rel="stylesheet" /> -->
     <link href="/assets/css/style.css" rel="stylesheet"/>
-    <link href="/assets/css/main-style.css" rel="stylesheet"/>
-     <link href="/assets/css/mystyle.css" rel="stylesheet"/>
+    <!-- <link href="/assets/css/main-style.css" rel="stylesheet"/> -->
+     <!-- <link href="/assets/css/mystyle.css" rel="stylesheet"/> -->
     <link href="/assets/css/chat.css" rel="stylesheet"/>
-    <link href="/assets/css/modal.css">
+    <!-- <link href="/assets/css/modal.css"> -->
     <link href="/assets/css/autocomplete.css" rel="stylesheet"/>
-    <link rel="stylesheet" type="text/css" href="/bower_components/ng-img-crop/compile/minified/ng-img-crop.css">
-     <link href="https://fonts.googleapis.com/css?family=Bungee+Shade" rel="stylesheet">
+    <!-- <link rel="stylesheet" type="text/css" href="/bower_components/ng-img-crop/compile/minified/ng-img-crop.css"> -->
+     <!-- <link href="https://fonts.googleapis.com/css?family=Bungee+Shade" rel="stylesheet"> -->
      <link rel="stylesheet" href="assets/css/SearchStyle.css">
      <style media="screen">
        .languageHeadLines{
@@ -42,7 +42,7 @@
                         <p class="pull-right searchesLogin "><a href="/searches.html" class="headerText" translate="backtosearchHomepage">Home</a></p></span>
                         <p class="pull-right searchesLogin "><a href="/contactus.html" class="headerText" ng-click="contactus()" translate="contactus">Contact Us</a></p></span>
                         <p class="pull-right searchesLogin"><a href="/about.html" class="headerText" ng-click="about()" translate="aboutus">About</a></p></span>
-                        <p class="pull-right searchesLogin"><a href="/login.html" class="headerText" translate="loginHeadline">Login</a></p><br>
+                        <p class="pull-right searchesLogin"><a href="/login.html" ng-click="onClickLogin()" class="headerText" translate="loginHeadline">Login</a></p><br>
                       </div>
                  </div>
               </div>
@@ -57,9 +57,6 @@
          <div style="background-color:rgb(244, 149, 65);">
            <span style="font-size:20px;"> <a href="" ng-click="travelByAirPlane()" translate="journeyByPlane">Travel by AirPlane</a></span>
          </div>
-          
-        
-         <!-- <a href="" ng-click="moneyTransfer()">Money Transfer</a> -->
        </div>
        <div class="col-lg-10">
               <label class="alert-danger">{{requestReply}}</label>
@@ -69,7 +66,7 @@
                   <textarea ng-model="airTravelMessage" rows="2" class="form-control" cols="80" placeholder="message,telephone"></textarea>
                   <button type="button" translate="send" class="btn-lg btn-primary" name="button" ng-click="airTravel()">send</button>
                 </div>
-              </div> 
+              </div>
               <div class="col-lg-5 alert-success" ng-show="moneyTransfer">
                 <div class="" style="padding-left:10px;padding-right:10px;">
                   <strong translate="sendMoney">Do you need to send money to Eritrea by western union which is legal?</strong>
@@ -136,7 +133,7 @@
                                 </thead>
                                   <tbody ng-repeat="transport in readyTransports">
                                      <tr>
-                                         <td>{{transport.type}}</td>
+                                         <td>{{transport.type}} <a href="#"> <img ng-src="/transportOwnerImages/{{transport.photo}}" width="100" height="100"> </a></td>
                                          <td>{{transport.numberOfSeats}}</td>
                                          <td>{{transport.freeSeats}}</td>
                                          <td>{{transport.date | date:'yyyy-MM-dd HH:mm'}}</td>
@@ -152,7 +149,7 @@
                  </div>
               </div>
         </div>
-       
+
      <div class="container" id="mydiv" ng-show="chatbox">
          <div class="row chat-window col-xs-3 col-md-3 col-lg-4" id="chat_window_1" style="margin-left:500px;">
             <div class="col-xs-12 col-md-12">
@@ -187,7 +184,6 @@
              </div>
          </div>
      </div>
-
     <!-- Core Scripts - Include with every page -->
      <script type="text/javascript" src="/bower_components/angular/angular.min.js"></script>
      <script type="text/javascript" src="/bower_components/angular-translate/angular-translate.js"></script>

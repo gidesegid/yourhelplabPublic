@@ -366,6 +366,36 @@
                                 <td><input type="button" class="btn btn-chat" value="delete" ng-click="deletePassenger(passenger.id)"></td>
                              </tr>
                         </table>
+                    </div><br>
+                    <button type="button" ng-click="getWebCollections()">load web collections</button><br><br>
+                    <input type="text" ng-model="webCollectionAutoId" placeholder="webid">
+                    <input type="text" ng-model="webCollectionId" placeholder="webcollection id">
+                    <input type="text" ng-model="english" placeholder="english">
+                    <input type="text" ng-model="tigrina" placeholder="tigrina">
+                    <input type="text" ng-model="dutch" placeholder="dutch">
+                    <input type="button" class="btn btn-primary" ng-click="addWebCollection()" value="add">
+                    <button class="btn btn-warning" ng-click="updateWebCollection()">update</button> <button ng-click="deleteWebCollection()" class="btn btn-danger">delete</button>
+                    <label for="">{{doneSuccefully}}</label>
+                     <div class="panel panel-default">
+                          <table>
+                            <tr>
+                              <th>id</th>
+                              <th>webcollectionId</th>
+                               <th>English</th>
+                               <th>tigrina</th>
+                               <th>dutch</th>
+                               <th>Action</th>
+                          </tr>
+                              <tr ng-repeat="item in allWebCollections">
+                                <td>{{item.Id}}</td>
+                                <td>{{item.webCollectionId}}</td>
+                                <td>{{item.english}}</td>
+                                <td>{{item.tigrina}}</td>
+                                <td>{{item.dutch}}</td>
+                                <td> <button ng-click="editWebCollection(item.Id,item.webCollectionId,item.english,item.tigrina,item.dutch)" class="btn btn-primary">Edit</button> </td>
+                             </tr>
+                        </table>
+
                     </div>
                 </div>
             </div>

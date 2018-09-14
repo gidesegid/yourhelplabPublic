@@ -746,14 +746,16 @@ connection.connect(function(error){
                 if(!!error){
                  res.json(error)
                 }else{
+                  //console.log("transport onwer id ="+res.json(row) )
                    res.json(row);
+
                 }
               });
       })
 //get transportowner info
       router.post('/getOwnTransportInfo',mytoken,function(req,res){
         var userId=req.decoded.sub;
-        connection.query("select id,type,numberOfSeats,freeSeats,date,fromTime,toTime,fromPlace,toPlace,additionalInfo,registrationDate,telephone from transporttype where userId='?'",userId,function(error,row,fields){
+        connection.query("select id,type,numberOfSeats,photo,freeSeats,date,fromTime,toTime,fromPlace,toPlace,additionalInfo,registrationDate,telephone from transporttype where userId='?'",userId,function(error,row,fields){
           if(!!error){
             res.json(error)
           }else{
@@ -827,6 +829,7 @@ connection.connect(function(error){
           res.json(error)
         }else{
           res.json(row);
+
         }
       })
     })
@@ -850,7 +853,7 @@ connection.connect(function(error){
         var toPlace=req.body.toPlace
         var transportChoosed=req.body.transportChoosed
         connection.query("select transporttype.id as id,transporttype.userId as userId,transporttype.`type` as type,transporttype.numberOfSeats as numberOfSeats,"+
-          "transporttype.fromTime as fromTime,transporttype.toTime as toTime,transporttype.date as date,transporttype.fromPlace as fromPlace,transporttype.toPlace as toPlace,"+
+          "transporttype.fromTime as fromTime,transporttype.photo as photo,transporttype.toTime as toTime,transporttype.date as date,transporttype.fromPlace as fromPlace,transporttype.toPlace as toPlace,"+
           "transporttype.additionalInfo as additionalInfo,transportfreeseats.freeSeats as freeSeats from transporttype INNER JOIN transportfreeseats ON transporttype.id=transportfreeseats.id"+
           " where transportfreeseats.freeSeats>0  and date ='"+date+"'  AND"+
           " transporttype.fromPlace='"+fromPlace+"' and transporttype.toPlace='"+toPlace+"' and transporttype.type='"+transportChoosed+"'",function(error,row,fields){
@@ -1497,17 +1500,47 @@ connection.connect(function(error){
            var fileName=file.filename;
            var fileType=file.mimetype;
         }
-
         var date=Date.now();
                connection.query("insert into posts(postDescription,fileType,fileName,userId,timestamp) values('"+postDescription+"','"+fileType+"','"+fileName+"','"+userId+"','"+date+"')",function(error,row,fields){
                   if(!!error){
                    res.json(error)
-
                   }else{
-
                      res.redirect('/home/posted')
                   }
                 });
+       }
+       //upload owner transport image...................................................................................
+      var uploadTransportImageDestination=multer({dest:'./public/transportOwnerImages'});
+       router.post('/uploadTransportImage',
+       uploadTransportImageDestination.single('postFile'),
+       post);
+       function post(req,res){
+
+         if(req.body.fileName==undefined){
+            res.redirect('/errors.html')
+         }
+        var userId=req.body.userId;
+        var userFullName=req.body.userFullName;
+        var file=req.file;
+        var previousFileName=req.body.previousFileName
+         var fileName=file.filename;
+         var fileType=file.mimetype;
+         if (fileType=='image/jpeg' || fileType=='image/jpg'){
+           connection.query("UPDATE transporttype SET photo ='"+fileName+"' WHERE userId='"+userId+"'",function(error,row,fields){
+              if(!!error){
+               res.json(error)
+              }else{
+                console.log("output="+row)
+                 res.redirect('/findTransport/'+userFullName)
+              }
+            });
+            if(previousFileName!==undefined){
+              var directory="transportOwnerImages"
+              removeFile(directory,previousFileName);
+            }
+         }else{
+              res.redirect("error",'errors.html')
+         }
        }
   //postting image and description of the image of posts
    router.post('/postposts',mytoken,function(req,res){
@@ -2396,7 +2429,7 @@ connection.connect(function(error){
                     res.json(error)
                 }else{
                     res.json(row)
-                    
+
                 }
                })
              })
@@ -3610,7 +3643,7 @@ router.post('/updateWorkProfessionList',function(req,res){
 router.post('/deleteExternalDataInfo',function(req,res){
   connection.query("delete from clientsFromExternal",function(error,row){
     if(!!error){
-     
+
     }else{
       res.json("done")
     }
@@ -3619,7 +3652,7 @@ router.post('/deleteExternalDataInfo',function(req,res){
 router.post('/getContacts',function(req,res){
   connection.query("select * from contactus",function(error,row){
     if(!!error){
-     
+
     }else{
       res.json(row)
     }
@@ -3628,7 +3661,7 @@ router.post('/getContacts',function(req,res){
 router.post('/getAirTravel',function(req,res){
   connection.query("select * from airTravel",function(error,row){
     if(!!error){
-     
+
     }else{
       res.json(row)
     }
@@ -3669,7 +3702,51 @@ router.post('/deleteMoneyTransfer',function(req,res){
     }
   })
 })
+router.get('/webcollections',function(req,res){
+  connection.query("select * from webcollections",function(error,row){
+    if(!!error){
+    }else{
+      res.json(row)
+    }
+  })
+})
+router.post('/addWebCollection',mytoken,function(req,res){
+  var webCollectionId=req.body.webCollectionId
+  var english=req.body.english
+  var tigrina=req.body.tigrina
+  var dutch=req.body.dutch
+  connection.query("insert into webcollections(webCollectionId,english,tigrina,dutch)values('"+webCollectionId+"','"+english+"','"+tigrina+"','"+dutch+"')",function(error,row){
+    if(!!error){
+    }else{
+      res.json(row)
+    }
+  })
+})
 
+router.post('/updateWebCollection',mytoken,function(req,res){
+  var id=req.body.webCollectionAutoId
+  var webCollectionId=req.body.webCollectionId
+  var english=req.body.english
+  var tigrina=req.body.tigrina
+  var dutch=req.body.dutch
+  console.log(id,webCollectionId,english,tigrina,dutch)
+  connection.query("update webcollections set webCollectionId='"+webCollectionId+"',english='"+english+"',tigrina='"+tigrina+"',dutch='"+dutch+"' where Id='"+id+"'",function(error,row){
+    if(!!error){
+    }else{
+      res.json(row)
+    }
+  })
+})
+router.post('/deletWebCollectionId',mytoken,function(req,res){
+  var id=req.body.webCollectionAutoId;
+  connection.query("delete from webcollections where Id=?",id,function(error,row){
+    if(!!error){
+      console.log("error")
+    }else{
+      res.json(row)
+    }
+  })
+})
 //})
 module.exports=router;
      //module.exports={protected:router,unprotected:unprotected};

@@ -444,7 +444,8 @@
              passengers:'Passengers',
              transports:'transports',
              writeCityNameWhereULive:'Please write name of the city where you live in',
-             travelByMeansOfTransport:'Travel informations'
+             travelByMeansOfTransport:'Travel informations',
+             uploadTransportImage:'Upload transport image'
           })
           .translations('NL', {
             loginHeadline: 'Login',
@@ -746,7 +747,8 @@
              passengers:'passagiers',
              transports:'transporten',
              writeCityNameWhereULive:'voer de naam in van de stad waar je woont',
-             travelByMeansOfTransport:'reisinformatie'
+             travelByMeansOfTransport:'reisinformatie',
+             uploadTransportImage:'upload transportafbeelding'
           })
           .translations('TG', {
             loginHeadline: 'መእተዊ',
@@ -1050,7 +1052,8 @@
              passengers:'ተጎዓዝቲ',
              transports:'ኣብዚ ቦታ ዚ በዚ ዝመረጽኩሞ ዕለት ተመዝጊበን ዘለዋ መጓዓዝያታት',
              writeCityNameWhereULive:'ትነብሩላ ከተማ ኣብዚ ጸሓፉ',
-             travelByMeansOfTransport:'ሓበሬታ መጓዓዝያታት'
+             travelByMeansOfTransport:'ሓበሬታ መጓዓዝያታት',
+             uploadTransportImage:'nay meguaazya sieli xean'
 
           });
           $translateProvider.preferredLanguage('EN');
@@ -1124,7 +1127,20 @@
     };
 });
 //login controller
-    myApp.controller('logincontroller',function($scope,$http,$window,srvShareData, $location,alertService,$translate,countryRetriever,cityRetriever,professionRetriever){
+    myApp.controller('logincontroller',function($scope,$http,$window,srvShareData, $location,alertService,$translate,countryRetriever,cityRetriever,professionRetriever,loginDirectoryLeader){
+            $scope.loginClickedFrom=loginDirectoryLeader.getData();
+            $scope.onClickLoginFromHomePage=function(){
+              var directory="/jobFinder/home/"
+              loginDirectoryLeader.addData(directory)
+            }
+            $scope.onClickLoginIssuePosting=function(){
+              var directory="/jobFinder/issues/"
+              loginDirectoryLeader.addData(directory)
+            }
+            $scope.onClickLoginJobPosting=function(){
+              var directory="/jobFinder/professionalTransactions/"
+              loginDirectoryLeader.addData(directory)
+            }
             $scope.username="";
             $scope.password="";
             $scope.dataToShare = [];
@@ -1478,9 +1494,10 @@
                           var data={};
                           data.username=$scope.username;
                           data.password=$scope.password;
-                          $http.get('/home/'+userFullName).then(function(response){
-                            $window.location.href = '/jobFinder/home/'+userFullName
-                          })
+                          var directory=$scope.loginClickedFrom
+                            $http.get(directory+userFullName).then(function(response){
+                              $window.location.href = directory+userFullName
+                            })
                     }else{
                         $scope.LoginAlert=true;
                     }
@@ -2622,7 +2639,12 @@
 
   });
 //things to sale controller
-    myApp.controller('thingsToSaleController',function($scope,$http,srvShareData,alertService,socket,$window,$translate,countryRetriever){
+    myApp.controller('thingsToSaleController',function($scope,$http,srvShareData,alertService,socket,$window,$translate,countryRetriever,loginDirectoryLeader){
+
+        $scope.onClickLoginFromSaleHomePage=function(){
+          var directory="/jobFinder/thingsToSale/"
+          loginDirectoryLeader.addData(directory)
+        }
        //post public assets
            $scope.sharedData = srvShareData.getData();
 
@@ -3322,7 +3344,12 @@
         }
     })
 //daily life happenings controller
-    myApp.controller('newscontroller',function($scope,$http,$window,$location,srvShareData,alertService,$translate){
+    myApp.controller('newscontroller',function($scope,$http,$window,$location,srvShareData,alertService,$translate,loginDirectoryLeader){
+
+            $scope.onClickLoginFromNewsHomePage=function(){
+              var directory="/jobFinder/dailyLifeHappenings/"
+              loginDirectoryLeader.addData(directory)
+            }
             //post public assets
             $scope.sharedData = srvShareData.getData();
             if($scope.sharedData.length==0){
@@ -3889,9 +3916,11 @@
            }
       })
 //transport
-     myApp.controller('transportCtrl',function($scope,$http,$filter,$window,$location,srvShareData,alertService,socket,cityNetherlandRetriever,$translate){
+     myApp.controller('transportCtrl',function($scope,$http,$filter,$window,$location,srvShareData,alertService,socket,cityNetherlandRetriever,$translate,loginDirectoryLeader){
         //post public assets
                   $scope.sharedData = srvShareData.getData();
+                //  $scope.dataToShare=results
+
                   if($scope.sharedData.length==0){
                   }else {
                     $scope.sharedDataUserName=$scope.sharedData[0];
@@ -3904,7 +3933,12 @@
                     $scope.country=$scope.sharedDataUserName[8];
                    $scope.livesIn=$scope.sharedDataUserName[9];
                   }
+                  $scope.onClickLogin=function(){
+                    var loginClickedFrom="/jobFinder/findTransport/"
+                    loginDirectoryLeader.addData(loginClickedFrom)
+                    console.log($window.sessionStorage['App.loginDirectoryLeader'])
 
+                  }
                  var data={}
                  data.token=$scope.Authenticate;
          //populating transport type to dropbox and cities  to city dropdown
@@ -4033,7 +4067,21 @@
                 data.message=""
                 data.userIs="passenger"
             }
+            function transportFieldController(fromPlace,toPlace){
+              if(fromPlace==undefined){
+                $scope.transportFieldControllerInfo="select from city"
+              }else if(toPlace==undefined){
+                 $scope.transportFieldControllerInfo="select to city"
+              }else{
+                  $scope.transportFieldControllerInfo=""
+              }
+            }
            $scope.getTransportOwnerInfo=function(){
+             if($scope.id===undefined){
+              $scope.transportImage=false;
+             }else{
+               $scope.transportImage=true;
+             }
               getTransportId();
            }
            function getTransportId(){
@@ -4050,6 +4098,7 @@
                    $scope.numberOfSeats=response.data[0].numberOfSeats;
                    $scope.additionalInfo=response.data[0].additionalInfo;
                    $scope.telephone=response.data[0].telephone;
+                   $scope.transportPhto=response.data[0].photo;
              })
            }
            getTransportId();
@@ -4068,15 +4117,24 @@
                   data.numberOfSeats=$scope.numberOfSeats;
                   data.additionalInfo=$scope.additionalInfo;
                   data.telephone=$scope.telephone;
+                  console.log(data.fromTime,data.toTime,data.numberOfSeats,data.additionalInfo)
+                  transportFieldController(fromPlace,toPlace);
+                    if($scope.transportFieldControllerInfo===""){
                       if($scope.id===undefined){
                         $http.post('/jobFinder/transOwnerInfo',data).then(function(response){
-                          $scope.result="Successfully registered.Thank you!"
+                          $scope.result="Successfully registered.Thank you!";
+                          $scope.transportOwnerId=response.id
+                           $scope.transportImage=true;
                         });
                      }else{
                       $http.post('/jobFinder/updateTransportOwner',data).then(function(response){
                         $scope.result="Successfully updated.Thank you!"
                       })
                      }
+                    }else{
+
+                    }
+
               }
             $scope.fillFromCity = function(){
                 var data=null
@@ -4634,8 +4692,6 @@
           mydata.push(newObj);
           $window.sessionStorage.setItem(KEY, JSON.stringify(mydata));
       };
-
-
       var getData = function(){
           var mydata = $window.sessionStorage.getItem(KEY);
           if (mydata) {
@@ -4643,14 +4699,39 @@
           }
           return mydata || [];
       };
-
-
       return {
           addData: addData,
           getData: getData
 
       };
-  });
+    });
+  myApp.service('loginDirectoryLeader', function($window) {
+    var KEY = 'App.loginDirectoryLeader';
+    //adding name and id of the user to the sessionStorage
+    var addData = function(newObj) {
+        var mydata = $window.sessionStorage.getItem(KEY);
+        if (mydata) {
+            mydata = JSON.parse(mydata);
+        } else {
+            mydata = [];
+        }
+        mydata=[]//clearing the array at every page load, other wise commet this to add things to the array at every page load
+        mydata.push(newObj);
+        $window.sessionStorage.setItem(KEY, JSON.stringify(mydata));
+    };
+    var getData = function(){
+        var mydata = $window.sessionStorage.getItem(KEY);
+        if (mydata) {
+            mydata = JSON.parse(mydata);
+        }
+        return mydata || [];
+    };
+    return {
+        addData: addData,
+        getData: getData
+
+    };
+   });
 //adimn works
   myApp.controller('adminController',function($scope,$http,srvShareData,alertService){
             $scope.sharedData = srvShareData.getData();
@@ -4665,6 +4746,45 @@
               data.passengers=$scope.passengers;
               $http.post('/jobFinder/allPassengers',data).then(function(response){
                 $scope.allPassengers=response.data
+              })
+            }
+            $scope.getWebCollections=function(){
+              $http.get('/webcollections').then(function(response){
+                $scope.allWebCollections=response.data
+              })
+            }
+            $scope.addWebCollection=function(){
+              data.webCollectionId=$scope.webCollectionId
+              data.english=$scope.english
+              data.tigrina=$scope.tigrina
+              data.dutch=$scope.dutch
+              data.Authenticate=$scope.Authenticate
+              $http.post('/addWebCollection',data).then(function(response){
+                $scope.doneSuccefully=response.id+ "  has been succefully added"
+              })
+            }
+            $scope.updateWebCollection=function(){
+              data.webCollectionAutoId=$scope.webCollectionAutoId;
+              data.webCollectionId=$scope.webCollectionId
+              data.english=$scope.english
+              data.tigrina=$scope.tigrina
+              data.dutch=$scope.dutch
+              data.Authenticate=$scope.Authenticate
+              $http.post('/updateWebCollection',data).then(function(response){
+                $scope.doneSuccefully="updated succefully"
+              })
+            }
+            $scope.editWebCollection=function(id,webCollectionId,english,tigrina,dutch){
+              $scope.webCollectionAutoId=id
+              $scope.webCollectionId=webCollectionId
+              $scope.english=english
+              $scope.tigrina=tigrina
+              $scope.dutch=dutch
+            }
+            $scope.deleteWebCollection=function(){
+              data.webCollectionAutoId=$scope.webCollectionAutoId
+              $http.post('/deletWebCollectionId',data).then(function(response){
+                $scope.doneSuccefully="deleted succefully"
               })
             }
             $scope.deleteExternalInfo=function(){
@@ -4776,17 +4896,10 @@
             data.userId=userId;
             data.permission=permission;
             data.permissionId=permissionId
-          // if(permissionId==undefined){
               $http.post("/addPermission",data).then(function(response){
                 $scope.sucess=response.data
                 alert("permission added")
                })
-           // }else{
-           //   $http.post("/updatePermission",data).then(function(response){
-           //      $scope.sucess=response.data
-           //      alert("updated")
-           //     })
-           // }
          }
           $scope.uploadWorkLists=function(){
             $http.get('/getAllWorkList').then(function(response){

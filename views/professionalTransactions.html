@@ -3,8 +3,8 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>jobFinder</title>
-    <!-- Core CSS - Include with every page -->
+    <title>your help lab</title>
+    <link rel="icon" href="/assets/log/bird.png">
     <link href="/assets/plugins/bootstrap/bootstrap.css" rel="stylesheet" />
     <link href="/assets/font-awesome/css/font-awesome.css" rel="stylesheet" />
     <link href="/assets/css/style.css" rel="stylesheet"/>
@@ -12,9 +12,7 @@
      <link href="/assets/css/mystyle.css" rel="stylesheet"/>
     <link href="/assets/css/chat.css" rel="stylesheet"/>
     <link href="/assets/css/modal.css">
-    <link rel="icon" href="/assets/log/bird.png">
-    <link rel="stylesheet" type="text/css" href="/bower_components/ng-img-crop/compile/minified/ng-img-crop.css">
-   <link href="https://fonts.googleapis.com/css?family=Bungee+Shade" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Bungee+Shade" rel="stylesheet">
    </head>
 <body ng-controller="homePageController">
     <!--  wrapper -->
@@ -29,34 +27,34 @@
                         <span class="icon-bar"></span>
                         <span class="icon-bar"></span>
                     </button>
-                    <a class="navbar-brand" href="index.html">
-                        <!-- <img src="/assets/img/logo.jpg" alt="" /> -->
+                      <span class="pull-left">
+                        <span class="logStyle">&nbsp; &nbsp;&nbsp;Wellcome to </span>
+                        <img ng-src="/assets/img/bird.png" width="90" height="90">
                         <SPAN class="logStyle" translate="yourhelplabdotcom"></SPAN>
-                    </a>
+                      </span>
                 </div>
                 <!-- end navbar-header -->
                 <!-- navbar-top-links -->
                 <ul class="nav navbar-top-links navbar-right">
-                    <!--salethings notification-->
-                     <li class="dropdown" ng-if="permission=='admin' || permission=='thingsToSale'" >
-                        <a class="dropdown-toggle" data-toggle="dropdown" href="#">
-                            <span class="top-label label label-danger">{{numberOfMessagesInSaleClients}} </span><i class="fa fa-user fa-3x fa-shopping-cart"></i>
-                        </a>
-                        <ul class="dropdown-menu dropdown-messages scrollbarfriendRequestnotification" id="friendRequestnotification-1">
-                            <li ng-repeat="saleThingsClient in saleItemNotice">
-                                          <div class='container2'>
-                                            <div style='margin-left:40px;'>
-                                            <h5><a href="#saleItemIdInfo" ng-click="getSaleItem()" data-toggle="modal">Talk about the item:{{saleThingsClient.saleItemId}}</a></h5>
-                                            <div>
-                                                 <p><a href="#" ng-click="chatWithThisSaleClient(saleThingsClient.socketId,saleThingsClient.languageKey);myStyle={background:'lime'};" ng-style="myStyle">{{saleThingsClient.message}}-lets chat</a></p>
-                                            </div>
-                                            <div style="float:right;font-size:.8em"><span am-time-ago="saleThingsClient.date"></span></div>
-                                          </div>
-                                 <li class="divider"></li>
-                            </li>
-                            <a href="" ng-if="friendRequests.length>6" ng-click="getFriendRequestsOnScrolling()" translate="seeMoreFriendRequest">see more friend requests.....</a>
-                        </ul>
-                    </li>
+                      <li class="dropdown" ng-if="permission=='admin' || permission=='thingsToSale'" >
+                         <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                             <span class="top-label label label-danger">{{numberOfMessagesInSaleClients}} </span><i class="fa fa-user fa-3x fa-shopping-cart"></i>
+                         </a>
+                         <ul class="dropdown-menu dropdown-messages scrollbarfriendRequestnotification" id="friendRequestnotification-1">
+                             <li ng-repeat="saleThingsClient in saleItemNotice">
+                                           <div class='container2'>
+                                             <div style='margin-left:40px;'>
+                                             <h5><a href="#saleItemIdInfo" ng-click="getSaleItem()" data-toggle="modal">Talk about the item:{{saleThingsClient.saleItemId}}</a></h5>
+                                             <div>
+                                                  <p><a href="#" ng-click="chatWithThisSaleClient(saleThingsClient.socketId,saleThingsClient.languageKey);myStyle={background:'lime'};" ng-style="myStyle">{{saleThingsClient.message}}-lets chat</a></p>
+                                             </div>
+                                             <div style="float:right;font-size:.8em"><span am-time-ago="saleThingsClient.date"></span></div>
+                                           </div>
+                                  <li class="divider"></li>
+                             </li>
+                             <a href="" ng-if="friendRequests.length>6" ng-click="getFriendRequestsOnScrolling()" translate="seeMoreFriendRequest">see more friend requests.....</a>
+                         </ul>
+                     </li>
                     <!--friend requests-->
                      <li class="dropdown">
                         <a class="dropdown-toggle" data-toggle="dropdown" href="#" ng-click="friendRequestHasBeenSeen()">
@@ -66,15 +64,16 @@
                             <li ng-repeat="friendRequest in friendRequests">
                                           <div class='container2' ng-if="friendRequests.length>0">
                                             <div>
-                                              <img  ng-src="/userImage/{{friendRequest.photo}}" class='iconDetailsFriendRequest'>
+                                              <a href="#userDetail" ng-click="getUserId(friendRequest.fromUserId)" data-toggle="modal"><img  ng-src="/userImage/{{friendRequest.photo}}" width="20" height="20" class='iconDetailsFriendRequest'></a>
                                             </div>
-                                            <div style='margin-left:60px;'>
+                                            <div style='margin-left:40px;'>
                                             <h4>{{friendRequest.username}}</h4>
                                             <div style="font-size:1em">
-                                               <input type="button" value="Confirm" ng-click="okFriendRequest(friendRequest.Id,friendRequest.fromUserId,friendRequest.userroom)" class="btn btn-primary">
-                                               <input type="button" value="Delete" ng-click="noFriendRequest(friendRequest.Id,friendRequest.fromUserId,friendRequest.userroom)" class="btn btn-chat">
+                                               <!-- <input type="button" value="Confirm" > -->
+                                               <button type="button" ng-click="okFriendRequest(friendRequest.Id,friendRequest.fromUserId,friendRequest.userroom)" class="btn btn-circle btn-primary">Confirm</button>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                               <button type="button" name="button" ng-click="noFriendRequest(friendRequest.Id,friendRequest.fromUserId,friendRequest.userroom)" class="btn btn-circle btn-warning">Delete</button>
+                                               <!-- <input type="button" value="Delete" > -->
                                             </div>
-
                                             <div style="float:right;font-size:.8em"><span am-time-ago="friendRequest.date"></span></div>
                                           </div>
                                  <li class="divider"></li>
@@ -91,14 +90,13 @@
                             <li class="list-group-item list-group-item-warning" ng-repeat="userMessage in postUserMessages">
                                   <div class='container2'>
                                     <div ng-if="postUserMessages.length!=0">
-                                     <img ng-src="/userImage/{{userMessage.photo}}" class='iconDetails'>
+                                     <a href="#userDetail" ng-click="getUserId(userMessage.fromUserId)" data-toggle="modal"><img ng-src="/userImage/{{userMessage.photo}}" class='iconDetails'></a>
                                     </div>
                                     <div style='margin-left:60px;'>
                                     <h4>{{userMessage.username}}</h4>
                                     <div style="font-size:1em">
                                       <!-- <a href="" ng-click="letsChat(userMessage.userId,userMessage.username)"></a> -->
                                       <a href="/jobFinder/notifications/{{userFullName}}">{{userMessage.message}}</a>
-
                                     </div>
                                     <div style="float:right;font-size:.8em">
                                      <span am-time-ago="userMessage.date"></span></div>
@@ -116,15 +114,15 @@
                            <li class="list-group-item list-group-item-danger" ng-repeat="userNotificationMessages in userNotificationMessages">
                                  <div class='container2'>
                                     <div>
-                                      <img ng-src="/userImage/{{userNotificationMessages.photo}}" class='iconDetails'>
+                                      <a href="#userDetail" data-toggle="modal" ng-click="getUserId(userNotificationMessages.fromUserId)"><img ng-src="/userImage/{{userNotificationMessages.photo}}" class='iconDetails'></a>
                                     </div>
                                     <div style='margin-left:60px;'>
                                     <h4>{{userNotificationMessages.username}}</h4>
-                                    <div style="font-size:1em"><a href="#detailsModal" ng-click="showModal(userNotificationMessages.location)" data-toggle="modal">{{userNotificationMessages.message}}</a></div>
-                                    <div style="float:right;font-size:.8em"><a href="#infoModal" data-toggle="modal" ng-click="details(userNotificationMessages.fromUserId,userNotificationMessages.location)" translate="aboutUser">see about user</a><span am-time-ago="userNotificationMessages.date"></span></div>
+                                    <div style="font-size:1em"><a href="#" ng-click="showModal(userNotificationMessages.location)">{{userNotificationMessages.message}}</a></div>
+                                    <div style="float:right;font-size:.8em"><span am-time-ago="userNotificationMessages.date"></span>
+                                    </div>
                                   </div>
                                  <li class="divider"></li>
-
                            </li>
                            <a href="" ng-if="userNotificationMessages.length>4" ng-click="getOtherNotificationsOnScrolling()"  translate="seeMoreNotifications">see more........</a>
                         </ul>
@@ -172,29 +170,33 @@
                             <!--end user image section-->
                         </li>
                         <li>
-                            <a href="/jobFinder/home/{{userFullName}}" translate="home"></a>
+                            <a href="/jobFinder/home/{{userFullName}}" class="fa fas fa-home sideBarFontSize" ng-click="homePage();showHomePage();" translate="home"></a>
                         </li>
                         <li class="selected">
-                            <a href="/jobFinder/professionalTransactions/{{userFullName}}" translate="employeeAndEmployer"></a>
+                            <a  href="/jobFinder/professionalTransactions/{{userFullName}}" class="fa fas fa-user-md sideBarFontSize" translate="employeeAndEmployer"></a>
                         </li>
                         <li>
-                            <a href="/jobFinder/issues/{{userFullName}}" translate="issuesAndSuggestions"></a>
+                            <a class="fa fas fa-exclamation-circle sideBarFontSize" href="/jobFinder/issues/{{userFullName}}" translate="issuesAndSuggestions"></a>
                         </li>
                         <li>
-                            <a href="/jobFinder/dailyLifeHappenings/{{userFullName}}" translate="dailyLifeHappenings"></a>
+                            <a href="/jobFinder/dailyLifeHappenings/{{userFullName}}" class="fa fas fa-headphones sideBarFontSize" translate="dailyLifeHappenings"></a>
                         </li>
                          <li>
-                            <a href="/jobFinder/chatbox/{{userFullName}}" translate="chatRoom"></a>
+                            <a href="/jobFinder/chatbox/{{userFullName}}" class="fa far fa-comments sideBarFontSize" translate="chatRoom"></a>
                         </li>
                         <li>
-                            <a href="/jobFinder/thingsToSale/{{userFullName}}" translate="thingsToSale"></a>
+                            <a href="/jobFinder/thingsToSale/{{userFullName}}" class="fa fas fa-shopping-cart sideBarFontSize" translate="thingsToSale"></a>
                         </li>
                         <li>
-                            <a href="/jobFinder/notifications/{{userFullName}}" translate="notifications"></a>
+                            <a href="/jobFinder/notifications/{{userFullName}}" class="fa far fa-bell sideBarFontSize" translate="notifications"></a>
                         </li>
                          <li>
-                            <a href="/jobFinder/settings/{{userFullName}}" translate="userSettings"></a>
+                            <a href="/jobFinder/settings/{{userFullName}}" class="fa fas fa-cogs sideBarFontSize" translate="userSettings"></a>
                         </li>
+                        <li ng-if="permission=='admin'">
+                           <a href="/jobFinder/admin/home">Administrator</a>
+                           <a href="/jobFinder/workList">work list update</a>
+                       </li>
                     </ul>
                     <!-- end side-menu -->
                 </div>
