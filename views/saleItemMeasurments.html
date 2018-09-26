@@ -14,17 +14,18 @@
         <link href="/assets/css/modal.css">
         <link href="https://fonts.googleapis.com/css?family=Bungee+Shade" rel="stylesheet">
         <link href="https://fonts.googleapis.com/css?family=Bungee+Shade" rel="stylesheet">
-            <style>thead {color:green;}
+            <style>
+                     thead {color:green;}
                      tbody {color:blue;}
                      tfoot {color:red;}
                      table,th,td
                      {border:1px solid black;}
                      .cropArea {
-                      background: #E4E4E4;
-                      overflow: hidden;
-                      width:500px;
-                      height:350px;
-                    }
+                       background: #E4E4E4;
+                       overflow: hidden;
+                       width:500px;
+                       height:350px;
+                     }
             </style>
        </head>
     <body ng-controller="homePageController">
@@ -225,69 +226,77 @@
                 </div>
                 <!--end page header -->
             </div>
-            <div class="row" ng-controller="thingsToSaleController">
+            <div ng-controller="thingsToSaleController">
                  <h4 class="modal-title" translate="saleThingsPost"></h4>
-                 <div class="container">
-                    <div class="row">
-                      <label ng-model="success" id="responseAnwer">{{success}}</label>
-                       <div class="col-lg-6">
-                         <form>
-                             <input type="hidden" name="userId"  value="{{sharedDataUserName[0]}}">
-                             <label translate="itemName"></label>
-                             <input type="text" ng-model="itemName" name="itemName" class="form-control" placeholder="Item name">
-                             <label translate="catagories"></label>
-                             <p ng-if="languageKey==null">
-                               <select  id="saleThings" class="form-control" ng-model="category" ng-change="getCategoryId(category)">
-                                  <option ng-repeat="category in salethingsCategoriesList | filter:filterBy" value="{{category.Id}}">{{category.english}}</option>
-                               </select>
-                             </p>
-                             <p ng-if="languageKey=='TG'">
-                               <select  id="saleThings" class="form-control" ng-model="category" ng-change="getCategoryId(category)">
-                                  <option ng-repeat="category in salethingsCategoriesList | filter:filterBy" value="{{category.Id}}">{{category.tigrina}}</option>
-                               </select>
-                             </p>
-                             <p ng-if="languageKey=='NL'">
-                               <select  id="saleThings" class="form-control" ng-model="category" ng-change="getCategoryId(category)">
-                                  <option ng-repeat="category in salethingsCategoriesList | filter:filterBy" value="{{category.Id}}">{{category.dutch}}</option>
-                               </select>
-                             </p>
-                             <p ng-if="languageKey=='EN'">
-                               <select  id="saleThings" class="form-control" ng-model="category" ng-change="categoryId(category)">
-                                  <option ng-repeat="category in salethingsCategoriesList | filter:filterBy" value="{{category.Id}}">{{category.english}}</option>
-                               </select>
-                             </p>
-                            <label translate="price"></label><input type="text" name="price" ng-model="price" class="form-control">
-                            <label translate="unit"></label><select  ng-model="unit" class="form-control" name="unit" ng-change="catagoriesChoosed()" ng-model="unit">
-                             <option>Euro</option>
-                             <option>US DollarS</option>
-                             </select>
-                             <label translate="where"></label><input type="text" ng-model="place" class="form-control">
-                             <label translate="telephone"></label><input type="text" ng-model="telephone" class="form-control">
-                             <label translate="description"></label><textarea ng-model="description" col="100" row="10" class="form-control"></textarea><br><br>
-<button type="button" name="button" ng-click="uploadCropedImage()" class="btn btn-primary" translate="saveUpdate"></button>
-                             <!-- <input type="submit" value="Save"> -->
-                         </form>
-                         <input type="hidden" ng-model="itemId" value="">
-                         <div ng-show="itemQuantity" class="">
-                           <label for="" style="color:green">{{addSuccess}}</label><br>
-                           <label for="size">size(weight,length,)</label>
-                           <input type="text" ng-model="size" value="" >
-                           <label for="itemAmount">amount</label>
-                             <input type="text" ng-model="itemAmount" value="">
-                             <button type="button" name="button" ng-click="addItem(itemAmount,size)" ng-disabled="addButton">add</button>
-                         </div>
-                       </div>
-                      <div class="col-lg-4">
-                             <p>Item image</p>
-                                <input type="file" id="fileInput" /></div>
-                              <div class="cropArea">
-                                <img-crop image="myImage" result-image="myCroppedImage"></img-crop>
-                              </div>
-                              <div><label>item will be looking like this</label></div>
-                            <div class="profileImage" ><img ng-src="{{myCroppedImage}}" name="myFile1" width="300" height="300"/></div><br>
+                 <div>
+                       <div>
+                           <button class="btn btn-primary pull-right" ng-click="backToSaleItems()"><-back</button>
+                           <div class="col-lg-6">
+                              <form>
+                                 <input type="hidden" name="userId"  value="{{sharedDataUserName[0]}}">
+                                 <label translate="itemName"></label>
+                                 <input type="text" ng-model="itemName" name="itemName" class="form-control" placeholder="Item name">
+                                 <label translate="catagories"></label>
+                                   <p ng-if="languageKey==null">
+                                   <select  id="saleThings" class="form-control" ng-model="category" ng-change="getCategoryId(category)">
+                                        <option ng-repeat="category in salethingsCategoriesList | filter:filterBy" value="{{category.Id}}">{{category.english}}</option>
+                                   </select>
+                                   </p>
+                                   <p ng-if="languageKey=='TG'">
+                                     <select  id="saleThings" class="form-control" ng-model="category" ng-change="getCategoryId(category)">
+                                        <option ng-repeat="category in salethingsCategoriesList | filter:filterBy" value="{{category.Id}}">{{category.tigrina}}</option>
+                                     </select>
+                                   </p>
+                                   <p ng-if="languageKey=='NL'">
+                                     <select  id="saleThings" class="form-control" ng-model="category" ng-change="getCategoryId(category)">
+                                        <option ng-repeat="category in salethingsCategoriesList | filter:filterBy" value="{{category.Id}}">{{category.dutch}}</option>
+                                     </select>
+                                   </p>
+                                   <p ng-if="languageKey=='EN'">
+                                     <select  id="saleThings" class="form-control" ng-model="category" ng-change="categoryId(category)">
+                                        <option ng-repeat="category in salethingsCategoriesList | filter:filterBy" value="{{category.Id}}">{{category.english}}</option>
+                                     </select>
+                                   </p>
+                                  <label translate="price"></label><input type="text" name="price" ng-model="price" class="form-control">
+                                  <label translate="unit"></label><select  ng-model="unit" class="form-control" name="unit" ng-change="catagoriesChoosed()" ng-model="unit">
+                                   <option>Euro</option>
+                                   <option>US DollarS</option>
+                                   </select>
+                                   <label translate="where"></label><input type="text" ng-model="place" class="form-control">
+                                   <label translate="telephone"></label><input type="text" ng-model="telephone" class="form-control">
+                                   <label translate="description"></label><textarea ng-model="description" col="100" row="10" class="form-control"></textarea><br><br>
+                                  <button type="button" name="button" ng-click="uploadCropedImage()" class="btn btn-primary" translate="saveUpdate" ng-disabled="imageUploaderButton"></button> <button ng-click="newItemToSale()" translate="newItemToSaleButton" class="btn btn-warning">add new item</button>
+                                  <p style="color:red;" ng-model="alertUploadImage">{{alertUploadImage}}</p>
+                              </form>
+                             <input type="hidden" ng-model="itemId" value="">
+                             <div ng-show="itemQuantity" class="">
+                               <label for="" style="color:green">{{addSuccess}}</label><br>
+                               
+                               <label translate="itemSize">size</label><br>
+                               <input type="text" ng-model="itemSize" value="" ><br>
+                               <label translate="itemAmount">amount</label><br>
+                                 <input type="text" ng-model="itemAmount" value=""><br>
+                                 <button type="button" name="button" ng-click="addItem(itemAmount,itemSize)" ng-disabled="addButton" translate="addSaleItemButton" class="btn btn-primary">add</button>
 
-                      </div>
-                    </div>
+                             </div>
+                           </div>
+                           <div>
+                                  <p translate="itemImage">Item image</p><p style="color:red;" ng-model="alertUploadImage">{{alertUploadImage}}</p> <input type="hidden" ng-model="imageUploaded"  value="{{imageUploaded}}">
+                                 <input type="file" id="fileInput"/>
+                                <div><br><br>
+                                  <div  class="text-center">
+                                    <br><br><br>
+                                     <img-crop image="myImage" result-image="myCroppedImage"></img-crop>
+                                  </div>
+                                </div>
+                              <div>
+                              <label translate="itemWillBeLookingLikeThis">item will be looking like this</label>
+                              <div class="profileImage">
+                                <img ng-src="{{myCroppedImage}}" name="myFile1" width="300" height="300"/>
+                               </div>
+                            </div>
+
+                        </div>
                  </div>
                  <div class="modal" id="saleItemIdInfo" tablindex="-1" data-backdrop="static" data-keyboard="false">   <!--info modal-->
                     <div class="modal-dialog model-lg">
@@ -361,6 +370,7 @@
                            </div>
                         </div>
                  </div>
+            </div>     
                  <!-- Core Scripts - Include with every page -->
                     <script type="text/javascript" src="/bower_components/angular/angular.min.js"></script>
                     <script type="text/javascript" src="/bower_components/angular-translate/angular-translate.js"></script>

@@ -2099,7 +2099,7 @@ connection.connect(function(error){
        })
 //post all things to sale
       router.post('/postThingsToSale',function(req,res){
-            connection.query("select salethingstable.id as id,salethingstable.userId as userId,salethingstable.itemName as itemName,salethingstable.price as price,salethingstable.description as description,salethingstable.unit as unit,salethingstable.fileName as fileName,webcollections.english as catagories from salethingstable inner join webcollections on webcollections.Id=salethingstable.catagories ",function(row,error,fields){
+            connection.query("select salethingstable.id as id,salethingstable.userId as userId,salethingstable.itemName as itemName,salethingstable.price as price,salethingstable.description as description,salethingstable.unit as unit,salethingstable.date as date,salethingstable.fileName as fileName,webcollections.english as catagories from salethingstable inner join webcollections on webcollections.Id=salethingstable.catagories order by salethingstable.date desc",function(row,error,fields){
               if(!!error){
                   res.json(error)
               }else{
@@ -3715,6 +3715,7 @@ router.post('/addWebCollection',mytoken,function(req,res){
   var english=req.body.english
   var tigrina=req.body.tigrina
   var dutch=req.body.dutch
+console.log(webCollectionId,english,tigrina,dutch)
   connection.query("insert into webcollections(webCollectionId,english,tigrina,dutch)values('"+webCollectionId+"','"+english+"','"+tigrina+"','"+dutch+"')",function(error,row){
     if(!!error){
     }else{
@@ -3746,6 +3747,37 @@ router.post('/deletWebCollectionId',mytoken,function(req,res){
       res.json(row)
     }
   })
+})
+router.get('/getMolliePayments',function(req,res){
+    const mollie = require('@mollie/api-client')({ apiKey: 'test_dHar4XY7LxsDOtmnkVtjNVWXLSlXsM' });
+        mollie.payments.create({
+          amount: {
+            value:    "10.00",
+            currency: 'EUR'
+          },
+          description: 'My first API payment',
+          redirectUrl: 'https://yourwebshop.example.org/order/123456',
+          webhookUrl:  'https://yourwebshop.example.org/webhook'
+        })
+          .then((payment) => {
+            // Forward the customer to the payment.getPaymentUrl()
+          })
+          .catch((err) => {
+            // Handle the error
+          });
+          var payment={}
+          payment.id='1'
+          mollie.payments.get(payment.id)
+          .then((payment) => {
+            // E.g. check if the payment.isPaid()
+            console.log("paid")
+          })
+          .catch((err) => {
+            // Handle the error
+            console.log(err)
+          });
+
+
 })
 //})
 module.exports=router;

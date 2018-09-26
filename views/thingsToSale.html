@@ -242,7 +242,11 @@
                                          <option ng-repeat="category in salethingsCategoriesList | filter:filterBy" value="{{category.Id}}">{{category.english}}</option>
                                       </select>
                                     </p>
-                                 <span ng-if="permission=='thingsToSale' || permission=='admin'"><a href="/saleItemMeasurments.html">click here to add items</a></span>
+                                 <span ng-if="permission=='thingsToSale' || permission=='admin'">
+                             <button class="btn btn-warning">
+                                  <span style="font-size:24px;">+</span><a href="/saleItemMeasurments.html" translate="addItemToSale">click here to add items</a>
+                             </button><button ng-click="payNow()">pay</button>
+                             </span>
                                 </div>
                                  <span class="pull-right"><button ng-click="getBoughtItems()" translate="getBoughtItems" class="btn btn-primary"></button><img src="/assets/img/shoppingCart.jpg" width="30" height="30"><label class="label label-danger">{{numberOfBougtItems}}</label></span>
                                  <!--end user image section-->

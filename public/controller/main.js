@@ -445,7 +445,18 @@
              transports:'transports',
              writeCityNameWhereULive:'Please write name of the city where you live in',
              travelByMeansOfTransport:'Travel informations',
-             uploadTransportImage:'Upload transport image'
+             uploadTransportImage:'Upload transport image',
+             itemImage:'Item Image here',
+             itemWillBeLookingLikeThis:'Item will look like this',
+             addSaleItemButton:'add',
+             itemAmount:'Number of Items',
+             itemSize:'Item size in kg,m,pcs....',
+             newItemToSaleButton:'New Item',
+             addItemToSale:'Add item to sale',
+             backToSaleHomePage:'Back to sale item home page',
+             newsPageIntro:'Source of News,telling stories and discussion amoung people for a better solution.',
+             travelPageIntro:'Where do you need to go?<br/> This page is all about travellers and means of transports ready for your journey.',
+             salePageIntro:'Do you need something to buy? Then you are in the rightway.This page is all about buying and saling things.'
           })
           .translations('NL', {
             loginHeadline: 'Login',
@@ -748,7 +759,20 @@
              transports:'transporten',
              writeCityNameWhereULive:'voer de naam in van de stad waar je woont',
              travelByMeansOfTransport:'reisinformatie',
-             uploadTransportImage:'upload transportafbeelding'
+             uploadTransportImage:'upload transportafbeelding',
+             itemImage:'Item afbeelding hier',
+             itemWillBeLookingLikeThis:'Item ziet er als volgt uit',
+              itemWillBeLookingLikeThis:'Item will look like this',
+             addSaleItemButton:'toevoegen',
+             itemAmount:'Aantal stuks',
+             itemSize:'Artikelgrootte in kg, m, stuks ....',
+             newItemToSaleButton:'nieuw item',
+             addItemToSale:'item aan verkoop toevoegen',
+             backToSaleHomePage:'terug naar startpagina verkoopartikelen',
+             newsPageIntro:'Bron van Nieuws, verhalen vertellen en discussiëren tussen mensen voor een betere oplossing.',
+             travelPageIntro:'Waar moet je heen? <br/> Op deze pagina staat alles over reizigers en transportmiddelen klaar voor uw reis.',
+             salePageIntro:'Heb je iets nodig om te kopen? Dan bent u op de goede weg. Deze pagina gaat over het kopen en verzegelen van dingen.'
+          })
           })
           .translations('TG', {
             loginHeadline: 'መእተዊ',
@@ -1053,7 +1077,19 @@
              transports:'ኣብዚ ቦታ ዚ በዚ ዝመረጽኩሞ ዕለት ተመዝጊበን ዘለዋ መጓዓዝያታት',
              writeCityNameWhereULive:'ትነብሩላ ከተማ ኣብዚ ጸሓፉ',
              travelByMeansOfTransport:'ሓበሬታ መጓዓዝያታት',
-             uploadTransportImage:'nay meguaazya sieli xean'
+             uploadTransportImage:'ናይ መጓዓዝያ ስእሊ',
+             itemImage:'ናይ ንብረት ስእሊ ኣብዚ ታሕቲ የእትው።',
+             itemWillBeLookingLikeThis:'ንብረት ብ ኸምዚ ክርአ ኢዩ።',
+               addSaleItemButton:'ናብ መዐቀቢ የእቱ',
+             itemAmount:'ብዝሒ ናይዚ ዓይነት ነብረት ዚ',
+             itemSize:'ዓቐን ንብረት ብ ኪግ፣ሜትሮ፣ጽምዲ...ወዘተ',
+             newItemToSaleButton:'ሓዲሽ ንብረት መዝግብ',
+             addItemToSale:'ዝሽየጥ ንብረት እንተልዩኩም ኣብዚ የእትዉ',
+            backToSaleHomePage:'ናብ መሸጢ ቦታ ተመለስ',
+             newsPageIntro:'ምንጪ ዜናን ሓበሬታን ፣ታሪኻት ዝንበብሉን ከምኡ ውን ምኽርታትን ዝርርባትን ኣብ መንጎ ሰባት ን ዝሓሸ ፍታሕ ዝዓለመ።',
+             travelPageIntro:'ጉዕዞ ኣለካ?እዚ እምበኣር ናይ ጎዕዞን ምስ ጉዕዞ ዝተኣሳሰሩ መሳለጥያታት ዝህቡ ነገራት ሓበሬታ ኣብ ምሃብ ይነጥፍ።',
+             salePageIntro:'ዝግዛእ ኣለካ?እምበኣር ኣብዚ ዝግዝኡ ዝተፈላለዩ ዓይነት ንብረታት ክትረክብ ትኽእል'
+        
 
           });
           $translateProvider.preferredLanguage('EN');
@@ -1254,17 +1290,54 @@
                  })
                }
             //send contact message
+            function errorsOnContactFields(){
+              if($scope.languageKey=='TG'){
+               if($scope.name==null){
+                  $scope.errorMessage="ስም ምልኡ"
+                }else if($scope.email==null){
+                   $scope.errorMessage="ኢመይል የእትዉ";
+                }else if($scope.tele==null){
+                    $scope.errorMessage="ተለፎንኩም የእትዉ";
+                }else if($scope.message==null){
+                  $scope.errorMessage="መልእኽቲ ጸሓፉ";
+                }else{
+                  $scope.errorMessage="NoErrors"
+                }
+              }else if($scope.languageKey=='NL'){
+                if($scope.name==null){
+                $scope.errorMessage="Vul uw naam in"
+                }else if($scope.email==null){
+                   $scope.errorMessage="Vul uw email in";
+                }else if($scope.tele==null){
+                    $scope.errorMessage="Voer je telefoonnummer in";
+                }else if($scope.message==null){
+                  $scope.errorMessage="Schrijf een bericht";
+                }else{
+                  $scope.errorMessage="NoErrors"
+                }
+              }else{
+                if($scope.name==null){
+                  $scope.errorMessage="Enter your name"
+                }else if($scope.email==null){
+                   $scope.errorMessage="Enter your email";
+                }else if($scope.tele==null){
+                    $scope.errorMessage="Enter your telephone number";
+                }else if($scope.message==null){
+                  $scope.errorMessage="Write a message";
+                }else{
+                  $scope.errorMessage="NoErrors"
+                }
+              }
+            }
             $scope.send=function(){
+               errorsOnContactFields();
                   var data={}
                   data.name=$scope.name;
                   data.email=$scope.email;
                   data.tele=$scope.tele;
                   data.message=$scope.message;
-                  if($scope.name==null || $scope.email==null || $scope.tele==null || $scope.message==null){
-                       $scope.errorMessage="Please fill all fields properly."
-                        $scope.sendSuccess="";
-                  }else{
-                     $http.post('/contactus',data).then(function(response){
+                  if($scope.errorMessage=="NoErrors"){
+                       $http.post('/contactus',data).then(function(response){
                         $scope.sendSuccess=response.data
                         $scope.errorMessage="";
                      })
@@ -1390,7 +1463,6 @@
             $scope.getItemForSale=function(){
                $http.post('/jobFinder/postThingsForSaleOnHomePage').then(function(response){
                  $scope.alldata=response.data
-                 console.log("items for sale "+response.data)
                })
             }
             $scope.findCandidate=function(){
@@ -1495,9 +1567,9 @@
                           data.username=$scope.username;
                           data.password=$scope.password;
                           var directory=$scope.loginClickedFrom
-                            $http.get(directory+userFullName).then(function(response){
-                              $window.location.href = directory+userFullName
-                            })
+                          $http.get(directory+userFullName).then(function(response){
+                            $window.location.href = directory+userFullName
+                          })
                     }else{
                         $scope.LoginAlert=true;
                     }
@@ -2810,6 +2882,14 @@
             $scope.boughtItems=!$scope.boughtItems;
             $scope.items=!$scope.items;
            }
+           $scope.payNow=function(){
+            var paymentInfo={};
+            paymentInfo.userId=$scope.idUser;
+            paymentInfo.username=$scope.userFullName
+            $http.get('/getMolliePayments',paymentInfo).then(function(response){
+              $scope.paymentdata=response.data
+            })
+           }
            $scope.backToSalePage=function(){
              $scope.boughtItems=!$scope.boughtItems;
              $scope.items=!$scope.items;
@@ -2923,6 +3003,16 @@
                     alertService.handelDelete();
                   })
             }
+            $scope.newItemToSale=function(){
+                $scope.itemName=undefined
+                $scope.categoryId=undefined;
+                $scope.price=undefined;
+                $scope.unit=undefined;
+                $scope.place=undefined
+                $scope.telephone=undefined;
+                $scope.description=undefined;
+                $scope.imageUploaded=='no';
+            }
                //load and crop user image profile and save it to database..............
               $scope.myImage='';
               $scope.myCroppedImage='';
@@ -2935,10 +3025,104 @@
                     });
                   };
                   reader.readAsDataURL(file);
+                   console.log(file.type)
+                  if(file.type=='image/jpeg' || file.type=='image/png'){
+                    $scope.imageUploaderButton=false;
+                    $scope.alertUploadImage="";
+                    $scope.imageUploaded="yes"
+                  }else{
+                    $scope.imageUploaderButton=true;
+                    $scope.alertUploadImage="upload image";
+                    $scope.imageUploaded="no"
+                  }
                 };
               angular.element(document.querySelector('#fileInput')).on('change',handleFileSelect);
+             function errorCheckupForSaleItemInputs(noEroor){
+                   if($scope.languageKey=='TG'){
+                          if($scope.itemName==undefined){
+                         $scope.alertUploadImage="ስም ንብረት የእትዉ።"
+                         }
+                        else if($scope.categoryId==undefined){
+                           $scope.alertUploadImage="ምድብ ናይ ንብረት ምረጹ"
+                        }
+                         else if($scope.price==undefined){
+                             $scope.alertUploadImage="ዋጋ ንብረት የእትዉ"
+                         }
+                         else if($scope.unit==undefined){
+                             $scope.alertUploadImage="መዐቀኒ ዋጋ ብ ኢሮ ወይ ዶላር ምረጹ"
+                         }
+                         else if($scope.place==undefined){
+                             $scope.alertUploadImage="ንብረት ዝርከበሉ ቦታ የእትዉ"
+                         }
+                         else if($scope.telephone==undefined){
+                             $scope.alertUploadImage="ቁጽሪ ተለፎን ናይ ዋና ንብረት የእትዉ"
+                         }
+                         else if($scope.description==undefined){
+                                $scope.alertUploadImage="መግለጺ ንብረት ጸሓፉ"
+                         }else if($scope.imageUploaded=='no'){
+                            $scope.alertUploadImage="ስእሊ ናይ ንብረት ጸዓኑ"
+                         }else{
+                          $scope.alertUploadImage=""
+                         }
+                   }else if ($scope.languageKey=='NL'){
+                       if($scope.itemName==undefined){
+                         $scope.alertUploadImage="Artikelnaam is leeg, vul deze in"
+                         }
+                        else if($scope.categoryId==undefined){
+                           $scope.alertUploadImage="Artikelcategorie is leeg, selecteer een categorie"
+                        }
+                         else if($scope.price==undefined){
+                             $scope.alertUploadImage="Artikelprijs is leeg, vul deze in"
+                         }
+                         else if($scope.unit==undefined){
+                             $scope.alertUploadImage="Artikeleenheid is leeg, vul deze in"
+                         }
+                         else if($scope.place==undefined){
+                             $scope.alertUploadImage="plaats waar de items gevonden zijn is leeg, vul de plaats in"
+                         }
+                         else if($scope.telephone==undefined){
+                             $scope.alertUploadImage="contact telefoon is leeg plase vul hem"
+                         }
+                         else if($scope.description==undefined){
+                                $scope.alertUploadImage="Objectbeschrijving is leeg, vul het met plasen"
+                         }else if($scope.imageUploaded=='no'){
+                            $scope.alertUploadImage="afbeelding uploaden"
+                         }else{
+                          $scope.alertUploadImage=""
+                         }
+                   }else{
+                      if($scope.itemName==undefined){
+                         $scope.alertUploadImage="Item name is empty,please fill it"
+                     }
+                    else if($scope.categoryId==undefined){
+                       $scope.alertUploadImage="Item category is empty,please select category"
+                    }
+                     else if($scope.price==undefined){
+                         $scope.alertUploadImage="Item price is empty,please fill it"
+                     }
+                     else if($scope.unit==undefined){
+                         $scope.alertUploadImage="Item unit is empty,please fill it"
+                     }
+                     else if($scope.place==undefined){
+                         $scope.alertUploadImage="place where the items is found is empty,please fill place"
+                     }
+                     else if($scope.telephone==undefined){
+                         $scope.alertUploadImage="contact telephone is empty plase fill it"
+                     }
+                     else if($scope.description==undefined){
+                            $scope.alertUploadImage="Item description is empty,plase fill it"
+                     }else if($scope.imageUploaded=='no'){
+                        $scope.alertUploadImage="upload image"
+                     }else{
+                      $scope.alertUploadImage=""
+                     }
+                   }
+                     
+             }
+              $scope.imageUploaded="no"
              //upload the croped image profile
               $scope.uploadCropedImage=function(){
+                    errorCheckupForSaleItemInputs()
                     var mimeString = $scope.myCroppedImage.split(',')[0].split(':')[1].split(';')[0];
                     // post the data part and decode it
                     var dataString = window.atob($scope.myCroppedImage.split(',')[1]);
@@ -2949,40 +3133,41 @@
                     }
                     var imageData = new Blob([new Uint8Array(dataArray)], {type: mimeString});
                     var fd = new FormData();
-
-                   fd.append('file', imageData);
-                   var info = {
-                    };
-                     info.userId=$scope.idUser
-                     info.itemName=$scope.itemName
-                     info.catagories=$scope.categoryId
-                     info.price=$scope.price
-                     info.unit=$scope.unit
-                     info.place=$scope.place
-                     info.telephone=$scope.telephone
-                     info.description=$scope.description
-                    fd.append('data', info.userId);
-                    fd.append('data', info.itemName);
-                    fd.append('data', info.catagories);
-                    fd.append('data', info.price);
-                    fd.append('data', info.unit);
-                    fd.append('data', info.place);
-                    fd.append('data', info.telephone);
-                    fd.append('data', info.description);
-                    $http({
-                      url: '/jobFinder//thingsToSale',
-                      method: 'POST',
-                      data: fd,
-                      transformRequest:angular.identity,
-                      headers:{'Content-Type':undefined}
-                    }).then(function(response){
-                    $scope.itemId=response.data.insertId
-                    $scope.itemQuantity=!$scope.itemQuantity
-                    }, function(response) {
-                        $scope.error = response.statusText;
-                    });
+                    if($scope.alertUploadImage==''){
+                       fd.append('file', imageData);
+                       var info = {
+                        };
+                         info.userId=$scope.idUser
+                         info.itemName=$scope.itemName
+                         info.catagories=$scope.categoryId
+                         info.price=$scope.price
+                         info.unit=$scope.unit
+                         info.place=$scope.place
+                         info.telephone=$scope.telephone
+                         info.description=$scope.description
+                        fd.append('data', info.userId);
+                        fd.append('data', info.itemName);
+                        fd.append('data', info.catagories);
+                        fd.append('data', info.price);
+                        fd.append('data', info.unit);
+                        fd.append('data', info.place);
+                        fd.append('data', info.telephone);
+                        fd.append('data', info.description);
+                        $http({
+                          url: '/jobFinder//thingsToSale',
+                          method: 'POST',
+                          data: fd,
+                          transformRequest:angular.identity,
+                          headers:{'Content-Type':undefined}
+                        }).then(function(response){
+                        $scope.itemId=response.data.insertId
+                        $scope.itemQuantity=!$scope.itemQuantity
+                        }, function(response) {
+                            $scope.error = response.statusText;
+                        });
+                  }  
               }
-              $scope.addItem=function(itemAmount,size){
+              $scope.addItem=function(itemAmount,itemSize){
                 if($scope.itemId==null){
                   $scope.addButton=true;
                 }else{
@@ -2990,14 +3175,25 @@
                   var itemData={}
                   itemData.itemId=$scope.itemId
                   itemData.itemAmount=itemAmount;
-                  itemData.size=size
-                  $http.post('/addItemAmount',itemData).then(function(response){
-                    $scope.addSuccess="add successfully";
-                    $scope.itemAmount='';
-                    $scope.size='';
+                  itemData.itemSize=itemSize
+                  if(itemSize==undefined){
+                   alert("Enter size of item:መዐቀኒ ንብረት የእቱ። ንኣብነት ክንደይ ኪሎ፣ወይ ቁመቱ ብ ሜትሮ፣ወይ ብጽምዲ ከነእቱ ኣለና።")
+
+                  }else if(itemAmount==undefined){
+                    alert("Enter number of items:ብዝሒ ናይዚ ዓይነት ንብረት እዚ የእቱ።")
+                  }else{
+                     $http.post('/addItemAmount',itemData).then(function(response){
+                      $scope.addSuccess="add successfully";
+                      $scope.itemAmount=undefined;
+                      $scope.itemSize=undefined;
                   })
+                  }
+                 
                 }
               }
+               $scope.backToSaleItems=function(){
+                  $window.location="/jobFinder/thingsToSale/"+$scope.userFullName
+                }
               function getListOfSalethingsCategories(){
                      var salethingsCategories={}
                       salethingsCategories.webCollectionId='salethingsCategories'
@@ -4754,6 +4950,7 @@
               })
             }
             $scope.addWebCollection=function(){
+              console.log($scope.webCollectionId)
               data.webCollectionId=$scope.webCollectionId
               data.english=$scope.english
               data.tigrina=$scope.tigrina
